@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 extension Dictionary {
     mutating func append(dic: Dictionary) {
@@ -93,6 +94,26 @@ class MarvelNetworking: NetworkController {
         })
     }
     
+    func getImageAtURLString(URLString: String, completion: (image: UIImage?, errorString: String?) -> Void) {
+        self.performRequestWithURLString(URLString, completion: { (data, errorString) -> Void in
+            if errorString != nil {
+                completion(image: nil, errorString: errorString)
+                return
+            }
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { () -> Void in
+                let image = UIImage(data: data)
+                dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+                    if image == nil {
+                        completion(image: nil, errorString: "Couldn't create image from data")
+                        return
+                    }
+                    
+                    completion(image: image, errorString: nil)
+                })
+            })
+        })
+    }
+    
     // MARK: Private Methods
     private func processJSONData(data: NSData?, errorString: String?, completion: (responseDic: NSDictionary?, errorString: String?) -> Void) {
         
@@ -123,7 +144,7 @@ class MarvelNetworking: NetworkController {
     
     // Overrides
     
-    override func performRequestWithURLString(URLString: String, method: String, parameters: [NSString : AnyObject]?, acceptJSONResponse: Bool, sendBodyAsJSON: Bool, completion: (data: NSData!, errorString: String!) -> Void) {
+    override func performRequestWithURLString(URLString: String, method: String = "GET", parameters: [NSString: AnyObject]? = nil, acceptJSONResponse: Bool = false, sendBodyAsJSON: Bool = false, completion: (data: NSData!, errorString: String!) -> Void) {
         var finalParams = parameters == nil ? [NSString : AnyObject]() : parameters
         finalParams!.append(predefinedParams)
         
