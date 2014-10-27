@@ -15,10 +15,10 @@
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ylM-UD-5xY">
                         <rect key="frame" x="0.0" y="0.0" width="300" height="270"/>
-                        <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Character Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zwk-eN-STW">
                         <rect key="frame" x="0.0" y="270" width="300" height="30"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="30" id="LDV-e3-SNF"/>
                         </constraints>
@@ -40,6 +40,10 @@
                 <constraint firstItem="Zwk-eN-STW" firstAttribute="leading" secondItem="bxn-RD-97v" secondAttribute="leading" id="h4K-7X-20K"/>
             </constraints>
             <size key="customSize" width="399" height="370"/>
+            <connections>
+                <outlet property="imageView" destination="ylM-UD-5xY" id="qKu-ml-XsU"/>
+                <outlet property="nameLabel" destination="Zwk-eN-STW" id="iHN-hu-dcl"/>
+            </connections>
             <point key="canvasLocation" x="454" y="369"/>
         </collectionViewCell>
     </objects>
