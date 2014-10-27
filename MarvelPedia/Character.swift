@@ -26,7 +26,7 @@ class Character {
         self.resourceURI = data["resourceURI"] as String
         
         let thumbnail = data["thumbnail"] as [String : String]
-        self.thumbnailURL = thumbnail["path"]! + thumbnail["extension"]!
+        self.thumbnailURL = thumbnail["path"]! + "." + thumbnail["extension"]!
     }
     
     class func parseJSONIntoCharacters(#data: NSArray) -> [Character] {
