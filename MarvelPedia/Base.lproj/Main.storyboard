@@ -1,25 +1,99 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6211" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="5RH-qv-9fs">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6204"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--HomeVC-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="HomeVC" customModule="MarvelPedia" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC" customClass="hom">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="cnf-ly-JUV">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="fMv-CK-EhY">
+                                    <size key="itemSize" width="111" height="122"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                            </collectionView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="cnf-ly-JUV" secondAttribute="bottom" id="R1h-18-RMt"/>
+                            <constraint firstItem="cnf-ly-JUV" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="niI-sg-KgE"/>
+                            <constraint firstItem="cnf-ly-JUV" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="qT4-mz-USQ"/>
+                            <constraint firstAttribute="trailing" secondItem="cnf-ly-JUV" secondAttribute="trailing" id="vFE-cD-Kjc"/>
+                        </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="szA-Nh-tfm"/>
+                    <connections>
+                        <outlet property="collectionView" destination="cnf-ly-JUV" id="TYb-F7-W1a"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="952" y="136"/>
+        </scene>
+        <!--Character DetailVC-->
+        <scene sceneID="YW2-Ac-JwR">
+            <objects>
+                <viewController storyboardIdentifier="CHARACTER_DETAIL_VC" id="yr9-20-iYW" customClass="CharacterDetailVC" customModule="MarvelPedia" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="0vp-ps-bVn"/>
+                        <viewControllerLayoutGuide type="bottom" id="ncz-My-S02"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="p9W-UH-Kyu">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="qee-I6-Lbj">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="qee-I6-Lbj" firstAttribute="top" secondItem="p9W-UH-Kyu" secondAttribute="top" id="EfI-Kw-sBH"/>
+                            <constraint firstItem="qee-I6-Lbj" firstAttribute="leading" secondItem="p9W-UH-Kyu" secondAttribute="leading" id="FOT-5T-7ms"/>
+                            <constraint firstItem="ncz-My-S02" firstAttribute="top" secondItem="qee-I6-Lbj" secondAttribute="bottom" id="dCf-6L-pii"/>
+                            <constraint firstAttribute="trailing" secondItem="qee-I6-Lbj" secondAttribute="trailing" id="oT8-zX-aue"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="qee-I6-Lbj" id="Rcg-NL-ZNU"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="N0v-Ag-ulj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1637" y="136"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="P6f-9m-O5A">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="5RH-qv-9fs" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="WNq-jD-jaZ">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="aC6-N8-RJg"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JJI-Bi-5ot" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="195" y="136"/>
         </scene>
     </scenes>
 </document>
