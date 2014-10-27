@@ -16,7 +16,7 @@ class Character {
     let bio: String
     let modified: String
     let resourceURI: String
-    let thumbnailURL: String
+    let thumbnailURL: String?
     
     init(data: NSDictionary) {
         self.id = data["id"] as Int
@@ -25,8 +25,9 @@ class Character {
         self.modified = data["modified"] as String
         self.resourceURI = data["resourceURI"] as String
         
-        let thumbnail = data["thumbnail"] as [String : String]
-        self.thumbnailURL = thumbnail["path"]! + "." + thumbnail["extension"]!
+        if let thumbnail = data["thumbnail"] as? [String : String] {
+            self.thumbnailURL = thumbnail["path"]! + "." + thumbnail["extension"]!
+        }
     }
     
     class func parseJSONIntoCharacters(#data: NSArray) -> [Character] {
