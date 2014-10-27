@@ -11,6 +11,32 @@ import Foundation
 
 class Character {
     
-    // test file
+    let id: Int
+    let name: String
+    let bio: String
+    let modified: String
+    let resourceURI: String
+    let thumbnailURL: String
     
+    init(data: NSDictionary) {
+        self.id = data["id"] as Int
+        self.name = data["name"] as String
+        self.bio = data["description"] as String
+        self.modified = data["modified"] as String
+        self.resourceURI = data["resourceURI"] as String
+        
+        let thumbnail = data["thumbnail"] as [String : String]
+        self.thumbnailURL = thumbnail["path"]! + "." + thumbnail["extension"]!
+    }
+    
+    class func parseJSONIntoCharacters(#data: NSArray) -> [Character] {
+        var characters = [Character]()
+        for characterJSONObject in data {
+            let characterData = characterJSONObject as NSDictionary
+            let newCharacter = Character(data: characterData)
+            characters.append(newCharacter)
+        }
+        
+        return characters
+    }
 }

@@ -23,6 +23,9 @@
 		2CE4BEB719FED5490059A230 /* InfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE4BEB619FED5490059A230 /* InfoCell.swift */; };
 		2CE4BEBB19FEDA960059A230 /* TableHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2CE4BEBA19FEDA960059A230 /* TableHeader.xib */; };
 		2CE4BEBD19FEDABA0059A230 /* TableHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE4BEBC19FEDABA0059A230 /* TableHeader.swift */; };
+		9A8EDC3619FEC60400CC3CCF /* PrivateConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8EDC3519FEC60400CC3CCF /* PrivateConstants.swift */; };
+		9A8EDC3819FEC79C00CC3CCF /* NetworkController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8EDC3719FEC79C00CC3CCF /* NetworkController.swift */; };
+		9A8EDC3A19FEC85300CC3CCF /* MarvelNetworking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8EDC3919FEC85300CC3CCF /* MarvelNetworking.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +59,10 @@
 		2CE4BEB619FED5490059A230 /* InfoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoCell.swift; sourceTree = "<group>"; };
 		2CE4BEBA19FEDA960059A230 /* TableHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableHeader.xib; sourceTree = "<group>"; };
 		2CE4BEBC19FEDABA0059A230 /* TableHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableHeader.swift; sourceTree = "<group>"; };
+		9A8EDC3519FEC60400CC3CCF /* PrivateConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivateConstants.swift; sourceTree = "<group>"; };
+		9A8EDC3719FEC79C00CC3CCF /* NetworkController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkController.swift; sourceTree = "<group>"; };
+		9A8EDC3919FEC85300CC3CCF /* MarvelNetworking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarvelNetworking.swift; sourceTree = "<group>"; };
+		9A8EDC3C19FECE8E00CC3CCF /* MarvelPedia-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MarvelPedia-Bridging-Header.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,14 +112,17 @@
 		2C4BFFB019FEB8E70021A080 /* MarvelPedia */ = {
 			isa = PBXGroup;
 			children = (
+				489FE1CF19FEC4A4002A0104 /* Views */,
+				489FE1CE19FEC495002A0104 /* ViewControllers */,
+				489FE1D019FEC52F002A0104 /* Controllers */,
+				489FE1CD19FEC46D002A0104 /* Models */,
 				2C4BFFB319FEB8E70021A080 /* AppDelegate.swift */,
-				2C4BFFB819FEB8E70021A080 /* ViewController.swift */,
 				2C4BFFBA19FEB8E70021A080 /* Main.storyboard */,
-				2CD820EE19FEBE4700577D0A /* Character.swift */,
 				2C4BFFBD19FEB8E70021A080 /* Images.xcassets */,
 				2C4BFFBF19FEB8E70021A080 /* LaunchScreen.xib */,
 				2C4BFFB519FEB8E70021A080 /* MarvelPedia.xcdatamodeld */,
 				2C4BFFB119FEB8E70021A080 /* Supporting Files */,
+				9A8EDC3C19FECE8E00CC3CCF /* MarvelPedia-Bridging-Header.h */,
 			);
 			path = MarvelPedia;
 			sourceTree = "<group>";
@@ -121,6 +131,7 @@
 			isa = PBXGroup;
 			children = (
 				2C4BFFB219FEB8E70021A080 /* Info.plist */,
+				9A8EDC3519FEC60400CC3CCF /* PrivateConstants.swift */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -140,6 +151,38 @@
 				2C4BFFCB19FEB8E80021A080 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		489FE1CD19FEC46D002A0104 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				2CD820EE19FEBE4700577D0A /* Character.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		489FE1CE19FEC495002A0104 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				2C4BFFB819FEB8E70021A080 /* ViewController.swift */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		489FE1CF19FEC4A4002A0104 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		489FE1D019FEC52F002A0104 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				9A8EDC3719FEC79C00CC3CCF /* NetworkController.swift */,
+				9A8EDC3919FEC85300CC3CCF /* MarvelNetworking.swift */,
+			);
+			name = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -249,11 +292,14 @@
 				2CD820F119FEC7E600577D0A /* HomeVC.swift in Sources */,
 				2C4BFFB719FEB8E70021A080 /* MarvelPedia.xcdatamodeld in Sources */,
 				2CD820F319FEC90300577D0A /* CharacterCell.swift in Sources */,
+				9A8EDC3819FEC79C00CC3CCF /* NetworkController.swift in Sources */,
 				2C4BFFB419FEB8E70021A080 /* AppDelegate.swift in Sources */,
 				2CE4BEBD19FEDABA0059A230 /* TableHeader.swift in Sources */,
 				2CE4BEB719FED5490059A230 /* InfoCell.swift in Sources */,
 				2CE4BEB119FECABA0059A230 /* CharacterDetailVC.swift in Sources */,
 				2CD820EF19FEBE4700577D0A /* Character.swift in Sources */,
+				9A8EDC3A19FEC85300CC3CCF /* MarvelNetworking.swift in Sources */,
+				9A8EDC3619FEC60400CC3CCF /* PrivateConstants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -378,9 +424,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = MarvelPedia/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "MarvelPedia/MarvelPedia-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -388,9 +437,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = MarvelPedia/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "MarvelPedia/MarvelPedia-Bridging-Header.h";
 			};
 			name = Release;
 		};
