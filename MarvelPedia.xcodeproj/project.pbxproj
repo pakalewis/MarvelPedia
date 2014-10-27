@@ -14,6 +14,7 @@
 		2C4BFFBE19FEB8E70021A080 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C4BFFBD19FEB8E70021A080 /* Images.xcassets */; };
 		2C4BFFC119FEB8E70021A080 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2C4BFFBF19FEB8E70021A080 /* LaunchScreen.xib */; };
 		2C4BFFCD19FEB8E80021A080 /* MarvelPediaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4BFFCC19FEB8E80021A080 /* MarvelPediaTests.swift */; };
+		2CD820EF19FEBE4700577D0A /* Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD820EE19FEBE4700577D0A /* Character.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +39,7 @@
 		2C4BFFC619FEB8E80021A080 /* MarvelPediaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MarvelPediaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C4BFFCB19FEB8E80021A080 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2C4BFFCC19FEB8E80021A080 /* MarvelPediaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarvelPediaTests.swift; sourceTree = "<group>"; };
+		2CD820EE19FEBE4700577D0A /* Character.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Character.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +84,7 @@
 				2C4BFFB319FEB8E70021A080 /* AppDelegate.swift */,
 				2C4BFFB819FEB8E70021A080 /* ViewController.swift */,
 				2C4BFFBA19FEB8E70021A080 /* Main.storyboard */,
+				2CD820EE19FEBE4700577D0A /* Character.swift */,
 				2C4BFFBD19FEB8E70021A080 /* Images.xcassets */,
 				2C4BFFBF19FEB8E70021A080 /* LaunchScreen.xib */,
 				2C4BFFB519FEB8E70021A080 /* MarvelPedia.xcdatamodeld */,
@@ -218,6 +221,7 @@
 				2C4BFFB919FEB8E70021A080 /* ViewController.swift in Sources */,
 				2C4BFFB719FEB8E70021A080 /* MarvelPedia.xcdatamodeld in Sources */,
 				2C4BFFB419FEB8E70021A080 /* AppDelegate.swift in Sources */,
+				2CD820EF19FEBE4700577D0A /* Character.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -411,6 +415,7 @@
 				2C4BFFD219FEB8E80021A080 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		2C4BFFD319FEB8E80021A080 /* Build configuration list for PBXNativeTarget "MarvelPediaTests" */ = {
 			isa = XCConfigurationList;
@@ -419,6 +424,7 @@
 				2C4BFFD519FEB8E80021A080 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
