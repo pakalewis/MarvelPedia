@@ -27,7 +27,7 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
         
         // register InfoCell nib for the tableview
         let nib = UINib(nibName: "InfoCell", bundle: NSBundle.mainBundle())
-        self.tableView.registerNib(nib, forCellReuseIdentifier: "INFO_CELL")
+        self.tableView.registerNib(nib!, forCellReuseIdentifier: "INFO_CELL")
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -36,7 +36,7 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = self.tableView.dequeueReusableCellWithIdentifier("INFO_CELL", forIndexPath: indexPath) as InfoCell
-        cell.textLabel.text = "\(indexPath.row)"
+        cell.textLabel!.text = "\(indexPath.row)"
         return cell
         
     }
