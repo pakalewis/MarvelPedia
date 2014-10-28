@@ -29,6 +29,7 @@
 		2CE4BEBB19FEDA960059A230 /* TableHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2CE4BEBA19FEDA960059A230 /* TableHeader.xib */; };
 		2CE4BEBD19FEDABA0059A230 /* TableHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE4BEBC19FEDABA0059A230 /* TableHeader.swift */; };
 		9A7CCD621A002D3B00FD5832 /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7CCD611A002D3B00FD5832 /* Queue.swift */; };
+		9A7CCD641A0038DC00FD5832 /* MarvelCaching.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7CCD631A0038DC00FD5832 /* MarvelCaching.swift */; };
 		9A8EDC3819FEC79C00CC3CCF /* NetworkController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8EDC3719FEC79C00CC3CCF /* NetworkController.swift */; };
 		9A8EDC3A19FEC85300CC3CCF /* MarvelNetworking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8EDC3919FEC85300CC3CCF /* MarvelNetworking.swift */; };
 /* End PBXBuildFile section */
@@ -70,6 +71,7 @@
 		2CE4BEBA19FEDA960059A230 /* TableHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TableHeader.xib; path = ../TableHeader.xib; sourceTree = "<group>"; };
 		2CE4BEBC19FEDABA0059A230 /* TableHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TableHeader.swift; path = ../TableHeader.swift; sourceTree = "<group>"; };
 		9A7CCD611A002D3B00FD5832 /* Queue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
+		9A7CCD631A0038DC00FD5832 /* MarvelCaching.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarvelCaching.swift; sourceTree = "<group>"; };
 		9A8EDC3719FEC79C00CC3CCF /* NetworkController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkController.swift; sourceTree = "<group>"; };
 		9A8EDC3919FEC85300CC3CCF /* MarvelNetworking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarvelNetworking.swift; sourceTree = "<group>"; };
 		9A8EDC3C19FECE8E00CC3CCF /* MarvelPedia-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MarvelPedia-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -196,6 +198,7 @@
 			children = (
 				9A8EDC3719FEC79C00CC3CCF /* NetworkController.swift */,
 				9A8EDC3919FEC85300CC3CCF /* MarvelNetworking.swift */,
+				9A7CCD631A0038DC00FD5832 /* MarvelCaching.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -320,6 +323,7 @@
 				2CE4BEB119FECABA0059A230 /* CharacterDetailVC.swift in Sources */,
 				2CD820EF19FEBE4700577D0A /* Character.swift in Sources */,
 				9A8EDC3A19FEC85300CC3CCF /* MarvelNetworking.swift in Sources */,
+				9A7CCD641A0038DC00FD5832 /* MarvelCaching.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
