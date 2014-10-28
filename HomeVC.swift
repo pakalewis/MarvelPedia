@@ -38,7 +38,6 @@ class HomeVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
         let cell = self.collectionView.dequeueReusableCellWithReuseIdentifier("CHARACTER_CELL", forIndexPath: indexPath) as CharacterCell
 
         cell.imageView.image = nil
-        cell.activityIndicator.startAnimating()
         
         var currentTag = cell.tag + 1
         cell.tag = currentTag
@@ -48,13 +47,26 @@ class HomeVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
 
         if let thumb = currentCharacter.thumbnailURL {
             let thumbURL = "\(thumb.path)/standard_xlarge.\(thumb.ext)"
-            MarvelNetworking.controller.getImageAtURLString(thumbURL, completion: { (image, errorString) -> Void in
+            
+            if let image = MarvelCaching.caching.cachedImageForURLString(thumbURL) {
+                cell.imageView.image = image
+            }
+            else {
+                cell.activityIndicator.startAnimating()
                 
-                if cell.tag == currentTag {
-                    cell.activityIndicator.stopAnimating()
-                    cell.imageView.image = image
-                }
-            })
+                MarvelNetworking.controller.getImageAtURLString(thumbURL, completion: { (image, errorString) -> Void in
+                    if errorString != nil {
+                        println(errorString)
+                        return
+                    }
+                    
+                    MarvelCaching.caching.setChachedImage(image!, forURLString: thumbURL)
+                    if cell.tag == currentTag {
+                        cell.activityIndicator.stopAnimating()
+                        cell.imageView.image = image
+                    }
+                })
+            }
         }
         
         return cell
