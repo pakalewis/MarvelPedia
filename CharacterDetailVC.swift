@@ -57,13 +57,12 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
         
         
         // modify the thumbnail url in order to download a larger version of the character's image
-        var thumbnailURL = self.characterToDisplay?.thumbnailURL
-        var urlForLargerImage = thumbnailURL?.stringByReplacingOccurrencesOfString(".jpg", withString: "/portrait_uncanny.jpg", options: .LiteralSearch, range: nil)
-        MarvelNetworking.controller.getImageAtURLString(urlForLargerImage!, completion: { (image, errorString) -> Void in
-            // load the larger image into the header
-        })
-
-        
+        if let thumb = self.characterToDisplay!.thumbnailURL {
+            var urlForLargerImage = "\(thumb.path)/portrait_uncanny.\(thumb.ext)"
+            MarvelNetworking.controller.getImageAtURLString(urlForLargerImage, completion: { (image, errorString) -> Void in
+                // load the larger image into the header
+            })
+        }
         
         return cell
         
