@@ -90,6 +90,9 @@ class MarvelNetworking: NetworkController {
                 if let resultArray = (responseDic?["data"] as? NSDictionary)?["results"] as? NSArray {
                     completion?(errorString: nil, charactersArray: resultArray)
                 }
+                else {
+                    completion?(errorString: "No \"data\" or \"results\" objects in dictionary", charactersArray: nil)
+                }
             })
         })
     }
@@ -122,7 +125,7 @@ class MarvelNetworking: NetworkController {
             var error: NSError?
             if let retValDic = NSJSONSerialization.JSONObjectWithData(data!, options: nil, error: &error) as? NSDictionary {
                 if errorString != nil {
-                    println("Error from Github:")
+                    println("Error from Marvel:")
                     println(retValDic)
                     completion(responseDic: nil, errorString: newErrorString)
                     return
