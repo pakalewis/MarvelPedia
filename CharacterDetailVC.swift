@@ -12,7 +12,7 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
 
     @IBOutlet var tableView : UITableView!
     var characterToDisplay : Character?
-    
+    let tableViewHeaders = ["", "Friends", "Enemies"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,7 +26,7 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
 //
 //        let headerView = NSBundle.mainBundle().loadNibNamed("TableHeader", owner: self, options: nil)
         
-        // register InfoCell nib for the tableview
+        // register the nibs for the two types of tableview cells
         let nib = UINib(nibName: "InfoCell", bundle: NSBundle.mainBundle())
         self.tableView.registerNib(nib, forCellReuseIdentifier: "INFO_CELL")
         
@@ -34,25 +34,55 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
         self.tableView.registerNib(newNib, forCellReuseIdentifier: "TVCELL")
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+    
+    // MARK: MAIN TABLEVIEW
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 3
     }
     
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        var sectionHeaderLabel = UILabel()
+        sectionHeaderLabel.text = self.tableViewHeaders[section]
+        sectionHeaderLabel.font = UIFont(name: "Arial", size: 22.0)
+        sectionHeaderLabel.textAlignment = NSTextAlignment.Center
+        sectionHeaderLabel.textColor = UIColor.blueColor()
+        sectionHeaderLabel.backgroundColor = UIColor.lightGrayColor()
+        return sectionHeaderLabel
+    }
     
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == 0 {
+            return 2
+        } else {
+            return 1
+        }
+    }
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        if indexPath.section != 0 {
+            return 80.0
+        } else {
+            return 30.0
+        }
+    }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        
-        if indexPath.row == 1 {
+        if indexPath.section != 0 {
             let cell = self.tableView.dequeueReusableCellWithIdentifier("TVCELL") as TVCellWithCollectionView
             cell.frenemyCV.delegate = self
             cell.frenemyCV.dataSource = self
+            cell.frenemyCV.backgroundColor = UIColor.lightGrayColor()
             return cell
         }
         
         
         let cell = self.tableView.dequeueReusableCellWithIdentifier("INFO_CELL", forIndexPath: indexPath) as InfoCell
-        cell.textLabel.text = "\(self.characterToDisplay?.name)"
+        if indexPath.row == 0 {
+            cell.textLabel.text = "Name: \(self.characterToDisplay!.name)"
+        } else {
+            cell.textLabel.text = "Bio: \(self.characterToDisplay!.bio)"
+        }
 
         
         
@@ -71,8 +101,12 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
     
     
     
+    
+    
+    
+    // MARK: COLLECTION VIEW WITHIN A TABLEVIEW CELL
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return 30
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
