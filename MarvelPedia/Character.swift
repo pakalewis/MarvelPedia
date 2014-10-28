@@ -16,7 +16,7 @@ class Character {
     let bio: String
     let modified: String
     let resourceURI: String
-    let thumbnailURL: String?
+    let thumbnailURL: (path: String, ext: String)?
     
     init(data: NSDictionary) {
         self.id = data["id"] as Int
@@ -26,7 +26,7 @@ class Character {
         self.resourceURI = data["resourceURI"] as String
         
         if let thumbnail = data["thumbnail"] as? [String : String] {
-            self.thumbnailURL = thumbnail["path"]! + "." + thumbnail["extension"]!
+            self.thumbnailURL = (path: thumbnail["path"]!, ext: thumbnail["extension"]!)
         }
     }
     
