@@ -69,33 +69,50 @@ class MarvelNetworking: NetworkController {
     Performs a request to get characters.
     
     :param: nameQuery Optional. If provided, method returns characters with names that begin with the specified string (e.g. Sp)
+    :param: startIndex Optional. If provided, method returns results starting with specified index for pagination.
+    :param: limit Optional. If provided, limits the number of characters returned at once. Maximum value is 100.
     :param: completion The completion handler to call when the request is complete. If errorString isn't nil, charactersArray contains an array of characters stored in NSDictionary
     
     */
     
-    func getCharacters(nameQuery q: String? = nil, completion: ((errorString: String?, charactersArray: NSArray?) -> Void)?) {
-        var parameters: [NSString : AnyObject]? = nil
-        if q != nil {
-            parameters = [NSString : AnyObject]()
-            parameters!["nameStartsWith"] = q
+    func getCharacters(nameQuery q: String? = nil, startIndex: Int? = nil, limit: Int? = nil, completion: (errorString: String?, charactersArray: NSArray?) -> Void) {
+        var parameters: [NSString : AnyObject]! = [NSString : AnyObject]()
+        parameters["nameStartsWith"] = q?
+        parameters["offset"] = startIndex?
+        
+        if limit? > 0 {
+            parameters["limit"] = limit > 100 ? 100 : limit
+        }
+        
+        if parameters.isEmpty {
+            parameters = nil
         }
         
         performRequestWithURLPath("/characters", parameters: parameters, completion: {(data, errorString) -> Void in
             self.processJSONData(data, errorString: errorString, completion: { (responseDic, errorString) -> Void in
                 if errorString != nil {
-                    completion?(errorString: errorString, charactersArray: nil)
+                    completion(errorString: errorString, charactersArray: nil)
                     return
                 }
                 
                 if let resultArray = (responseDic?["data"] as? NSDictionary)?["results"] as? NSArray {
-                    completion?(errorString: nil, charactersArray: resultArray)
+                    completion(errorString: nil, charactersArray: resultArray)
                 }
                 else {
-                    completion?(errorString: "No \"data\" or \"results\" objects in dictionary", charactersArray: nil)
+                    completion(errorString: "No \"data\" or \"results\" objects in dictionary", charactersArray: nil)
                 }
             })
         })
     }
+    
+    // MARK: Public Methods
+    /**
+    Performs a request to get image data.
+    
+    :param: URLString A string that represents the desired URL. Cannot be nil.
+    :param: completion The completion handler to call when the request is complete. If errorString isn't nil, image contains an UIImage object.
+    
+    */
     
     func getImageAtURLString(URLString: String, completion: (image: UIImage?, errorString: String?) -> Void) {
         self.performRequestWithURLString(URLString, completion: { (data, errorString) -> Void in

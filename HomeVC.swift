@@ -46,8 +46,9 @@ class HomeVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
         let currentCharacter = self.characters[indexPath.row]
         cell.nameLabel.text = currentCharacter.name
 
-        if currentCharacter.thumbnailURL != nil {
-            MarvelNetworking.controller.getImageAtURLString(currentCharacter.thumbnailURL!, completion: { (image, errorString) -> Void in
+        if let thumb = currentCharacter.thumbnailURL {
+            let thumbURL = "\(thumb.path)/standard_xlarge.\(thumb.ext)"
+            MarvelNetworking.controller.getImageAtURLString(thumbURL, completion: { (image, errorString) -> Void in
                 
                 if cell.tag == currentTag {
                     cell.activityIndicator.stopAnimating()
@@ -55,6 +56,7 @@ class HomeVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
                 }
             })
         }
+        
         return cell
     }
     
@@ -64,7 +66,6 @@ class HomeVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
         characterDetailVC.characterToDisplay = self.characters[indexPath.row]
         self.navigationController?.pushViewController(characterDetailVC, animated: true)
     }
-
     
     func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
         let header = self.collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "HEADER", forIndexPath: indexPath) as CollectionHeader
@@ -72,11 +73,7 @@ class HomeVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
         header.searchBar.delegate = self
         
         return header
-        
-        
     }
-
-
 
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
         println("searching for \(searchBar.text)")
@@ -84,7 +81,7 @@ class HomeVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
         self.collectionView.reloadData()
         self.activityIndicator.startAnimating()
         
-        MarvelNetworking.controller.getCharacters(nameQuery: searchBar.text) { (errorString, charactersArray) -> Void in
+        MarvelNetworking.controller.getCharacters(nameQuery: searchBar.text, completion: { (errorString, charactersArray) -> Void in
             
             if charactersArray != nil {
                 self.characters = Character.parseJSONIntoCharacters(data: charactersArray!)
@@ -93,7 +90,7 @@ class HomeVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
             }
             self.collectionView.reloadData()
             self.activityIndicator.stopAnimating()
-        }
+        })
     }
     
 }

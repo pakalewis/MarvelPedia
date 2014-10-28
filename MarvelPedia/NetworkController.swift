@@ -21,6 +21,9 @@ extension Dictionary {
                 if let nsStringValue = value as? NSString {
                     partsArray.addObject(NSString(format: "%@=%@", nsStringKey.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!, nsStringValue.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!))
                 }
+                else if let nsNumberValue = value as? NSNumber {
+                    partsArray.addObject(NSString(format: "%@=%@", nsStringKey.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!, nsNumberValue))
+                }
                 else {
                     return nil
                 }
