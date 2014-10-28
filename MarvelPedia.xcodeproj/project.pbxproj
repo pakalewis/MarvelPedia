@@ -25,6 +25,9 @@
 		2CE4BEB719FED5490059A230 /* InfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE4BEB619FED5490059A230 /* InfoCell.swift */; };
 		2CE4BEBB19FEDA960059A230 /* TableHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2CE4BEBA19FEDA960059A230 /* TableHeader.xib */; };
 		2CE4BEBD19FEDABA0059A230 /* TableHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE4BEBC19FEDABA0059A230 /* TableHeader.swift */; };
+		48A0E14F1A0038E300343EF8 /* RootVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A0E14E1A0038E300343EF8 /* RootVC.swift */; };
+		48A0E1511A0038FD00343EF8 /* IntroPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A0E1501A0038FD00343EF8 /* IntroPageVC.swift */; };
+		48A0E1531A00397A00343EF8 /* IntroPageModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A0E1521A00397A00343EF8 /* IntroPageModelController.swift */; };
 		9A8EDC3819FEC79C00CC3CCF /* NetworkController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8EDC3719FEC79C00CC3CCF /* NetworkController.swift */; };
 		9A8EDC3A19FEC85300CC3CCF /* MarvelNetworking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8EDC3919FEC85300CC3CCF /* MarvelNetworking.swift */; };
 /* End PBXBuildFile section */
@@ -62,6 +65,9 @@
 		2CE4BEB619FED5490059A230 /* InfoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InfoCell.swift; path = ../InfoCell.swift; sourceTree = "<group>"; };
 		2CE4BEBA19FEDA960059A230 /* TableHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TableHeader.xib; path = ../TableHeader.xib; sourceTree = "<group>"; };
 		2CE4BEBC19FEDABA0059A230 /* TableHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TableHeader.swift; path = ../TableHeader.swift; sourceTree = "<group>"; };
+		48A0E14E1A0038E300343EF8 /* RootVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootVC.swift; sourceTree = "<group>"; };
+		48A0E1501A0038FD00343EF8 /* IntroPageVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntroPageVC.swift; sourceTree = "<group>"; };
+		48A0E1521A00397A00343EF8 /* IntroPageModelController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntroPageModelController.swift; sourceTree = "<group>"; };
 		9A8EDC3719FEC79C00CC3CCF /* NetworkController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkController.swift; sourceTree = "<group>"; };
 		9A8EDC3919FEC85300CC3CCF /* MarvelNetworking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarvelNetworking.swift; sourceTree = "<group>"; };
 		9A8EDC3C19FECE8E00CC3CCF /* MarvelPedia-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MarvelPedia-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -161,6 +167,8 @@
 				2CD820F019FEC7E600577D0A /* HomeVC.swift */,
 				2CE4BEB019FECABA0059A230 /* CharacterDetailVC.swift */,
 				2C4BFFB819FEB8E70021A080 /* ViewController.swift */,
+				48A0E14E1A0038E300343EF8 /* RootVC.swift */,
+				48A0E1501A0038FD00343EF8 /* IntroPageVC.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -184,6 +192,7 @@
 			children = (
 				9A8EDC3719FEC79C00CC3CCF /* NetworkController.swift */,
 				9A8EDC3919FEC85300CC3CCF /* MarvelNetworking.swift */,
+				48A0E1521A00397A00343EF8 /* IntroPageModelController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -292,13 +301,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				2C4BFFB919FEB8E70021A080 /* ViewController.swift in Sources */,
+				48A0E1511A0038FD00343EF8 /* IntroPageVC.swift in Sources */,
 				2CC2C60819FEE49A00DE8A11 /* PrivateConstants.swift in Sources */,
 				2CD820F119FEC7E600577D0A /* HomeVC.swift in Sources */,
 				2CC2C60A19FF0B5600DE8A11 /* CollectionHeader.swift in Sources */,
 				2C4BFFB719FEB8E70021A080 /* MarvelPedia.xcdatamodeld in Sources */,
 				2CD820F319FEC90300577D0A /* CharacterCell.swift in Sources */,
+				48A0E1531A00397A00343EF8 /* IntroPageModelController.swift in Sources */,
 				9A8EDC3819FEC79C00CC3CCF /* NetworkController.swift in Sources */,
 				2C4BFFB419FEB8E70021A080 /* AppDelegate.swift in Sources */,
+				48A0E14F1A0038E300343EF8 /* RootVC.swift in Sources */,
 				2CE4BEBD19FEDABA0059A230 /* TableHeader.swift in Sources */,
 				2CE4BEB719FED5490059A230 /* InfoCell.swift in Sources */,
 				2CE4BEB119FECABA0059A230 /* CharacterDetailVC.swift in Sources */,
