@@ -16,6 +16,8 @@ class HomeVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     var characters = [Character]()
+    var header : CollectionHeader!
+    var canLoadMore = true
 
     
     override func viewDidLoad() {
@@ -27,9 +29,11 @@ class HomeVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
         let nib = UINib(nibName: "CharacterCell", bundle: NSBundle.mainBundle())
         self.collectionView.registerNib(nib, forCellWithReuseIdentifier: "CHARACTER_CELL")
         
-        self.activityIndicator.hidesWhenStopped = true
+        //self.activityIndicator.hidesWhenStopped = true
     }
     
+    
+    // MARK: COLLECTION VIEW
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.characters.count
     }
@@ -80,15 +84,50 @@ class HomeVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
-        let header = self.collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "HEADER", forIndexPath: indexPath) as CollectionHeader
-        
-        header.searchBar.delegate = self
+        if self.header == nil {
+            self.header = self.collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "HEADER", forIndexPath: indexPath) as? CollectionHeader
+            self.header?.searchBar.delegate = self
+        }
         
         return header
     }
 
+    
+    
+    func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
+
+        if !self.canLoadMore {
+            return
+        }
+        var indexPathToLoadMoreCharacters = self.characters.count
+        println(indexPath.row)
+        if indexPath.row + 1 == indexPathToLoadMoreCharacters {
+            println("reloading")
+            self.activityIndicator.startAnimating()
+            MarvelNetworking.controller.getCharacters(nameQuery: self.header.searchBar.text, startIndex: self.characters.count, completion: { (errorString, charactersArray) -> Void in
+                if errorString == nil {
+                    var newCharacters = Character.parseJSONIntoCharacters(data: charactersArray!)
+                    self.characters += newCharacters
+                    self.collectionView.reloadData()
+                } else {
+                    println(errorString)
+                }
+                
+                if charactersArray?.count == 0 {
+                    println("is empty")
+                    self.canLoadMore = false
+                }
+                self.activityIndicator.stopAnimating()
+            })
+        }
+    }
+    
+    
+    
+    // MARK: SEARCH BAR
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
         println("searching for \(searchBar.text)")
+        self.canLoadMore = true
         self.characters = [Character]()
         self.collectionView.reloadData()
         self.activityIndicator.startAnimating()
