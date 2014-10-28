@@ -8,10 +8,13 @@
 
 import UIKit
 
-class HomeVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UINavigationControllerDelegate {
+class HomeVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UINavigationControllerDelegate, UISearchBarDelegate {
 
     
     @IBOutlet weak var collectionView: UICollectionView!
+    
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    
     var characters = [Character]()
 
     
@@ -24,15 +27,7 @@ class HomeVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
         let nib = UINib(nibName: "CharacterCell", bundle: NSBundle.mainBundle())
         self.collectionView.registerNib(nib, forCellWithReuseIdentifier: "CHARACTER_CELL")
         
-        MarvelNetworking.controller.getCharacters(nameQuery: "S") { (errorString, charactersArray) -> Void in
-            
-            if charactersArray != nil {
-                self.characters = Character.parseJSONIntoCharacters(data: charactersArray!)
-            } else {
-                println("no data")
-            }
-            self.collectionView.reloadData()
-        }
+        self.activityIndicator.hidesWhenStopped = true
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -43,6 +38,7 @@ class HomeVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
         let cell = self.collectionView.dequeueReusableCellWithReuseIdentifier("CHARACTER_CELL", forIndexPath: indexPath) as CharacterCell
 
         cell.imageView.image = nil
+        cell.activityIndicator.startAnimating()
         
         var currentTag = cell.tag + 1
         cell.tag = currentTag
@@ -54,6 +50,7 @@ class HomeVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
             MarvelNetworking.controller.getImageAtURLString(currentCharacter.thumbnailURL!, completion: { (image, errorString) -> Void in
                 
                 if cell.tag == currentTag {
+                    cell.activityIndicator.stopAnimating()
                     cell.imageView.image = image
                 }
             })
@@ -64,8 +61,39 @@ class HomeVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         var characterDetailVC = storyboard?.instantiateViewControllerWithIdentifier("CHARACTER_DETAIL_VC") as CharacterDetailVC
-        
+        characterDetailVC.characterToDisplay = self.characters[indexPath.row]
         self.navigationController?.pushViewController(characterDetailVC, animated: true)
     }
 
+    
+    func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+        let header = self.collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "HEADER", forIndexPath: indexPath) as CollectionHeader
+        
+        header.searchBar.delegate = self
+        
+        return header
+        
+        
+    }
+
+
+
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        println("searching for \(searchBar.text)")
+        self.characters = [Character]()
+        self.collectionView.reloadData()
+        self.activityIndicator.startAnimating()
+        
+        MarvelNetworking.controller.getCharacters(nameQuery: searchBar.text) { (errorString, charactersArray) -> Void in
+            
+            if charactersArray != nil {
+                self.characters = Character.parseJSONIntoCharacters(data: charactersArray!)
+            } else {
+                println("no data")
+            }
+            self.collectionView.reloadData()
+            self.activityIndicator.stopAnimating()
+        }
+    }
+    
 }

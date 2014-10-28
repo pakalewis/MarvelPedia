@@ -14,9 +14,12 @@ class CharacterCell: UICollectionViewCell {
     @IBOutlet var imageView : UIImageView!
     @IBOutlet var nameLabel : UILabel!
     
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.layer.cornerRadius = 15
+        
     }
 
 }

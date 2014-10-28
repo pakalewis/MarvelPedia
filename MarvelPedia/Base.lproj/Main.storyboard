@@ -18,13 +18,38 @@
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="cnf-ly-JUV">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="fMv-CK-EhY">
                                     <size key="itemSize" width="111" height="122"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="headerReferenceSize" width="50" height="50"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
+                                <activityIndicatorView key="backgroundView" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="whiteLarge" id="5yr-D5-riV" userLabel="Gray Activity Indicator">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="color" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                </activityIndicatorView>
                                 <cells/>
+                                <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="HEADER" reuseIdentifier="HEADER" id="VPk-hr-OqY" customClass="CollectionHeader" customModule="MarvelPedia" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="64" width="600" height="50"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="NVa-gF-azl">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="50"/>
+                                            <textInputTraits key="textInputTraits"/>
+                                        </searchBar>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="NVa-gF-azl" secondAttribute="trailing" id="B8a-Nu-LMo"/>
+                                        <constraint firstAttribute="bottom" secondItem="NVa-gF-azl" secondAttribute="bottom" id="NS8-sQ-JAg"/>
+                                        <constraint firstItem="NVa-gF-azl" firstAttribute="top" secondItem="VPk-hr-OqY" secondAttribute="top" id="rLI-6B-G5n"/>
+                                        <constraint firstItem="NVa-gF-azl" firstAttribute="leading" secondItem="VPk-hr-OqY" secondAttribute="leading" id="v3X-JE-yS0"/>
+                                    </constraints>
+                                    <connections>
+                                        <outlet property="searchBar" destination="NVa-gF-azl" id="30s-cP-MRa"/>
+                                    </connections>
+                                </collectionReusableView>
                             </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -37,6 +62,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="szA-Nh-tfm"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="5yr-D5-riV" id="2pM-4o-5Ig"/>
                         <outlet property="collectionView" destination="cnf-ly-JUV" id="TYb-F7-W1a"/>
                     </connections>
                 </viewController>
