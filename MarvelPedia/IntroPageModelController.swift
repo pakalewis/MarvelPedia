@@ -16,8 +16,9 @@ class IntroPageModelController: NSObject, UIPageViewControllerDataSource {
     override init() {
         super.init()
         // Create the data model.
-        let dateFormatter = NSDateFormatter()
-        pageData = dateFormatter.monthSymbols
+//        let dateFormatter = NSDateFormatter()
+//        pageData = dateFormatter.monthSymbols
+        pageData = ["One", "Two", "Three"]
     }
 
     func viewControllerAtIndex(index: Int, storyboard: UIStoryboard) -> IntroPageVC? {
