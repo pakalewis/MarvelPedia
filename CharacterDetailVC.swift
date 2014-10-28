@@ -11,6 +11,7 @@ import UIKit
 class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet var tableView : UITableView!
+    var characterToDisplay : Character?
     
     
     override func viewDidLoad() {
@@ -36,7 +37,18 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = self.tableView.dequeueReusableCellWithIdentifier("INFO_CELL", forIndexPath: indexPath) as InfoCell
-        cell.textLabel.text = "\(indexPath.row)"
+        cell.textLabel.text = "\(self.characterToDisplay?.name)"
+
+        
+        // modify the thumbnail url in order to download a larger version of the character's image
+        var thumbnailURL = self.characterToDisplay?.thumbnailURL
+        var urlForLargerImage = thumbnailURL?.stringByReplacingOccurrencesOfString(".jpg", withString: "/portrait_uncanny.jpg", options: .LiteralSearch, range: nil)
+        MarvelNetworking.controller.getImageAtURLString(urlForLargerImage!, completion: { (image, errorString) -> Void in
+            // load the larger image into the header
+        })
+
+        
+        
         return cell
         
     }

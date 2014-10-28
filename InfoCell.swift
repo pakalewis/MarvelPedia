@@ -10,6 +10,9 @@ import UIKit
 
 class InfoCell: UITableViewCell {
 
+    
+    @IBOutlet weak var infoCellImageView: UIImageView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
     }
