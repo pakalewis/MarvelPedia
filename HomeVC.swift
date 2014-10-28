@@ -46,8 +46,9 @@ class HomeVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
         let currentCharacter = self.characters[indexPath.row]
         cell.nameLabel.text = currentCharacter.name
 
-        if currentCharacter.thumbnailURL != nil {
-            MarvelNetworking.controller.getImageAtURLString(currentCharacter.thumbnailURL!, completion: { (image, errorString) -> Void in
+        if let thumb = currentCharacter.thumbnailURL {
+            let thumbURL = "\(thumb.path)/standard_xlarge.\(thumb.ext)"
+            MarvelNetworking.controller.getImageAtURLString(thumbURL, completion: { (image, errorString) -> Void in
                 
                 if cell.tag == currentTag {
                     cell.activityIndicator.stopAnimating()
