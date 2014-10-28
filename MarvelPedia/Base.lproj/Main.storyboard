@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A388a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="5RH-qv-9fs">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A388a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Rqq-i1-c4Z">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
@@ -7,7 +7,7 @@
         <!--HomeVC-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="HomeVC" customModule="MarvelPedia" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HomeVC" id="BYZ-38-t0r" customClass="HomeVC" customModule="MarvelPedia" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -103,10 +103,64 @@
             </objects>
             <point key="canvasLocation" x="1637" y="136"/>
         </scene>
+        <!--RootVC-->
+        <scene sceneID="n5z-wf-mQw">
+            <objects>
+                <viewController storyboardIdentifier="RootVC" title="RootVC" id="Rqq-i1-c4Z" customClass="RootVC" customModule="MarvelPedia" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="YeR-zU-LqT"/>
+                        <viewControllerLayoutGuide type="bottom" id="Sf1-Kv-bxG"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Lua-dW-PA3">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kpJ-7x-1lO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1277" y="136"/>
+        </scene>
+        <!--IntroPageVC-->
+        <scene sceneID="lfn-z3-2AJ">
+            <objects>
+                <viewController storyboardIdentifier="IntroPageVC" title="IntroPageVC" id="fP6-fa-efZ" customClass="IntroPageVC" customModule="MarvelPedia" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="zyb-Aa-OOj"/>
+                        <viewControllerLayoutGuide type="bottom" id="kyi-cu-Oye"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="v0d-K6-hnb">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qL5-rc-nmc">
+                                <rect key="frame" x="279" y="20" width="42" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="qX5-eh-JxZ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="qL5-rc-nmc" secondAttribute="centerX" id="Wsh-YS-0MB"/>
+                            <constraint firstItem="qL5-rc-nmc" firstAttribute="top" secondItem="zyb-Aa-OOj" secondAttribute="bottom" id="tvs-rG-1DJ"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="dataLabel" destination="qL5-rc-nmc" id="zZh-ay-7S2"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ui0-Ig-GuS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-548" y="136"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="P6f-9m-O5A">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="5RH-qv-9fs" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="MainNavController" automaticallyAdjustsScrollViewInsets="NO" id="5RH-qv-9fs" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="WNq-jD-jaZ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
