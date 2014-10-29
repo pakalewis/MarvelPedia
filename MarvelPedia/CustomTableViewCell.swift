@@ -1,5 +1,5 @@
 //
-//  TVCellWithCollectionView.swift
+//  CustomTableViewCell.swift
 //  MarvelPedia
 //
 //  Created by Parker Lewis on 10/28/14.
@@ -8,11 +8,12 @@
 
 import UIKit
 
-class TVCellWithCollectionView: UITableViewCell {
+class CustomTableViewCell: UITableViewCell {
 
     
     @IBOutlet weak var customCollectionView: CustomCollectionView!
-    
+    var flowlayout: UICollectionViewFlowLayout!
+
     
     
     override func awakeFromNib() {
@@ -20,6 +21,12 @@ class TVCellWithCollectionView: UITableViewCell {
 
         let nib = UINib(nibName: "ComicCell", bundle: NSBundle.mainBundle())
         self.customCollectionView.registerNib(nib, forCellWithReuseIdentifier: "COMIC_CELL")
-    
+        
+        self.flowlayout = self.customCollectionView.collectionViewLayout as UICollectionViewFlowLayout
+
+        // grab screen size
+        var screenWidth = UIScreen.mainScreen().bounds.width
+        
+        self.flowlayout.itemSize = CGSize(width: screenWidth / 3, height: screenWidth / 3)
     }
 }

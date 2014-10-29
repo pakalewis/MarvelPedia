@@ -2,7 +2,6 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -14,19 +13,25 @@
                 <rect key="frame" x="0.0" y="0.0" width="255" height="442"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="axC-bL-9OA">
-                        <rect key="frame" x="8" y="8" width="239" height="426"/>
+                        <rect key="frame" x="0.0" y="0.0" width="255" height="442"/>
                     </imageView>
+                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="E8z-d8-Os6">
+                        <rect key="frame" x="109" y="203" width="37" height="37"/>
+                    </activityIndicatorView>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <constraints>
-                <constraint firstAttribute="trailingMargin" secondItem="axC-bL-9OA" secondAttribute="trailing" id="Gnw-Om-g8Y"/>
-                <constraint firstItem="axC-bL-9OA" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="topMargin" id="HAh-7i-UAK"/>
-                <constraint firstAttribute="bottomMargin" secondItem="axC-bL-9OA" secondAttribute="bottom" id="P2X-VQ-GyZ"/>
-                <constraint firstItem="axC-bL-9OA" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leadingMargin" id="Wtt-vG-fU4"/>
+                <constraint firstItem="E8z-d8-Os6" firstAttribute="centerY" secondItem="axC-bL-9OA" secondAttribute="centerY" id="3b7-N6-f9w"/>
+                <constraint firstAttribute="bottom" secondItem="axC-bL-9OA" secondAttribute="bottom" id="Fom-aA-eIS"/>
+                <constraint firstItem="axC-bL-9OA" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="VIe-Kl-Qmf"/>
+                <constraint firstItem="axC-bL-9OA" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="nEZ-Qx-qED"/>
+                <constraint firstItem="E8z-d8-Os6" firstAttribute="centerX" secondItem="axC-bL-9OA" secondAttribute="centerX" id="oQQ-dd-4Xp"/>
+                <constraint firstAttribute="trailing" secondItem="axC-bL-9OA" secondAttribute="trailing" id="sIQ-5a-qVY"/>
             </constraints>
             <size key="customSize" width="255" height="442"/>
             <connections>
+                <outlet property="activityIndicator" destination="E8z-d8-Os6" id="b9d-V9-fGg"/>
                 <outlet property="comicImageView" destination="axC-bL-9OA" id="Wdj-RK-9nv"/>
             </connections>
             <point key="canvasLocation" x="244.5" y="420"/>

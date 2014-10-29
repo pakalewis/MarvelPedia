@@ -46,28 +46,4 @@ class SeriesVC: UIViewController {
         }
     }
 }
-    
-//        if let thumb = self.series?.thumbnailURL {
-//            let thumbURL = "\(thumb.path)/portrait_uncanny.\(thumb.ext)"
-//            println(thumbURL)
-//            if let image = MarvelCaching.caching.cachedImageForURLString(thumbURL) {
-//                self.seriesImageView.image = image
-//            }
-//            else {
-//                self.activityIndicator.startAnimating()
-//                
-//                MarvelNetworking.controller.getImageAtURLString(thumbURL, completion: { (image, errorString) -> Void in
-//                    if errorString != nil {
-//                        println(errorString)
-//                        return
-//                    }
-//                    
-//                    MarvelCaching.caching.setCachedImage(image!, forURLString: thumbURL)
-//                    self.activityIndicator.stopAnimating()
-//                    self.seriesImageView.image = image
-//                })
-//            }
-//        }
-//        
-//    }
 
