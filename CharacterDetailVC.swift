@@ -142,7 +142,7 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
                         return
                     }
                     
-                    MarvelCaching.caching.setChachedImage(image!, forURLString: thumbURL)
+                    MarvelCaching.caching.setCachedImage(image!, forURLString: thumbURL)
                         cell.comicImageView.image = image
                 })
             }
@@ -157,9 +157,9 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
         println(comic.title)
         
 
-//        let comicVC = ComicVC(nibName: "ComicVC", bundle: nil)
-//        comicVC.comic = comic
-//        self.navigationController?.pushViewController(comicVC, animated: true)
+        var comicVC = storyboard?.instantiateViewControllerWithIdentifier("COMIC_VC") as ComicVC
+        comicVC.comic = comic
+        self.navigationController?.pushViewController(comicVC, animated: true)
     }
     
     
