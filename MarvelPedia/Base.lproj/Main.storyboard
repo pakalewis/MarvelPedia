@@ -6,10 +6,10 @@
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
-        <!--HomeVC-->
+        <!--Home-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="HomeVC" id="BYZ-38-t0r" customClass="HomeVC" customModule="MarvelPedia" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HomeVC" title="Home" id="BYZ-38-t0r" customClass="HomeVC" customModule="MarvelPedia" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -20,19 +20,19 @@
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="cnf-ly-JUV">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="fMv-CK-EhY">
+                                <color key="backgroundColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="16" minimumInteritemSpacing="10" id="fMv-CK-EhY">
                                     <size key="itemSize" width="110" height="140"/>
                                     <size key="headerReferenceSize" width="50" height="50"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                    <inset key="sectionInset" minX="8" minY="8" maxX="8" maxY="8"/>
                                 </collectionViewFlowLayout>
                                 <cells/>
                                 <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="HEADER" reuseIdentifier="HEADER" id="VPk-hr-OqY" customClass="CollectionHeader" customModule="MarvelPedia" customModuleProvider="target">
                                     <rect key="frame" x="0.0" y="64" width="600" height="50"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="NVa-gF-azl">
+                                        <searchBar contentMode="redraw" placeholder="Search for characters..." translatesAutoresizingMaskIntoConstraints="NO" id="NVa-gF-azl">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="50"/>
                                             <textInputTraits key="textInputTraits"/>
                                         </searchBar>
@@ -66,7 +66,7 @@
                             <constraint firstItem="5yr-D5-riV" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-16" id="wOj-TZ-jBb"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="szA-Nh-tfm"/>
+                    <navigationItem key="navigationItem" title="Characters" id="szA-Nh-tfm"/>
                     <connections>
                         <outlet property="activityIndicator" destination="5yr-D5-riV" id="2pM-4o-5Ig"/>
                         <outlet property="collectionView" destination="cnf-ly-JUV" id="TYb-F7-W1a"/>

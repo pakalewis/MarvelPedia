@@ -56,6 +56,7 @@ class HomeVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
             MarvelCaching.caching.cachedImageForURLString(thumbURL, completion: { (image) -> Void in
                 if image != nil {
                     if cell.tag == currentTag {
+                        cell.imageView.image = nil
                         cell.imageView.image = image
                     }
                     return
@@ -72,7 +73,10 @@ class HomeVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
                     
                     MarvelCaching.caching.setCachedImage(image!, forURLString: thumbURL)
                     if cell.tag == currentTag {
-                        cell.imageView.image = image
+                        cell.imageView.image = nil
+                        UIView.transitionWithView(cell.imageView, duration: 0.2, options: UIViewAnimationOptions.TransitionCurlDown, animations: { () -> Void in
+                            cell.imageView.image = image
+                            }, completion: nil)
                     }
                 })
                 
