@@ -25,11 +25,27 @@ class MarvelCaching {
     // MARK: Public Properties
 
     // MARK: Private Properties
+    // The maximum number of images stored in memory
+    private let kMarvelMaxCacheSize = 50
     private var queue = Queue<String>()
     private var imagesDic = [String: UIImage]()
     
     // MARK: Public Methods
     func setChachedImage(image: UIImage, forURLString URLString: String) {
+        if imagesDic[URLString] != nil {
+            return
+        }
+        
+        // Use queue to control the maximum number of cached images
+        if queue.size == kMarvelMaxCacheSize {
+            if let curURLString = queue.dequeue() {
+                imagesDic.removeValueForKey(curURLString)
+                println("Dequeued \(curURLString)")
+            }
+        }
+        
+        queue.enqueue(URLString)
+        
         imagesDic[URLString] = image
     }
     

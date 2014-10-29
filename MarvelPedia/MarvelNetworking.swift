@@ -70,7 +70,7 @@ class MarvelNetworking: NetworkController {
     
     :param: nameQuery Optional. If provided, method returns characters with names that begin with the specified string (e.g. Sp)
     :param: startIndex Optional. If provided, method returns results starting with specified index for pagination.
-    :param: limit Optional. If provided, limits the number of characters returned at once. Maximum value is 100.
+    :param: limit Optional. If provided, limits the number of objects returned at once. Maximum value is 100.
     :param: completion The completion handler to call when the request is complete. If errorString isn't nil, charactersArray contains an array of characters stored in NSDictionary
     
     */
@@ -78,34 +78,42 @@ class MarvelNetworking: NetworkController {
     func getCharacters(nameQuery q: String? = nil, startIndex: Int? = nil, limit: Int? = nil, completion: (errorString: String?, charactersArray: NSArray?) -> Void) {
         var parameters: [NSString : AnyObject]! = [NSString : AnyObject]()
         parameters["nameStartsWith"] = q?
-        parameters["offset"] = startIndex?
-        
-        if limit? > 0 {
-            parameters["limit"] = limit > 100 ? 100 : limit
-        }
-        
         if parameters.isEmpty {
             parameters = nil
         }
         
-        performRequestWithURLPath("/characters", parameters: parameters, completion: {(data, errorString) -> Void in
-            self.processJSONData(data, errorString: errorString, completion: { (responseDic, errorString) -> Void in
-                if errorString != nil {
-                    completion(errorString: errorString, charactersArray: nil)
-                    return
-                }
-                
-                if let resultArray = (responseDic?["data"] as? NSDictionary)?["results"] as? NSArray {
-                    completion(errorString: nil, charactersArray: resultArray)
-                }
-                else {
-                    completion(errorString: "No \"data\" or \"results\" objects in dictionary", charactersArray: nil)
-                }
-            })
-        })
+        getObjectsWithPath("/characters", params: parameters, startIndex: startIndex, limit: limit, completion: completion)
     }
     
-    // MARK: Public Methods
+    /**
+    Performs a request to get comics for specified character.
+    
+    :param: charID ID of the character.
+    :param: startIndex Optional. If provided, method returns results starting with specified index for pagination.
+    :param: limit Optional. If provided, limits the number of objects returned at once. Maximum value is 100.
+    :param: completion The completion handler to call when the request is complete. If errorString isn't nil, comicsArray contains an array of comics stored in NSDictionary
+    
+    */
+    
+    func getComicsWithCharacterID(charID: Int, startIndex: Int? = nil, limit: Int? = nil, completion: (errorString: String?, comicsArray: NSArray?) -> Void) {
+        
+        getObjectsWithPath("/characters/\(charID)/comics", startIndex: startIndex, limit: limit, completion: completion)
+    }
+    
+    /**
+    Performs a request to get series for specified character.
+    
+    :param: seriesID ID of the series.
+    :param: startIndex Optional. If provided, method returns results starting with specified index for pagination.
+    :param: limit Optional. If provided, limits the number of objects returned at once. Maximum value is 100.
+    :param: completion The completion handler to call when the request is complete. If errorString isn't nil, seriesArray contains an array of series stored in NSDictionary
+    
+    */
+    
+    func getSeriesWithCharacterID(charID: Int, startIndex: Int? = nil, limit: Int? = nil, completion: (errorString: String?, seriesArray: NSArray?) -> Void) {
+        getObjectsWithPath("/characters/\(charID)/series", startIndex: startIndex, limit: limit, completion: completion)
+    }
+    
     /**
     Performs a request to get image data.
     
@@ -135,34 +143,64 @@ class MarvelNetworking: NetworkController {
     }
     
     // MARK: Private Methods
-    private func processJSONData(data: NSData?, errorString: String?, completion: (responseDic: NSDictionary?, errorString: String?) -> Void) {
+    private func getObjectsWithPath(URLPath: String, params: [NSString : AnyObject]? = nil, startIndex: Int? = nil, limit: Int? = nil, completion: (errorString: String?, charactersArray: NSArray?) -> Void) {
+        var parameters: [NSString : AnyObject]! = [NSString : AnyObject]()
+        if let extParams = params {
+            for (key, value) in extParams {
+                parameters[key] = value
+            }
+        }
+        
+        parameters["offset"] = startIndex?
+        if limit? > 0 {
+            parameters["limit"] = limit > 100 ? 100 : limit
+        }
+        
+        if parameters.isEmpty {
+            parameters = nil
+        }
+        
+        performRequestWithURLPath(URLPath, parameters: parameters, completion: {(data, errorString) -> Void in
+            self.processJSONData(data, errorString: errorString, completion: { (responseArray, errorString) -> Void in
+                completion(errorString: nil, charactersArray: responseArray)
+            })
+        })
+    }
+    
+    private func processJSONData(data: NSData?, errorString: String?, completion: (responseArray: NSArray?, errorString: String?) -> Void) {
         
         var newErrorString = errorString
         if data != nil {
             var error: NSError?
-            if let retValDic = NSJSONSerialization.JSONObjectWithData(data!, options: nil, error: &error) as? NSDictionary {
+            if let responseDic = NSJSONSerialization.JSONObjectWithData(data!, options: nil, error: &error) as? NSDictionary {
                 if errorString != nil {
                     println("Error from Marvel:")
-                    println(retValDic)
-                    completion(responseDic: nil, errorString: newErrorString)
+                    println(responseDic)
+                    completion(responseArray: nil, errorString: newErrorString)
                     return
                 }
                 
-                completion(responseDic: retValDic, errorString: nil)
+                if let resultArray = (responseDic["data"] as? NSDictionary)?["results"] as? NSArray {
+                    completion(responseArray: resultArray, errorString: nil)
+                }
+                else {
+                    completion(responseArray: nil, errorString: "No \"data\" or \"results\" objects in dictionary")
+                }
+                
                 return
             }
             
             if let errorJSON = error {
                 newErrorString = errorJSON.localizedDescription
-                completion(responseDic: nil, errorString: "Error parsing JSON response: \(newErrorString)")
+                completion(responseArray: nil, errorString: "Error parsing JSON response: \(newErrorString)")
             }
         }
         else {
-            completion(responseDic: nil, errorString: newErrorString)
+            completion(responseArray: nil, errorString: newErrorString)
         }
     }
     
-    // Overrides
+    // MARK: Overrides
     
     override func performRequestWithURLString(URLString: String, method: String = "GET", parameters: [NSString: AnyObject]? = nil, acceptJSONResponse: Bool = false, sendBodyAsJSON: Bool = false, completion: (data: NSData!, errorString: String!) -> Void) {
         var finalParams = parameters == nil ? [NSString : AnyObject]() : parameters
