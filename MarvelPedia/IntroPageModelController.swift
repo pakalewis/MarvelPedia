@@ -10,15 +10,18 @@ import UIKit
 
 class IntroPageModelController: NSObject, UIPageViewControllerDataSource {
 
-    var pageData = NSArray()
+    var pageData = NSMutableArray()
 
 
     override init() {
         super.init()
         // Create the data model.
-//        let dateFormatter = NSDateFormatter()
-//        pageData = dateFormatter.monthSymbols
-        pageData = ["One", "Two", "Three"]
+        
+        for index in 1...6 {
+            let imageName = "comic\(index).jpg"
+            let image = UIImage(named: imageName)
+            self.pageData.addObject(image!)
+        }
     }
 
     func viewControllerAtIndex(index: Int, storyboard: UIStoryboard) -> IntroPageVC? {
@@ -29,15 +32,15 @@ class IntroPageModelController: NSObject, UIPageViewControllerDataSource {
 
         // Create a new view controller and pass suitable data.
         let dataViewController = storyboard.instantiateViewControllerWithIdentifier("IntroPageVC") as IntroPageVC
-        dataViewController.dataObject = self.pageData[index]
+        dataViewController.imageToDisplay = self.pageData[index] as? UIImage
         return dataViewController
     }
 
     func indexOfViewController(viewController: IntroPageVC) -> Int {
         // Return the index of the given data view controller.
         // For simplicity, this implementation uses a static array of model objects and the view controller stores the model object; you can therefore use the model object to identify the index.
-        if let dataObject: AnyObject = viewController.dataObject {
-            return self.pageData.indexOfObject(dataObject)
+        if let image = viewController.imageToDisplay {
+            return self.pageData.indexOfObject(image)
         } else {
             return NSNotFound
         }
