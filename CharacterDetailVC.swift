@@ -13,8 +13,12 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
     @IBOutlet var tableView : UITableView!
     var characterToDisplay : Character?
     let tableViewHeaders = ["", "Comics", "Series"]
-//    var comicVC = ComicVC(nibName: "ComicVC", bundle: nil)
     var comicsForCharacter = [Comic]()
+    var seriesForCharacter = [Series]()
+    
+    weak var comicsCollectionView: UICollectionView?
+    weak var seriesCollectionView: UICollectionView?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,22 +73,47 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         
-        if indexPath.section == 1 {
+        if indexPath.section == 1 { // in the comics section
             let cell = self.tableView.dequeueReusableCellWithIdentifier("TVCELL") as TVCellWithCollectionView
             
-            cell.comicCollectionView.delegate = self
-            cell.comicCollectionView.dataSource = self
-            cell.comicCollectionView.backgroundColor = UIColor.lightGrayColor()
+            self.comicsCollectionView = cell.customCollectionView
+            
+            cell.customCollectionView.delegate = self
+            cell.customCollectionView.dataSource = self
+            cell.customCollectionView.backgroundColor = UIColor.lightGrayColor()
             MarvelNetworking.controller.getComicsWithCharacterID(self.characterToDisplay!.id, limit: 3, completion: { (errorString, comicsArray) -> Void in
                 if comicsArray != nil {
                     self.comicsForCharacter = Comic.parseJSONIntoComics(data: comicsArray!)
-                    cell.comicCollectionView.reloadData()
+                    cell.customCollectionView.reloadData()
                     
                 } else {
                     println("no data")
                 }
             })
+            
+            return cell
+        }
+        
+        
+        if indexPath.section == 2 { // in the series section
+            let cell = self.tableView.dequeueReusableCellWithIdentifier("TVCELL") as TVCellWithCollectionView
+            
+            self.seriesCollectionView = cell.customCollectionView
+            
+            cell.customCollectionView.delegate = self
+            cell.customCollectionView.dataSource = self
+            cell.customCollectionView.backgroundColor = UIColor.lightGrayColor()
 
+            MarvelNetworking.controller.getSeriesWithCharacterID(self.characterToDisplay!.id, limit: 2, completion: { (errorString, seriesArray) -> Void in
+                if seriesArray != nil {
+                    self.seriesForCharacter = Series.parseJSONIntoSeries(data: seriesArray!)
+                    cell.customCollectionView.reloadData()
+                    
+                } else {
+                    println("no data")
+                }
+            })
+            
             return cell
         }
         
@@ -121,7 +150,15 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
     
     // MARK: COLLECTION VIEW WITHIN A TABLEVIEW CELL
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.comicsForCharacter.count
+
+        if collectionView == self.comicsCollectionView {
+            println("num items in comics CV \(self.comicsForCharacter.count)")
+            return self.comicsForCharacter.count
+        }
+        else {
+            println("num items in series CV \(self.seriesForCharacter.count)")
+            return self.seriesForCharacter.count
+        }
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {

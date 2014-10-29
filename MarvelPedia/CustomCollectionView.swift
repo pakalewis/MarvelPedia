@@ -1,5 +1,5 @@
 //
-//  ComicCollectionView.swift
+//  CustomCollectionView.swift
 //  MarvelPedia
 //
 //  Created by Parker Lewis on 10/28/14.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ComicCollectionView: UICollectionView {
+class CustomCollectionView: UICollectionView {
 
     
     
