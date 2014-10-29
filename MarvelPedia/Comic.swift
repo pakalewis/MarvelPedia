@@ -12,14 +12,14 @@ import Foundation
 class Comic {
     let id: Int
     let title: String
-    let description: String
+    let description: String?
     let resourceURI: String
     let thumbnailURL: (path: String, ext: String)?
     
     init(data: NSDictionary) {
         self.id = data["id"] as Int
         self.title = data["title"] as String
-        self.description = data["description"] as String
+        self.description = data["description"] as? String
         self.resourceURI = data["resourceURI"] as String
         
         if let thumbnail = data["thumbnail"] as? [String : String] {
