@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2C262E7F1A0062180037D570 /* Comic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C262E7E1A0062180037D570 /* Comic.swift */; };
+		2C262E811A0065880037D570 /* Series.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C262E801A0065880037D570 /* Series.swift */; };
 		2C4BFFB419FEB8E70021A080 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4BFFB319FEB8E70021A080 /* AppDelegate.swift */; };
 		2C4BFFB719FEB8E70021A080 /* MarvelPedia.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2C4BFFB519FEB8E70021A080 /* MarvelPedia.xcdatamodeld */; };
 		2C4BFFB919FEB8E70021A080 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4BFFB819FEB8E70021A080 /* ViewController.swift */; };
@@ -45,6 +47,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2C262E7E1A0062180037D570 /* Comic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comic.swift; sourceTree = "<group>"; };
+		2C262E801A0065880037D570 /* Series.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Series.swift; sourceTree = "<group>"; };
 		2C4BFFAE19FEB8E70021A080 /* MarvelPedia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MarvelPedia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C4BFFB219FEB8E70021A080 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2C4BFFB319FEB8E70021A080 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -162,6 +166,8 @@
 			isa = PBXGroup;
 			children = (
 				2CD820EE19FEBE4700577D0A /* Character.swift */,
+				2C262E7E1A0062180037D570 /* Comic.swift */,
+				2C262E801A0065880037D570 /* Series.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -310,10 +316,12 @@
 				2C4BFFB919FEB8E70021A080 /* ViewController.swift in Sources */,
 				9A7CCD621A002D3B00FD5832 /* Queue.swift in Sources */,
 				2CC2C60819FEE49A00DE8A11 /* PrivateConstants.swift in Sources */,
+				2C262E811A0065880037D570 /* Series.swift in Sources */,
 				2CD820F119FEC7E600577D0A /* HomeVC.swift in Sources */,
 				2CC2C60A19FF0B5600DE8A11 /* CollectionHeader.swift in Sources */,
 				2C921B261A0026D100102185 /* TVCellWithCollectionView.swift in Sources */,
 				2C4BFFB719FEB8E70021A080 /* MarvelPedia.xcdatamodeld in Sources */,
+				2C262E7F1A0062180037D570 /* Comic.swift in Sources */,
 				2C921B221A00248E00102185 /* FrenemyCollectionView.swift in Sources */,
 				2CD820F319FEC90300577D0A /* CharacterCell.swift in Sources */,
 				9A8EDC3819FEC79C00CC3CCF /* NetworkController.swift in Sources */,

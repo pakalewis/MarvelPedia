@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="5RH-qv-9fs">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--HomeVC-->
@@ -25,11 +26,6 @@
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
-                                <activityIndicatorView key="backgroundView" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="whiteLarge" id="5yr-D5-riV" userLabel="Gray Activity Indicator">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="color" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                </activityIndicatorView>
                                 <cells/>
                                 <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="HEADER" reuseIdentifier="HEADER" id="VPk-hr-OqY" customClass="CollectionHeader" customModule="MarvelPedia" customModuleProvider="target">
                                     <rect key="frame" x="0.0" y="64" width="600" height="50"/>
@@ -51,13 +47,22 @@
                                     </connections>
                                 </collectionReusableView>
                             </collectionView>
+                            <activityIndicatorView hidden="YES" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="5yr-D5-riV" userLabel="Gray Activity Indicator">
+                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                                <color key="color" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="5yr-D5-riV" secondAttribute="bottom" id="COq-ZA-unG"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="cnf-ly-JUV" secondAttribute="bottom" id="R1h-18-RMt"/>
+                            <constraint firstItem="5yr-D5-riV" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="e8u-ku-0ik"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="5yr-D5-riV" secondAttribute="trailing" constant="-16" id="gve-ZY-jvZ"/>
                             <constraint firstItem="cnf-ly-JUV" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="niI-sg-KgE"/>
                             <constraint firstItem="cnf-ly-JUV" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="qT4-mz-USQ"/>
                             <constraint firstAttribute="trailing" secondItem="cnf-ly-JUV" secondAttribute="trailing" id="vFE-cD-Kjc"/>
+                            <constraint firstItem="5yr-D5-riV" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-16" id="wOj-TZ-jBb"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="szA-Nh-tfm"/>
