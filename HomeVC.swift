@@ -104,7 +104,7 @@ class HomeVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
         if indexPath.row + 1 == indexPathToLoadMoreCharacters {
             println("reloading")
             self.activityIndicator.startAnimating()
-            MarvelNetworking.controller.getCharacters(nameQuery: self.header.searchBar.text, startIndex: self.characters.count, completion: { (errorString, charactersArray) -> Void in
+            MarvelNetworking.controller.getCharacters(nameQuery: self.header.searchBar.text, startIndex: self.characters.count, limit: 40, completion: { (errorString, charactersArray) -> Void in
                 if errorString == nil {
                     var newCharacters = Character.parseJSONIntoCharacters(data: charactersArray!)
                     self.characters += newCharacters
@@ -132,7 +132,7 @@ class HomeVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
         self.collectionView.reloadData()
         self.activityIndicator.startAnimating()
         
-        MarvelNetworking.controller.getCharacters(nameQuery: searchBar.text, completion: { (errorString, charactersArray) -> Void in
+        MarvelNetworking.controller.getCharacters(nameQuery: searchBar.text, limit : 40, completion: { (errorString, charactersArray) -> Void in
             
             if charactersArray != nil {
                 self.characters = Character.parseJSONIntoCharacters(data: charactersArray!)
