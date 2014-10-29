@@ -33,6 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillTerminate(application: UIApplication) {
+        MarvelCaching.caching.clearMemoryCache()
         CoreDataManager.manager.saveContext()
     }
 
