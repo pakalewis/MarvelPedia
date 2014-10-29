@@ -104,7 +104,7 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
             cell.customCollectionView.dataSource = self
             cell.customCollectionView.backgroundColor = UIColor.lightGrayColor()
 
-            MarvelNetworking.controller.getSeriesWithCharacterID(self.characterToDisplay!.id, limit: 2, completion: { (errorString, seriesArray) -> Void in
+            MarvelNetworking.controller.getSeriesWithCharacterID(self.characterToDisplay!.id, limit: 3, completion: { (errorString, seriesArray) -> Void in
                 if seriesArray != nil {
                     self.seriesForCharacter = Series.parseJSONIntoSeries(data: seriesArray!)
                     cell.customCollectionView.reloadData()
