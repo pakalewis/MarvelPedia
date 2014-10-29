@@ -78,21 +78,11 @@ class MarvelNetworking: NetworkController {
     func getCharacters(nameQuery q: String? = nil, startIndex: Int? = nil, limit: Int? = nil, completion: (errorString: String?, charactersArray: NSArray?) -> Void) {
         var parameters: [NSString : AnyObject]! = [NSString : AnyObject]()
         parameters["nameStartsWith"] = q?
-        parameters["offset"] = startIndex?
-        
-        if limit? > 0 {
-            parameters["limit"] = limit > 100 ? 100 : limit
-        }
-        
         if parameters.isEmpty {
             parameters = nil
         }
         
-        performRequestWithURLPath("/characters", parameters: parameters, completion: {(data, errorString) -> Void in
-            self.processJSONData(data, errorString: errorString, completion: { (responseArray, errorString) -> Void in
-                completion(errorString: nil, charactersArray: responseArray)
-            })
-        })
+        getObjectsWithPath("/characters", params: parameters, startIndex: startIndex, limit: limit, completion: completion)
     }
     
     /**
@@ -106,21 +96,8 @@ class MarvelNetworking: NetworkController {
     */
     
     func getComicsWithCharacterID(charID: Int, startIndex: Int? = nil, limit: Int? = nil, completion: (errorString: String?, comicsArray: NSArray?) -> Void) {
-        var parameters: [NSString : AnyObject]! = [NSString : AnyObject]()
-        parameters["offset"] = startIndex?
-        if limit? > 0 {
-            parameters["limit"] = limit > 100 ? 100 : limit
-        }
         
-        if parameters.isEmpty {
-            parameters = nil
-        }
-        
-        performRequestWithURLPath("/characters/\(charID)/comics", parameters: parameters, completion: { (data, errorString) -> Void in
-            self.processJSONData(data, errorString: errorString, completion: { (responseArray, errorString) -> Void in
-                completion(errorString: nil, comicsArray: responseArray)
-            })
-        })
+        getObjectsWithPath("/characters/\(charID)/comics", startIndex: startIndex, limit: limit, completion: completion)
     }
     
     /**
@@ -134,21 +111,7 @@ class MarvelNetworking: NetworkController {
     */
     
     func getSeriesWithCharacterID(charID: Int, startIndex: Int? = nil, limit: Int? = nil, completion: (errorString: String?, seriesArray: NSArray?) -> Void) {
-        var parameters: [NSString : AnyObject]! = [NSString : AnyObject]()
-        parameters["offset"] = startIndex?
-        if limit? > 0 {
-            parameters["limit"] = limit > 100 ? 100 : limit
-        }
-        
-        if parameters.isEmpty {
-            parameters = nil
-        }
-        
-        performRequestWithURLPath("/characters/\(charID)/series", parameters: parameters, completion: { (data, errorString) -> Void in
-            self.processJSONData(data, errorString: errorString, completion: { (responseArray, errorString) -> Void in
-                completion(errorString: nil, seriesArray: responseArray)
-            })
-        })
+        getObjectsWithPath("/characters/\(charID)/series", startIndex: startIndex, limit: limit, completion: completion)
     }
     
     /**
@@ -180,6 +143,30 @@ class MarvelNetworking: NetworkController {
     }
     
     // MARK: Private Methods
+    private func getObjectsWithPath(URLPath: String, params: [NSString : AnyObject]? = nil, startIndex: Int? = nil, limit: Int? = nil, completion: (errorString: String?, charactersArray: NSArray?) -> Void) {
+        var parameters: [NSString : AnyObject]! = [NSString : AnyObject]()
+        if let extParams = params {
+            for (key, value) in extParams {
+                parameters[key] = value
+            }
+        }
+        
+        parameters["offset"] = startIndex?
+        if limit? > 0 {
+            parameters["limit"] = limit > 100 ? 100 : limit
+        }
+        
+        if parameters.isEmpty {
+            parameters = nil
+        }
+        
+        performRequestWithURLPath(URLPath, parameters: parameters, completion: {(data, errorString) -> Void in
+            self.processJSONData(data, errorString: errorString, completion: { (responseArray, errorString) -> Void in
+                completion(errorString: nil, charactersArray: responseArray)
+            })
+        })
+    }
+    
     private func processJSONData(data: NSData?, errorString: String?, completion: (responseArray: NSArray?, errorString: String?) -> Void) {
         
         var newErrorString = errorString
@@ -213,7 +200,7 @@ class MarvelNetworking: NetworkController {
         }
     }
     
-    // Overrides
+    // MARK: Overrides
     
     override func performRequestWithURLString(URLString: String, method: String = "GET", parameters: [NSString: AnyObject]? = nil, acceptJSONResponse: Bool = false, sendBodyAsJSON: Bool = false, completion: (data: NSData!, errorString: String!) -> Void) {
         var finalParams = parameters == nil ? [NSString : AnyObject]() : parameters
