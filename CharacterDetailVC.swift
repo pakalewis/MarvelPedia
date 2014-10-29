@@ -150,7 +150,6 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
     
     // MARK: COLLECTION VIEW WITHIN A TABLEVIEW CELL
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-
         if collectionView == self.comicsCollectionView {
             println("num items in comics CV \(self.comicsForCharacter.count)")
             return self.comicsForCharacter.count
@@ -162,44 +161,87 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("COMIC_CELL", forIndexPath: indexPath) as ComicCell
         
-        // pull the comic from the comicsForCharacter array and grab it's name and image
-        let currentComic = self.comicsForCharacter[indexPath.row]
-        if let thumb = currentComic.thumbnailURL {
-            let thumbURL = "\(thumb.path)/standard_xlarge.\(thumb.ext)"
+        // could change this to be creating different cells: ComicCell or SeriesCell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("COMIC_CELL", forIndexPath: indexPath) as ComicCell
+
+        if collectionView == self.comicsCollectionView {
+            let currentComic = self.comicsForCharacter[indexPath.row]
             
-            MarvelCaching.caching.cachedImageForURLString(thumbURL, completion: { (image) -> Void in
-                if image != nil {
-                    cell.comicImageView.image = image
-                }
-                else {
-                    MarvelNetworking.controller.getImageAtURLString(thumbURL, completion: { (image, errorString) -> Void in
-                        if errorString != nil {
-                            println(errorString)
-                            return
-                        }
-                        
-                        MarvelCaching.caching.setCachedImage(image!, forURLString: thumbURL)
+            if let thumb = currentComic.thumbnailURL {
+                let thumbURL = "\(thumb.path)/standard_xlarge.\(thumb.ext)"
+                
+                MarvelCaching.caching.cachedImageForURLString(thumbURL, completion: { (image) -> Void in
+                    if image != nil {
                         cell.comicImageView.image = image
-                    })
-                }
-            })
-            
+                    }
+                    else {
+                        MarvelNetworking.controller.getImageAtURLString(thumbURL, completion: { (image, errorString) -> Void in
+                            if errorString != nil {
+                                println(errorString)
+                                return
+                            }
+                            
+                            MarvelCaching.caching.setCachedImage(image!, forURLString: thumbURL)
+                            cell.comicImageView.image = image
+                        })
+                    }
+                })
+                
+            }
+            return cell
         }
-        return cell
+        else {
+            let currentSeries = self.seriesForCharacter[indexPath.row]
+            if let thumb = currentSeries.thumbnailURL {
+                let thumbURL = "\(thumb.path)/standard_xlarge.\(thumb.ext)"
+                
+                MarvelCaching.caching.cachedImageForURLString(thumbURL, completion: { (image) -> Void in
+                    if image != nil {
+                        cell.comicImageView.image = image
+                    }
+                    else {
+                        MarvelNetworking.controller.getImageAtURLString(thumbURL, completion: { (image, errorString) -> Void in
+                            if errorString != nil {
+                                println(errorString)
+                                return
+                            }
+                            
+                            MarvelCaching.caching.setCachedImage(image!, forURLString: thumbURL)
+                            cell.comicImageView.image = image
+                        })
+                    }
+                })
+                
+            }
+            return cell
+        }
+
     }
 
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        println("comic selected at \(indexPath.row)")
-        let comic = self.comicsForCharacter[indexPath.row] as Comic
-        println(comic.title)
+        if collectionView == self.comicsCollectionView {
+            println("comic selected at \(indexPath.row)")
+            let comic = self.comicsForCharacter[indexPath.row] as Comic
+            println(comic.title)
+            var comicVC = storyboard?.instantiateViewControllerWithIdentifier("COMIC_VC") as ComicVC
+            comicVC.comic = comic
+            self.navigationController?.pushViewController(comicVC, animated: true)
+            
+        }
+        else {
+            println("series selected at \(indexPath.row)")
+            let series = self.seriesForCharacter[indexPath.row] as Series
+            println(series.title)
+            var seriesVC = storyboard?.instantiateViewControllerWithIdentifier("SERIES_VC") as SeriesVC
+            seriesVC.series = series
+            self.navigationController?.pushViewController(seriesVC, animated: true)
+            
+        }
+
         
 
-        var comicVC = storyboard?.instantiateViewControllerWithIdentifier("COMIC_VC") as ComicVC
-        comicVC.comic = comic
-        self.navigationController?.pushViewController(comicVC, animated: true)
     }
     
     
