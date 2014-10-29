@@ -12,7 +12,7 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
 
     @IBOutlet var tableView : UITableView!
     var characterToDisplay : Character?
-    let tableViewHeaders = ["", "Friends", "Enemies"]
+    let tableViewHeaders = ["", "Comics", "Enemies"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
