@@ -132,7 +132,7 @@ class HomeVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
         self.collectionView.reloadData()
         self.activityIndicator.startAnimating()
         
-        MarvelNetworking.controller.getCharacters(nameQuery: searchBar.text, limit : 40, completion: { (errorString, charactersArray) -> Void in
+        MarvelNetworking.controller.getCharacters(nameQuery: searchBar.text, limit : 20, completion: { (errorString, charactersArray) -> Void in
             
             if charactersArray != nil {
                 self.characters = Character.parseJSONIntoCharacters(data: charactersArray!)
