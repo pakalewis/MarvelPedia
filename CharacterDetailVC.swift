@@ -142,7 +142,7 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
                         return
                     }
                     
-                    MarvelCaching.caching.setChachedImage(image!, forURLString: thumbURL)
+                    MarvelCaching.caching.setCachedImage(image!, forURLString: thumbURL)
                         cell.comicImageView.image = image
                 })
             }
