@@ -13,6 +13,7 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
     @IBOutlet var tableView : UITableView!
     var characterToDisplay : Character?
     let tableViewHeaders = ["", "Comics", "Enemies"]
+    var comicVC = ComicVC(nibName: "ComicVC", bundle: nil)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -121,12 +122,13 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         println("frenemy selected at \(indexPath.row)")
         
-        var characterDetailVC = storyboard?.instantiateViewControllerWithIdentifier("CHARACTER_DETAIL_VC") as CharacterDetailVC
+//        self.comicVC  (pass the selected comic)
+//        self.navigationController?.pushViewController(self.comicVC, animated: true)
 
-        // grab the selected frenemy and pass on to another CharacterDetailVC
-        //        characterDetailVC.characterToDisplay = self.characters[indexPath.row]
-        
-//        self.navigationController?.pushViewController(characterDetailVC, animated: true)
+        self.comicVC.modalTransitionStyle = UIModalTransitionStyle.PartialCurl
+        presentViewController(self.comicVC, animated: true, completion: nil)
+    
+    
     }
     
     
