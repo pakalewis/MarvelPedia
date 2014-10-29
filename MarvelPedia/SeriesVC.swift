@@ -1,5 +1,5 @@
 //
-//  ComicVC.swift
+//  SeriesVC.swift
 //  MarvelPedia
 //
 //  Created by Parker Lewis on 10/29/14.
@@ -8,25 +8,25 @@
 
 import UIKit
 
-class ComicVC: UIViewController {
+class SeriesVC: UIViewController {
 
-    var comic: Comic?
-    @IBOutlet var comicImageView : UIImageView!
-    @IBOutlet var comicTitleLabel : UILabel!
+    var series: Series?
+    @IBOutlet var seriesImageView : UIImageView!
+    @IBOutlet var seriesTitleLabel : UILabel!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         
-        self.comicTitleLabel.text = self.comic!.title
         
-        if let thumb = self.comic?.thumbnailURL {
+        self.seriesTitleLabel.text = self.series?.title
+        
+        if let thumb = self.series?.thumbnailURL {
             let thumbURL = "\(thumb.path)/portrait_uncanny.\(thumb.ext)"
             println(thumbURL)
             if let image = MarvelCaching.caching.cachedImageForURLString(thumbURL) {
-                self.comicImageView.image = image
+                self.seriesImageView.image = image
             }
             else {
                 self.activityIndicator.startAnimating()
@@ -39,11 +39,10 @@ class ComicVC: UIViewController {
                     
                     MarvelCaching.caching.setCachedImage(image!, forURLString: thumbURL)
                     self.activityIndicator.stopAnimating()
-                    self.comicImageView.image = image
+                    self.seriesImageView.image = image
                 })
             }
         }
-
+        
     }
-
 }

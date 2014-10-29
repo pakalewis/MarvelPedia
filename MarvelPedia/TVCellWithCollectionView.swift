@@ -11,7 +11,7 @@ import UIKit
 class TVCellWithCollectionView: UITableViewCell {
 
     
-    @IBOutlet weak var comicCollectionView: ComicCollectionView!
+    @IBOutlet weak var customCollectionView: CustomCollectionView!
     
     
     
@@ -19,7 +19,7 @@ class TVCellWithCollectionView: UITableViewCell {
         super.awakeFromNib()
 
         let nib = UINib(nibName: "ComicCell", bundle: NSBundle.mainBundle())
-        self.comicCollectionView.registerNib(nib, forCellWithReuseIdentifier: "COMIC_CELL")
+        self.customCollectionView.registerNib(nib, forCellWithReuseIdentifier: "COMIC_CELL")
     
     }
 }
