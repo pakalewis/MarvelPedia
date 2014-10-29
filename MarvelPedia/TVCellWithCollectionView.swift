@@ -11,15 +11,15 @@ import UIKit
 class TVCellWithCollectionView: UITableViewCell {
 
     
-    @IBOutlet weak var frenemyCV: FrenemyCollectionView!
+    @IBOutlet weak var comicCollectionView: ComicCollectionView!
     
     
     
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        let nib = UINib(nibName: "CharacterCell", bundle: NSBundle.mainBundle())
-        self.frenemyCV.registerNib(nib, forCellWithReuseIdentifier: "CHARACTER_CELL")
+        let nib = UINib(nibName: "ComicCell", bundle: NSBundle.mainBundle())
+        self.comicCollectionView.registerNib(nib, forCellWithReuseIdentifier: "COMIC_CELL")
     
     }
 }

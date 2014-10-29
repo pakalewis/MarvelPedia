@@ -12,7 +12,7 @@
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wIV-Re-fLi" id="c2d-rj-fAo">
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="yAc-R9-NAy" customClass="FrenemyCollectionView" customModule="MarvelPedia" customModuleProvider="target">
+                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="yAc-R9-NAy" customClass="ComicCollectionView" customModule="MarvelPedia" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="490" height="183"/>
                         <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="SKl-qy-pnd">
                             <size key="itemSize" width="50" height="50"/>
@@ -30,7 +30,7 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
-                <outlet property="frenemyCV" destination="yAc-R9-NAy" id="ztj-i1-j0Z"/>
+                <outlet property="comicCollectionView" destination="yAc-R9-NAy" id="zD7-4o-NK3"/>
             </connections>
             <point key="canvasLocation" x="627" y="361"/>
         </tableViewCell>
