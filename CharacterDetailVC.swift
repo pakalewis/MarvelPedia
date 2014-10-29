@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate {
+class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UIScrollViewDelegate {
 
     @IBOutlet var tableView : UITableView!
     var characterToDisplay : Character?
@@ -18,6 +18,11 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
     
     weak var comicsCollectionView: UICollectionView?
     weak var seriesCollectionView: UICollectionView?
+    var headerImageView: UIImageView!
+    var headerActivityIndicator: UIActivityIndicatorView!
+    let kDefaultHeaderImageYOffset: CGFloat = -64
+    var headerImageYOffset: CGFloat = -64
+    var oldScrollViewY: CGFloat = 0
     
     
     override func viewDidLoad() {
@@ -36,6 +41,55 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
         
         self.tableView.estimatedRowHeight = 100.0
         self.tableView.rowHeight = UITableViewAutomaticDimension
+
+        headerImageView = UIImageView(frame: CGRect(x: 0, y: headerImageYOffset, width: self.view.frame.width, height: self.view.frame.height / 2.5 + 30))
+        headerImageView.contentMode = .ScaleAspectFill
+        headerImageView.autoresizingMask = .FlexibleWidth
+        headerImageView.clipsToBounds = true
+        self.view.insertSubview(headerImageView, belowSubview: tableView)
+        
+        headerActivityIndicator = UIActivityIndicatorView(frame: headerImageView.frame)
+        headerActivityIndicator.hidesWhenStopped = true
+        headerActivityIndicator.activityIndicatorViewStyle = .Gray
+        self.view.insertSubview(headerActivityIndicator, aboveSubview: headerImageView)
+        
+        tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: headerImageView.frame.height + kDefaultHeaderImageYOffset * 2))
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if let thumb = characterToDisplay?.thumbnailURL {
+            let thumbURL = "\(thumb.path).\(thumb.ext)"
+            
+            MarvelCaching.caching.cachedImageForURLString(thumbURL, completion: { (image) -> Void in
+                if image != nil {
+                    self.headerImageView.image = image
+                    return
+                }
+                
+                self.headerActivityIndicator.startAnimating()
+                MarvelNetworking.controller.getImageAtURLString(thumbURL, completion: { (image, errorString) -> Void in
+                    self.headerActivityIndicator.stopAnimating()
+                    if errorString != nil {
+                        println(errorString)
+                        return
+                    }
+                    
+                    MarvelCaching.caching.setCachedImage(image!, forURLString: thumbURL)
+                    
+                    UIView.transitionWithView(self.headerImageView, duration: 0.3, options: UIViewAnimationOptions.TransitionCurlDown, animations: { () -> Void in
+                        self.headerImageView.image = image
+                    }, completion: nil)
+                    
+                })
+                
+            })
+        }
+        else {
+            headerImageView.image = UIImage(named: "notfound_image_big.jpg")
+        }
+        
     }
     
     
@@ -45,13 +99,18 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        var sectionHeaderLabel = UILabel()
-        sectionHeaderLabel.text = self.tableViewHeaders[section]
-        sectionHeaderLabel.font = UIFont(name: "AvenirNext-Bold", size: 25.0)
-        sectionHeaderLabel.textAlignment = NSTextAlignment.Center
-        sectionHeaderLabel.textColor = UIColor.blackColor()
-        sectionHeaderLabel.backgroundColor = UIColor.grayColor()
-        return sectionHeaderLabel
+        if section == 0 {
+            return nil
+        }
+        else {
+            var sectionHeaderLabel = UILabel()
+            sectionHeaderLabel.text = self.tableViewHeaders[section]
+            sectionHeaderLabel.font = UIFont(name: "AvenirNext-Bold", size: 25.0)
+            sectionHeaderLabel.textAlignment = NSTextAlignment.Center
+            sectionHeaderLabel.textColor = UIColor.blackColor()
+            sectionHeaderLabel.backgroundColor = UIColor.lightGrayColor()
+            return sectionHeaderLabel
+        }
     }
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -238,8 +297,21 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
 
     }
     
-    
-    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        let scrollOffset = scrollView.contentOffset.y;
+        if scrollOffset < 0 {
+            // Adjust image proportionally
+            if -scrollOffset >= headerImageView.frame.height + kDefaultHeaderImageYOffset * 2 - 40 {
+                scrollView.setContentOffset(CGPointMake(scrollView.contentOffset.x, oldScrollViewY), animated: false)
+                return
+            }
+            
+            oldScrollViewY = scrollOffset
+            headerImageView.frame.origin.y = headerImageYOffset - ((scrollOffset / 2));
+        } else {
+            headerImageView.frame.origin.y = headerImageYOffset - scrollOffset;
+        }
+    }
     
     
     
