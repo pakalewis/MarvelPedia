@@ -348,6 +348,7 @@
 				2C262E7F1A0062180037D570 /* Comic.swift in Sources */,
 				2C921B221A00248E00102185 /* FrenemyCollectionView.swift in Sources */,
 				2CD820F319FEC90300577D0A /* CharacterCell.swift in Sources */,
+				48A0E1531A00397A00343EF8 /* IntroPageModelController.swift in Sources */,
 				9ACAFCF01A00C711008DCCBE /* CachedImage.swift in Sources */,
 				9A8EDC3819FEC79C00CC3CCF /* NetworkController.swift in Sources */,
 				2C4BFFB419FEB8E70021A080 /* AppDelegate.swift in Sources */,
