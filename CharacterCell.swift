@@ -18,7 +18,7 @@ class CharacterCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.layer.cornerRadius = 15
+        self.imageView.layer.cornerRadius = 15
         
     }
 
