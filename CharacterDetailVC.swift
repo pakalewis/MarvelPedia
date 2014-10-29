@@ -12,7 +12,7 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
 
     @IBOutlet var tableView : UITableView!
     var characterToDisplay : Character?
-    let tableViewHeaders = ["", "Comics", "Series"]
+    let tableViewHeaders = ["Character", "Comics", "Series"]
     var comicsForCharacter = [Comic]()
     var seriesForCharacter = [Series]()
     
@@ -34,7 +34,8 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
         let newNib = UINib(nibName: "CustomTableViewCell", bundle: nil)
         self.tableView.registerNib(newNib, forCellReuseIdentifier: "CUSTOM_CELL")
         
-        
+        self.tableView.estimatedRowHeight = 100.0
+        self.tableView.rowHeight = UITableViewAutomaticDimension
     }
     
     
@@ -46,15 +47,22 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         var sectionHeaderLabel = UILabel()
         sectionHeaderLabel.text = self.tableViewHeaders[section]
-        sectionHeaderLabel.font = UIFont(name: "Arial", size: 22.0)
+        sectionHeaderLabel.font = UIFont(name: "AvenirNext-Bold", size: 25.0)
         sectionHeaderLabel.textAlignment = NSTextAlignment.Center
-        sectionHeaderLabel.textColor = UIColor.blueColor()
-        sectionHeaderLabel.backgroundColor = UIColor.lightGrayColor()
+        sectionHeaderLabel.textColor = UIColor.blackColor()
+        sectionHeaderLabel.backgroundColor = UIColor.grayColor()
         return sectionHeaderLabel
+    }
+    
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 45.0
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
+            if self.characterToDisplay?.bio == "" {
+                return 1 // no bio to display
+            }
             return 2
         } else {
             return 1
@@ -68,7 +76,7 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
             return customCellHeight
         } else {
             
-            return 30.0
+            return UITableViewAutomaticDimension
         }
     }
     
@@ -122,9 +130,9 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
         
         let cell = self.tableView.dequeueReusableCellWithIdentifier("INFO_CELL", forIndexPath: indexPath) as InfoCell
         if indexPath.row == 0 {
-            cell.textLabel.text = "Name: \(self.characterToDisplay!.name)"
+            cell.infoCellLabel.text = "\(self.characterToDisplay!.name)"
         } else {
-            cell.textLabel.text = "Bio: \(self.characterToDisplay!.bio)"
+            cell.infoCellLabel.text = "\(self.characterToDisplay!.bio)"
         }
 
         

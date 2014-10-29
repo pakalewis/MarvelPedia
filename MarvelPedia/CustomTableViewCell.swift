@@ -27,6 +27,11 @@ class CustomTableViewCell: UITableViewCell {
         // grab screen size
         var screenWidth = UIScreen.mainScreen().bounds.width
         
-        self.flowlayout.itemSize = CGSize(width: screenWidth / 3, height: screenWidth / 3)
+        self.flowlayout.itemSize = CGSize(width: screenWidth / 3, height: 170)
+
+        // check if device is iPad
+        if UIDevice.currentDevice().userInterfaceIdiom == UIUserInterfaceIdiom.Pad {
+            self.flowlayout.itemSize = CGSize(width: screenWidth / 3, height: 220)
+        }
     }
 }
