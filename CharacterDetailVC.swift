@@ -35,8 +35,8 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
         let nib = UINib(nibName: "InfoCell", bundle: NSBundle.mainBundle())
         self.tableView.registerNib(nib, forCellReuseIdentifier: "INFO_CELL")
         
-        let newNib = UINib(nibName: "TVCellWithCollectionView", bundle: nil)
-        self.tableView.registerNib(newNib, forCellReuseIdentifier: "TVCELL")
+        let newNib = UINib(nibName: "CustomTableViewCell", bundle: nil)
+        self.tableView.registerNib(newNib, forCellReuseIdentifier: "CUSTOM_CELL")
         
         headerImageView = UIImageView(frame: CGRect(x: 0, y: headerImageYOffset, width: self.view.frame.width, height: self.view.frame.height / 2.5 + 30))
         headerImageView.contentMode = .ScaleAspectFill
@@ -77,9 +77,12 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        var screenHeight = UIScreen.mainScreen().bounds.height
         if indexPath.section != 0 {
-            return 80.0
+            var customCellHeight = screenHeight / 3
+            return customCellHeight
         } else {
+            
             return 30.0
         }
     }
@@ -88,7 +91,7 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
         
         
         if indexPath.section == 1 { // in the comics section
-            let cell = self.tableView.dequeueReusableCellWithIdentifier("TVCELL") as TVCellWithCollectionView
+            let cell = self.tableView.dequeueReusableCellWithIdentifier("CUSTOM_CELL") as CustomTableViewCell
             
             self.comicsCollectionView = cell.customCollectionView
             
@@ -110,7 +113,7 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
         
         
         if indexPath.section == 2 { // in the series section
-            let cell = self.tableView.dequeueReusableCellWithIdentifier("TVCELL") as TVCellWithCollectionView
+            let cell = self.tableView.dequeueReusableCellWithIdentifier("CUSTOM_CELL") as CustomTableViewCell
             
             self.seriesCollectionView = cell.customCollectionView
             
@@ -178,59 +181,43 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
         
         // could change this to be creating different cells: ComicCell or SeriesCell
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("COMIC_CELL", forIndexPath: indexPath) as ComicCell
-
+        cell.backgroundColor = UIColor.grayColor()
+        
+        // determine the image url
+        var sourceURL = ""
         if collectionView == self.comicsCollectionView {
             let currentComic = self.comicsForCharacter[indexPath.row]
-            
             if let thumb = currentComic.thumbnailURL {
-                let thumbURL = "\(thumb.path)/standard_xlarge.\(thumb.ext)"
-                
-                MarvelCaching.caching.cachedImageForURLString(thumbURL, completion: { (image) -> Void in
-                    if image != nil {
-                        cell.comicImageView.image = image
-                    }
-                    else {
-                        MarvelNetworking.controller.getImageAtURLString(thumbURL, completion: { (image, errorString) -> Void in
-                            if errorString != nil {
-                                println(errorString)
-                                return
-                            }
-                            
-                            MarvelCaching.caching.setCachedImage(image!, forURLString: thumbURL)
-                            cell.comicImageView.image = image
-                        })
-                    }
-                })
-                
+                sourceURL = "\(thumb.path)/standard_xlarge.\(thumb.ext)"
             }
-            return cell
         }
         else {
             let currentSeries = self.seriesForCharacter[indexPath.row]
             if let thumb = currentSeries.thumbnailURL {
-                let thumbURL = "\(thumb.path)/standard_xlarge.\(thumb.ext)"
-                
-                MarvelCaching.caching.cachedImageForURLString(thumbURL, completion: { (image) -> Void in
-                    if image != nil {
-                        cell.comicImageView.image = image
-                    }
-                    else {
-                        MarvelNetworking.controller.getImageAtURLString(thumbURL, completion: { (image, errorString) -> Void in
-                            if errorString != nil {
-                                println(errorString)
-                                return
-                            }
-                            
-                            MarvelCaching.caching.setCachedImage(image!, forURLString: thumbURL)
-                            cell.comicImageView.image = image
-                        })
-                    }
-                })
-                
+                sourceURL = "\(thumb.path)/standard_xlarge.\(thumb.ext)"
             }
-            return cell
         }
-
+        
+        // either grab the image from the cache or download it
+        MarvelCaching.caching.cachedImageForURLString(sourceURL, completion: { (image) -> Void in
+            if image != nil {
+                cell.comicImageView.image = image
+            }
+            else {
+                cell.activityIndicator.startAnimating()
+                MarvelNetworking.controller.getImageAtURLString(sourceURL, completion: { (image, errorString) -> Void in
+                    if errorString != nil {
+                        println(errorString)
+                        return
+                    }
+                    MarvelCaching.caching.setCachedImage(image!, forURLString: sourceURL)
+                    cell.activityIndicator.stopAnimating()
+                    cell.comicImageView.image = image
+                })
+            }
+        })
+        
+        return cell
     }
 
     

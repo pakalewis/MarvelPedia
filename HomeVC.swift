@@ -82,6 +82,9 @@ class HomeVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
                 
             })
         }
+        else {
+            cell.imageView.image = UIImage(named: "notfound_image200x200.jpg")
+        }
         
         return cell
     }
