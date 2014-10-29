@@ -10,8 +10,8 @@ import UIKit
 
 class IntroPageVC: UIViewController {
 
-    @IBOutlet weak var dataLabel: UILabel!
-    var dataObject: AnyObject?
+    @IBOutlet weak var imageView: UIImageView!
+    var imageToDisplay: UIImage?
     
     
     override func viewDidLoad() {
@@ -26,10 +26,8 @@ class IntroPageVC: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        if let obj: AnyObject = dataObject {
-            self.dataLabel!.text = obj.description
-        } else {
-            self.dataLabel!.text = ""
+        if let image = self.imageToDisplay {
+            self.imageView.image = image
         }
     }
 

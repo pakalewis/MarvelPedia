@@ -62,8 +62,41 @@ class MarvelCaching {
     :return: UIImage object associated with URL or nil if not found in cache.
     
     */
-    func cachedImageForURLString(URLString: String) -> UIImage? {
-        return imagesDic[URLString]
+    func cachedImageForURLString(URLString: String, completion: (UIImage?) -> Void) {
+        if let imageFromMemory = imagesDic[URLString] {
+            completion(imageFromMemory)
+            return
+        } else {
+            // No image found in memory cache, try Core Data.
+            if let cachedImagesArray = CoreDataManager.manager.fetchObjectsWithEntityClass(CachedImage.classForCoder(), predicateFormat: "imageURL == %@", URLString) {
+                if let cachedImage = cachedImagesArray.first as? CachedImage {
+                    // Got image's path
+                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { () -> Void in
+                        if let imageFromDisc = UIImage(contentsOfFile: cachedImage.localPath) {
+                            // Image is found on disc and is loaded.
+                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                // Put the loaded image into memory cache.
+                                self.setCachedImage(imageFromDisc, forURLString: URLString)
+                                completion(imageFromDisc)
+                            })
+                        }
+                        else {
+                            // Couldn't load image from path, so delete the object from CoreData
+                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                CoreDataManager.manager.deleteObject(cachedImage)
+                                CoreDataManager.manager.saveContext()
+                                completion(nil)
+                            })
+                        }
+                        
+                    })
+                    return
+                }
+            }
+        }
+        
+        completion(nil)
+        
     }
     
     /**
@@ -96,7 +129,7 @@ class MarvelCaching {
                                 if var pathString = pathList.first as? NSString {
                                     if let path = NSURL(fileURLWithPath: pathString.stringByAppendingPathComponent(NSUUID().UUIDString)) {
                                         if UIImagePNGRepresentation(image).writeToURL(path, atomically: false) {
-                                            cachedImage.localPath = path.absoluteString!
+                                            cachedImage.localPath = path.path!
                                         }
                                     }
                                 }

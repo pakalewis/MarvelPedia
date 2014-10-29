@@ -52,13 +52,19 @@ class HomeVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
         if let thumb = currentCharacter.thumbnailURL {
             let thumbURL = "\(thumb.path)/standard_xlarge.\(thumb.ext)"
             
-            if let image = MarvelCaching.caching.cachedImageForURLString(thumbURL) {
-                cell.imageView.image = image
-            }
-            else {
+            
+            MarvelCaching.caching.cachedImageForURLString(thumbURL, completion: { (image) -> Void in
+                if image != nil {
+                    if cell.tag == currentTag {
+                        cell.imageView.image = image
+                    }
+                    return
+                }
+                
                 cell.activityIndicator.startAnimating()
                 
                 MarvelNetworking.controller.getImageAtURLString(thumbURL, completion: { (image, errorString) -> Void in
+                    cell.activityIndicator.stopAnimating()
                     if errorString != nil {
                         println(errorString)
                         return
@@ -66,11 +72,11 @@ class HomeVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
                     
                     MarvelCaching.caching.setCachedImage(image!, forURLString: thumbURL)
                     if cell.tag == currentTag {
-                        cell.activityIndicator.stopAnimating()
                         cell.imageView.image = image
                     }
                 })
-            }
+                
+            })
         }
         
         return cell
