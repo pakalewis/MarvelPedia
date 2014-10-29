@@ -100,9 +100,7 @@ class HomeVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
             return
         }
         var indexPathToLoadMoreCharacters = self.characters.count
-        println(indexPath.row)
         if indexPath.row + 1 == indexPathToLoadMoreCharacters {
-            println("reloading")
             self.activityIndicator.startAnimating()
             MarvelNetworking.controller.getCharacters(nameQuery: self.header.searchBar.text, startIndex: self.characters.count, limit: 40, completion: { (errorString, charactersArray) -> Void in
                 if errorString == nil {
@@ -114,7 +112,6 @@ class HomeVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
                 }
                 
                 if charactersArray?.count == 0 {
-                    println("is empty")
                     self.canLoadMore = false
                 }
                 self.activityIndicator.stopAnimating()
