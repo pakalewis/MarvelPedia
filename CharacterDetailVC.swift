@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate {
+class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UIScrollViewDelegate {
 
     @IBOutlet var tableView : UITableView!
     var characterToDisplay : Character?
@@ -18,6 +18,10 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
     
     weak var comicsCollectionView: UICollectionView?
     weak var seriesCollectionView: UICollectionView?
+    var headerImageView: UIImageView!
+    let kDefaultHeaderImageYOffset: CGFloat = -64
+    var headerImageYOffset: CGFloat = -64
+    var oldScrollViewY: CGFloat = 0
     
     
     override func viewDidLoad() {
@@ -34,8 +38,13 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
         let newNib = UINib(nibName: "TVCellWithCollectionView", bundle: nil)
         self.tableView.registerNib(newNib, forCellReuseIdentifier: "TVCELL")
         
+        headerImageView = UIImageView(frame: CGRect(x: 0, y: headerImageYOffset, width: self.view.frame.width, height: self.view.frame.height / 2.5 + 30))
+        headerImageView.contentMode = .ScaleAspectFill
+        headerImageView.autoresizingMask = .FlexibleWidth
+        headerImageView.clipsToBounds = true
+        self.view.insertSubview(headerImageView, belowSubview: tableView)
         
-
+        tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: headerImageView.frame.height + kDefaultHeaderImageYOffset * 2))
     }
     
     
@@ -45,13 +54,18 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        var sectionHeaderLabel = UILabel()
-        sectionHeaderLabel.text = self.tableViewHeaders[section]
-        sectionHeaderLabel.font = UIFont(name: "Arial", size: 22.0)
-        sectionHeaderLabel.textAlignment = NSTextAlignment.Center
-        sectionHeaderLabel.textColor = UIColor.blueColor()
-        sectionHeaderLabel.backgroundColor = UIColor.lightGrayColor()
-        return sectionHeaderLabel
+        if section == 0 {
+            return nil
+        }
+        else {
+            var sectionHeaderLabel = UILabel()
+            sectionHeaderLabel.text = self.tableViewHeaders[section]
+            sectionHeaderLabel.font = UIFont(name: "Arial", size: 22.0)
+            sectionHeaderLabel.textAlignment = NSTextAlignment.Center
+            sectionHeaderLabel.textColor = UIColor.blueColor()
+            sectionHeaderLabel.backgroundColor = UIColor.lightGrayColor()
+            return sectionHeaderLabel
+        }
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -244,8 +258,21 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
 
     }
     
-    
-    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        let scrollOffset = scrollView.contentOffset.y;
+        if scrollOffset < 0 {
+            // Adjust image proportionally
+            if -scrollOffset >= headerImageView.frame.height + kDefaultHeaderImageYOffset * 2 - 40 {
+                scrollView.setContentOffset(CGPointMake(scrollView.contentOffset.x, oldScrollViewY), animated: false)
+                return
+            }
+            
+            oldScrollViewY = scrollOffset
+            headerImageView.frame.origin.y = headerImageYOffset - ((scrollOffset / 2));
+        } else {
+            headerImageView.frame.origin.y = headerImageYOffset - scrollOffset;
+        }
+    }
     
     
     
