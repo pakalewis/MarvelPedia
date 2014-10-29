@@ -12,7 +12,9 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
 
     @IBOutlet var tableView : UITableView!
     var characterToDisplay : Character?
-    let tableViewHeaders = ["", "Comics", "Enemies"]
+    let tableViewHeaders = ["", "Comics", "Series"]
+//    var comicVC = ComicVC(nibName: "ComicVC", bundle: nil)
+    var comicsForCharacter = [Comic]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,18 +22,16 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
         self.tableView.dataSource = self
         self.tableView.delegate = self
         
-//        let headerNib = UINib(nibName: "TableHeader", bundle: NSBundle.mainBundle())
-//        let headerView = UIView(
-//        self.tableView.tableHeaderView = headerNib
-//
-//        let headerView = NSBundle.mainBundle().loadNibNamed("TableHeader", owner: self, options: nil)
-        
+
         // register the nibs for the two types of tableview cells
         let nib = UINib(nibName: "InfoCell", bundle: NSBundle.mainBundle())
         self.tableView.registerNib(nib, forCellReuseIdentifier: "INFO_CELL")
         
         let newNib = UINib(nibName: "TVCellWithCollectionView", bundle: nil)
         self.tableView.registerNib(newNib, forCellReuseIdentifier: "TVCELL")
+        
+        
+
     }
     
     
@@ -68,11 +68,23 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        if indexPath.section != 0 {
+        
+        if indexPath.section == 1 {
             let cell = self.tableView.dequeueReusableCellWithIdentifier("TVCELL") as TVCellWithCollectionView
-            cell.frenemyCV.delegate = self
-            cell.frenemyCV.dataSource = self
-            cell.frenemyCV.backgroundColor = UIColor.lightGrayColor()
+            
+            cell.comicCollectionView.delegate = self
+            cell.comicCollectionView.dataSource = self
+            cell.comicCollectionView.backgroundColor = UIColor.lightGrayColor()
+            MarvelNetworking.controller.getComicsWithCharacterID(self.characterToDisplay!.id, limit: 3, completion: { (errorString, comicsArray) -> Void in
+                if comicsArray != nil {
+                    self.comicsForCharacter = Comic.parseJSONIntoComics(data: comicsArray!)
+                    cell.comicCollectionView.reloadData()
+                    
+                } else {
+                    println("no data")
+                }
+            })
+
             return cell
         }
         
@@ -99,6 +111,9 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
     }
     
     
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    }
+    
     
     
     
@@ -106,39 +121,50 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
     
     // MARK: COLLECTION VIEW WITHIN A TABLEVIEW CELL
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 30
+        return self.comicsForCharacter.count
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("CHARACTER_CELL", forIndexPath: indexPath) as CharacterCell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("COMIC_CELL", forIndexPath: indexPath) as ComicCell
         
-        // pull the enemy or friend from an array and grab it's name and image
-        cell.imageView.backgroundColor = UIColor.blueColor()
+        // pull the comic from the comicsForCharacter array and grab it's name and image
+        let currentComic = self.comicsForCharacter[indexPath.row]
+        if let thumb = currentComic.thumbnailURL {
+            let thumbURL = "\(thumb.path)/standard_xlarge.\(thumb.ext)"
+            
+            if let image = MarvelCaching.caching.cachedImageForURLString(thumbURL) {
+                cell.comicImageView.image = image
+            }
+            else {
+                MarvelNetworking.controller.getImageAtURLString(thumbURL, completion: { (image, errorString) -> Void in
+                    if errorString != nil {
+                        println(errorString)
+                        return
+                    }
+                    
+                    MarvelCaching.caching.setChachedImage(image!, forURLString: thumbURL)
+                        cell.comicImageView.image = image
+                })
+            }
+        }
         return cell
     }
 
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        println("frenemy selected at \(indexPath.row)")
+        println("comic selected at \(indexPath.row)")
+        let comic = self.comicsForCharacter[indexPath.row] as Comic
+        println(comic.title)
         
-        var characterDetailVC = storyboard?.instantiateViewControllerWithIdentifier("CHARACTER_DETAIL_VC") as CharacterDetailVC
 
-        // grab the selected frenemy and pass on to another CharacterDetailVC
-        //        characterDetailVC.characterToDisplay = self.characters[indexPath.row]
-        
-//        self.navigationController?.pushViewController(characterDetailVC, animated: true)
+//        let comicVC = ComicVC(nibName: "ComicVC", bundle: nil)
+//        comicVC.comic = comic
+//        self.navigationController?.pushViewController(comicVC, animated: true)
     }
     
     
     
     
     
-    
-//    tabl
-//    
-//    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        let header = self.tableView.dequeueReusableHeaderFooterViewWithIdentifier("HEADER") as TableHeader
-//        return header
-//    }
     
 }

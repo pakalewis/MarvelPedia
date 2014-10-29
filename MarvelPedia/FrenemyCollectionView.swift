@@ -1,5 +1,5 @@
 //
-//  FrenemyCollectionView.swift
+//  ComicCollectionView.swift
 //  MarvelPedia
 //
 //  Created by Parker Lewis on 10/28/14.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FrenemyCollectionView: UICollectionView {
+class ComicCollectionView: UICollectionView {
 
     
     

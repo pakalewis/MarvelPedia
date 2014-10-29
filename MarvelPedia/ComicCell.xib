@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="COMIC_CELL" reuseIdentifier="COMIC_CELL" id="gTV-IL-0wX" customClass="ComicCell" customModule="MarvelPedia" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="255" height="442"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="255" height="442"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="axC-bL-9OA">
+                        <rect key="frame" x="8" y="8" width="239" height="426"/>
+                    </imageView>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            </view>
+            <constraints>
+                <constraint firstAttribute="trailingMargin" secondItem="axC-bL-9OA" secondAttribute="trailing" id="Gnw-Om-g8Y"/>
+                <constraint firstItem="axC-bL-9OA" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="topMargin" id="HAh-7i-UAK"/>
+                <constraint firstAttribute="bottomMargin" secondItem="axC-bL-9OA" secondAttribute="bottom" id="P2X-VQ-GyZ"/>
+                <constraint firstItem="axC-bL-9OA" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leadingMargin" id="Wtt-vG-fU4"/>
+            </constraints>
+            <size key="customSize" width="255" height="442"/>
+            <connections>
+                <outlet property="comicImageView" destination="axC-bL-9OA" id="Wdj-RK-9nv"/>
+            </connections>
+            <point key="canvasLocation" x="244.5" y="420"/>
+        </collectionViewCell>
+    </objects>
+</document>
