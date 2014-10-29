@@ -11,7 +11,7 @@ import UIKit
 class InfoCell: UITableViewCell {
 
     
-    @IBOutlet weak var infoCellImageView: UIImageView!
+    @IBOutlet weak var infoCellLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
