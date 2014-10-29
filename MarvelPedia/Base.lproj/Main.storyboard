@@ -164,7 +164,7 @@
         <!--SeriesVC-->
         <scene sceneID="frz-HG-W2c">
             <objects>
-                <viewController id="eDV-Ua-fgk" customClass="SeriesVC" customModule="MarvelPedia" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController restorationIdentifier="SERIES_VC" storyboardIdentifier="SERIES_VC" id="eDV-Ua-fgk" customClass="SeriesVC" customModule="MarvelPedia" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="jer-qm-7hK"/>
                         <viewControllerLayoutGuide type="bottom" id="XOg-v4-ZiD"/>
