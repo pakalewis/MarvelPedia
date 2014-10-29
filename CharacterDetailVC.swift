@@ -169,20 +169,23 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
         if let thumb = currentComic.thumbnailURL {
             let thumbURL = "\(thumb.path)/standard_xlarge.\(thumb.ext)"
             
-            if let image = MarvelCaching.caching.cachedImageForURLString(thumbURL) {
-                cell.comicImageView.image = image
-            }
-            else {
-                MarvelNetworking.controller.getImageAtURLString(thumbURL, completion: { (image, errorString) -> Void in
-                    if errorString != nil {
-                        println(errorString)
-                        return
-                    }
-                    
-                    MarvelCaching.caching.setCachedImage(image!, forURLString: thumbURL)
+            MarvelCaching.caching.cachedImageForURLString(thumbURL, completion: { (image) -> Void in
+                if image != nil {
+                    cell.comicImageView.image = image
+                }
+                else {
+                    MarvelNetworking.controller.getImageAtURLString(thumbURL, completion: { (image, errorString) -> Void in
+                        if errorString != nil {
+                            println(errorString)
+                            return
+                        }
+                        
+                        MarvelCaching.caching.setCachedImage(image!, forURLString: thumbURL)
                         cell.comicImageView.image = image
-                })
-            }
+                    })
+                }
+            })
+            
         }
         return cell
     }
