@@ -48,6 +48,7 @@
 		9A8EDC3819FEC79C00CC3CCF /* NetworkController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8EDC3719FEC79C00CC3CCF /* NetworkController.swift */; };
 		9A8EDC3A19FEC85300CC3CCF /* MarvelNetworking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8EDC3919FEC85300CC3CCF /* MarvelNetworking.swift */; };
 		9A977E371A01893200E2DED2 /* notfound_image200x200.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9A977E361A01893200E2DED2 /* notfound_image200x200.jpg */; };
+		9A977E391A01A83600E2DED2 /* notfound_image_big.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9A977E381A01A83600E2DED2 /* notfound_image_big.jpg */; };
 		9AC519291A00BADE00717E22 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC519281A00BADE00717E22 /* CoreDataManager.swift */; };
 		9ACAFCF01A00C711008DCCBE /* CachedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACAFCEF1A00C711008DCCBE /* CachedImage.swift */; };
 /* End PBXBuildFile section */
@@ -109,6 +110,7 @@
 		9A8EDC3919FEC85300CC3CCF /* MarvelNetworking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarvelNetworking.swift; sourceTree = "<group>"; };
 		9A8EDC3C19FECE8E00CC3CCF /* MarvelPedia-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MarvelPedia-Bridging-Header.h"; sourceTree = "<group>"; };
 		9A977E361A01893200E2DED2 /* notfound_image200x200.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = notfound_image200x200.jpg; sourceTree = "<group>"; };
+		9A977E381A01A83600E2DED2 /* notfound_image_big.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = notfound_image_big.jpg; sourceTree = "<group>"; };
 		9AC519281A00BADE00717E22 /* CoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		9ACAFCEF1A00C711008DCCBE /* CachedImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CachedImage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -170,6 +172,7 @@
 		2C4BFFB119FEB8E70021A080 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				9A977E381A01A83600E2DED2 /* notfound_image_big.jpg */,
 				9A977E361A01893200E2DED2 /* notfound_image200x200.jpg */,
 				48C0CE861A01570200B47455 /* comic1.jpg */,
 				48C0CE871A01570200B47455 /* comic2.jpg */,
@@ -342,6 +345,7 @@
 				48C0CE901A01570200B47455 /* comic5.jpg in Resources */,
 				2C921B241A00262E00102185 /* CustomTableViewCell.xib in Resources */,
 				48C0CE911A01570200B47455 /* comic6.jpg in Resources */,
+				9A977E391A01A83600E2DED2 /* notfound_image_big.jpg in Resources */,
 				2C0016D41A008A3A00EEC696 /* ComicCell.xib in Resources */,
 				48C0CE8F1A01570200B47455 /* comic4.jpg in Resources */,
 				48C0CE8E1A01570200B47455 /* comic3.jpg in Resources */,
