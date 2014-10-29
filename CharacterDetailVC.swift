@@ -19,6 +19,7 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
     weak var comicsCollectionView: UICollectionView?
     weak var seriesCollectionView: UICollectionView?
     var headerImageView: UIImageView!
+    var headerActivityIndicator: UIActivityIndicatorView!
     let kDefaultHeaderImageYOffset: CGFloat = -64
     var headerImageYOffset: CGFloat = -64
     var oldScrollViewY: CGFloat = 0
@@ -44,7 +45,48 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
         headerImageView.clipsToBounds = true
         self.view.insertSubview(headerImageView, belowSubview: tableView)
         
+        headerActivityIndicator = UIActivityIndicatorView(frame: headerImageView.frame)
+        headerActivityIndicator.hidesWhenStopped = true
+        headerActivityIndicator.activityIndicatorViewStyle = .Gray
+        self.view.insertSubview(headerActivityIndicator, aboveSubview: headerImageView)
+        
         tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: headerImageView.frame.height + kDefaultHeaderImageYOffset * 2))
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if let thumb = characterToDisplay?.thumbnailURL {
+            let thumbURL = "\(thumb.path).\(thumb.ext)"
+            
+            MarvelCaching.caching.cachedImageForURLString(thumbURL, completion: { (image) -> Void in
+                if image != nil {
+                    self.headerImageView.image = image
+                    return
+                }
+                
+                self.headerActivityIndicator.startAnimating()
+                MarvelNetworking.controller.getImageAtURLString(thumbURL, completion: { (image, errorString) -> Void in
+                    self.headerActivityIndicator.stopAnimating()
+                    if errorString != nil {
+                        println(errorString)
+                        return
+                    }
+                    
+                    MarvelCaching.caching.setCachedImage(image!, forURLString: thumbURL)
+                    
+                    UIView.transitionWithView(self.headerImageView, duration: 0.3, options: UIViewAnimationOptions.TransitionCurlDown, animations: { () -> Void in
+                        self.headerImageView.image = image
+                    }, completion: nil)
+                    
+                })
+                
+            })
+        }
+        else {
+            headerImageView.image = UIImage(named: "notfound_image_big.jpg")
+        }
+        
     }
     
     
