@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2C0016D31A008A3A00EEC696 /* ComicCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0016D11A008A3A00EEC696 /* ComicCell.swift */; };
+		2C0016D41A008A3A00EEC696 /* ComicCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2C0016D21A008A3A00EEC696 /* ComicCell.xib */; };
 		2C262E7F1A0062180037D570 /* Comic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C262E7E1A0062180037D570 /* Comic.swift */; };
 		2C262E811A0065880037D570 /* Series.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C262E801A0065880037D570 /* Series.swift */; };
 		2C262E871A006C910037D570 /* ComicVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C262E861A006C910037D570 /* ComicVC.swift */; };
@@ -49,6 +51,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2C0016D11A008A3A00EEC696 /* ComicCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicCell.swift; sourceTree = "<group>"; };
+		2C0016D21A008A3A00EEC696 /* ComicCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ComicCell.xib; sourceTree = "<group>"; };
 		2C262E7E1A0062180037D570 /* Comic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comic.swift; sourceTree = "<group>"; };
 		2C262E801A0065880037D570 /* Series.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Series.swift; sourceTree = "<group>"; };
 		2C262E861A006C910037D570 /* ComicVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicVC.swift; sourceTree = "<group>"; };
@@ -201,6 +205,8 @@
 				2C921B211A00248E00102185 /* FrenemyCollectionView.swift */,
 				2C921B251A0026D100102185 /* TVCellWithCollectionView.swift */,
 				2C921B231A00262E00102185 /* TVCellWithCollectionView.xib */,
+				2C0016D11A008A3A00EEC696 /* ComicCell.swift */,
+				2C0016D21A008A3A00EEC696 /* ComicCell.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -299,6 +305,7 @@
 				2C4BFFBC19FEB8E70021A080 /* Main.storyboard in Resources */,
 				2CE4BEB519FED5280059A230 /* InfoCell.xib in Resources */,
 				2C921B241A00262E00102185 /* TVCellWithCollectionView.xib in Resources */,
+				2C0016D41A008A3A00EEC696 /* ComicCell.xib in Resources */,
 				2C4BFFC119FEB8E70021A080 /* LaunchScreen.xib in Resources */,
 				2C4BFFBE19FEB8E70021A080 /* Images.xcassets in Resources */,
 				2CE4BEB319FECDA10059A230 /* CharacterCell.xib in Resources */,
@@ -326,6 +333,7 @@
 				2C262E811A0065880037D570 /* Series.swift in Sources */,
 				2C262E871A006C910037D570 /* ComicVC.swift in Sources */,
 				2CD820F119FEC7E600577D0A /* HomeVC.swift in Sources */,
+				2C0016D31A008A3A00EEC696 /* ComicCell.swift in Sources */,
 				2CC2C60A19FF0B5600DE8A11 /* CollectionHeader.swift in Sources */,
 				2C921B261A0026D100102185 /* TVCellWithCollectionView.swift in Sources */,
 				2C4BFFB719FEB8E70021A080 /* MarvelPedia.xcdatamodeld in Sources */,
