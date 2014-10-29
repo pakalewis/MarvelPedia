@@ -15,7 +15,6 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
     let tableViewHeaders = ["", "Comics", "Series"]
 //    var comicVC = ComicVC(nibName: "ComicVC", bundle: nil)
     var comicsForCharacter = [Comic]()
-    var comicCollectionView : TVCellWithCollectionView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,22 +32,6 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
         
         
 
-        // Where does this call go?
-        // the collectionview of the comics is being displayed before this call finishes so it does not display any comics
-        MarvelNetworking.controller.getComicsWithCharacterID(self.characterToDisplay!.id, limit: 3, completion: { (errorString, comicsArray) -> Void in
-            if comicsArray != nil {
-                self.comicsForCharacter = Comic.parseJSONIntoComics(data: comicsArray!)
-//                self.tableView.reloadData()
-                self.comicCollectionView?.frenemyCV.reloadData()
-
-            } else {
-                println("no data")
-            }
-        })
-
-        println(self.comicsForCharacter.first?.title)
-        let cv = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 1))
-        cv?.reloadInputViews()
     }
     
     
@@ -89,11 +72,19 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
         if indexPath.section == 1 {
             let cell = self.tableView.dequeueReusableCellWithIdentifier("TVCELL") as TVCellWithCollectionView
             
-            // this line was a workaround to get a reference to the collectionview that is inside this tableview cell. in order to reload the data once the comics were downloaded
-            self.comicCollectionView = cell
-            cell.frenemyCV.delegate = self
-            cell.frenemyCV.dataSource = self
-            cell.frenemyCV.backgroundColor = UIColor.lightGrayColor()
+            cell.comicCollectionView.delegate = self
+            cell.comicCollectionView.dataSource = self
+            cell.comicCollectionView.backgroundColor = UIColor.lightGrayColor()
+            MarvelNetworking.controller.getComicsWithCharacterID(self.characterToDisplay!.id, limit: 3, completion: { (errorString, comicsArray) -> Void in
+                if comicsArray != nil {
+                    self.comicsForCharacter = Comic.parseJSONIntoComics(data: comicsArray!)
+                    cell.comicCollectionView.reloadData()
+                    
+                } else {
+                    println("no data")
+                }
+            })
+
             return cell
         }
         
@@ -162,19 +153,13 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         println("comic selected at \(indexPath.row)")
-        let comic = self.comicsForCharacter[indexPath.row]
+        let comic = self.comicsForCharacter[indexPath.row] as Comic
         println(comic.title)
         
 
-        // grab the comic's id and pass it to the ComicVC which is then presented
-        
-
-//        self.navigationController?.pushViewController(self.comicVC, animated: true)
-
-//        self.comicVC.modalTransitionStyle = UIModalTransitionStyle.PartialCurl
-//        presentViewController(self.comicVC, animated: true, completion: nil)
-    
-    
+//        let comicVC = ComicVC(nibName: "ComicVC", bundle: nil)
+//        comicVC.comic = comic
+//        self.navigationController?.pushViewController(comicVC, animated: true)
     }
     
     

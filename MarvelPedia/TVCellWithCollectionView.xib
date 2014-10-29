@@ -30,7 +30,7 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
-                <outlet property="frenemyCV" destination="yAc-R9-NAy" id="ztj-i1-j0Z"/>
+                <outlet property="comicCollectionView" destination="yAc-R9-NAy" id="zD7-4o-NK3"/>
             </connections>
             <point key="canvasLocation" x="627" y="361"/>
         </tableViewCell>
