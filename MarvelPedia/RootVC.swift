@@ -66,7 +66,10 @@ class RootVC: UIViewController, UIPageViewControllerDelegate {
             let homeVC = storyboard.instantiateViewControllerWithIdentifier("HomeVC") as HomeVC
             let navController = UINavigationController(rootViewController: homeVC)
             let viewControllers: NSArray = [navController]
-            self.pageViewController!.setViewControllers(viewControllers, direction: .Forward, animated: true, completion: {done in })
+            self.pageViewController!.setViewControllers(viewControllers, direction: .Forward, animated: true, completion: {done in
+                self.pageViewController!.dataSource = nil
+                self.pageViewController!.delegate = nil
+            })
         }
     }
     
