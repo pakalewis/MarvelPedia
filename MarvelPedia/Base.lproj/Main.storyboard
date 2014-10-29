@@ -138,10 +138,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qL5-rc-nmc">
-                                <rect key="frame" x="279" y="20" width="42" height="21"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="E2L-iy-1so">
+                                <rect key="frame" x="0.0" y="20" width="600" height="531"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Image provided by Marvel. © 2014 MARVEL" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x3r-Cc-bHv">
+                                <rect key="frame" x="131" y="559" width="338" height="21"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="qX5-eh-JxZ"/>
+                                    <constraint firstAttribute="height" constant="21" id="1Zt-h9-MI8"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -150,12 +153,16 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="centerX" secondItem="qL5-rc-nmc" secondAttribute="centerX" id="Wsh-YS-0MB"/>
-                            <constraint firstItem="qL5-rc-nmc" firstAttribute="top" secondItem="zyb-Aa-OOj" secondAttribute="bottom" id="tvs-rG-1DJ"/>
+                            <constraint firstItem="E2L-iy-1so" firstAttribute="top" secondItem="zyb-Aa-OOj" secondAttribute="bottom" id="C2P-X0-i5T"/>
+                            <constraint firstAttribute="centerX" secondItem="x3r-Cc-bHv" secondAttribute="centerX" id="EHk-0E-DTH"/>
+                            <constraint firstItem="kyi-cu-Oye" firstAttribute="top" secondItem="x3r-Cc-bHv" secondAttribute="bottom" constant="20" id="OUr-yR-aiZ"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="E2L-iy-1so" secondAttribute="trailing" constant="-16" id="Pmj-0D-9gz"/>
+                            <constraint firstItem="E2L-iy-1so" firstAttribute="leading" secondItem="v0d-K6-hnb" secondAttribute="leadingMargin" constant="-16" id="ZnC-Px-hXb"/>
+                            <constraint firstItem="x3r-Cc-bHv" firstAttribute="top" secondItem="E2L-iy-1so" secondAttribute="bottom" constant="8" id="vX5-Ew-Nkf"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="dataLabel" destination="qL5-rc-nmc" id="zZh-ay-7S2"/>
+                        <outlet property="imageView" destination="E2L-iy-1so" id="l45-FA-kHb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ui0-Ig-GuS" userLabel="First Responder" sceneMemberID="firstResponder"/>

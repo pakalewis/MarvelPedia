@@ -43,7 +43,7 @@ class RootVC: UIViewController, UIPageViewControllerDelegate {
         // Add the page view controller's gesture recognizers to the book view controller's view so that the gestures are started more easily.
         self.view.gestureRecognizers = self.pageViewController!.gestureRecognizers
         
-        self.pageFlipTimer = NSTimer.scheduledTimerWithTimeInterval(0.3, target: self, selector: "turnPage:", userInfo: nil, repeats: true)
+        self.pageFlipTimer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "turnPage:", userInfo: nil, repeats: true)
         
 //        self.fetchCharacters()
         
