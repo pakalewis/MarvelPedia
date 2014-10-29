@@ -11,11 +11,14 @@ import UIKit
 class ComicCell: UICollectionViewCell {
 
     @IBOutlet weak var comicImageView: UIImageView!
-  
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    
+    
     
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
     }
 
 }
