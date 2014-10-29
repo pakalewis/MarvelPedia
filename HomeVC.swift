@@ -64,7 +64,7 @@ class HomeVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
                         return
                     }
                     
-                    MarvelCaching.caching.setChachedImage(image!, forURLString: thumbURL)
+                    MarvelCaching.caching.setCachedImage(image!, forURLString: thumbURL)
                     if cell.tag == currentTag {
                         cell.activityIndicator.stopAnimating()
                         cell.imageView.image = image
