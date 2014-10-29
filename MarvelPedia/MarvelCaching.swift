@@ -63,7 +63,29 @@ class MarvelCaching {
     
     */
     func cachedImageForURLString(URLString: String) -> UIImage? {
-        return imagesDic[URLString]
+        var retVal: UIImage? = nil
+        if let imageFromMemory = imagesDic[URLString] {
+            retVal = imageFromMemory
+        } else {
+            // No image found in memory cache, try Core Data.
+            if let cachedImagesArray = CoreDataManager.manager.fetchObjectsWithEntityClass(CachedImage.classForCoder(), predicateFormat: "imageURL == %@", URLString) {
+                if let cachedImage = cachedImagesArray.first as? CachedImage {
+                    if let imageFromDisc = UIImage(contentsOfFile: cachedImage.localPath) {
+                        // Image is found on disc and is loaded.
+                        retVal = imageFromDisc
+                        // Put the loaded image into memory cache.
+                        self.setCachedImage(imageFromDisc, forURLString: URLString)
+                    }
+                    else {
+                        // Couldn't load image from path, so delete the object from CoreData
+                        CoreDataManager.manager.deleteObject(cachedImage)
+                        CoreDataManager.manager.saveContext()
+                    }
+                }
+            }
+        }
+        
+        return retVal
     }
     
     /**
@@ -96,7 +118,7 @@ class MarvelCaching {
                                 if var pathString = pathList.first as? NSString {
                                     if let path = NSURL(fileURLWithPath: pathString.stringByAppendingPathComponent(NSUUID().UUIDString)) {
                                         if UIImagePNGRepresentation(image).writeToURL(path, atomically: false) {
-                                            cachedImage.localPath = path.absoluteString!
+                                            cachedImage.localPath = path.path!
                                         }
                                     }
                                 }

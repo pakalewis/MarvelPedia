@@ -99,6 +99,10 @@ class CoreDataManager {
         return retVal == nil ? 0 : retVal!
     }
     
+    func deleteObject(object: NSManagedObject) {
+        managedObjectContext?.deleteObject(object)
+    }
+    
     /**
     Attempts to save the main managed object context asynchronously. Crashes on error.
     */
