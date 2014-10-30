@@ -235,13 +235,13 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
         if collectionView == self.comicsCollectionView {
             let currentComic = self.comicsForCharacter[indexPath.row]
             if let thumb = currentComic.thumbnailURL {
-                sourceURL = "\(thumb.path)/standard_xlarge.\(thumb.ext)"
+                sourceURL = "\(thumb.path)/portrait_xlarge.\(thumb.ext)"
             }
         }
         else {
             let currentSeries = self.seriesForCharacter[indexPath.row]
             if let thumb = currentSeries.thumbnailURL {
-                sourceURL = "\(thumb.path)/standard_xlarge.\(thumb.ext)"
+                sourceURL = "\(thumb.path)/portrait_xlarge.\(thumb.ext)"
             }
         }
         
