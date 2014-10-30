@@ -150,8 +150,10 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
         if indexPath.section == 0 {
             return UITableViewAutomaticDimension
         } else {
-            var customCellHeight = screenHeight / 3.3
-            return customCellHeight
+            if UIDevice.currentDevice().userInterfaceIdiom == UIUserInterfaceIdiom.Pad {
+                return 380
+            }
+            return 190
         }
     }
     
@@ -266,19 +268,20 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
         
         // could change this to be creating different cells: ComicCell or SeriesCell
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("COMIC_CELL", forIndexPath: indexPath) as ComicCell
-        cell.backgroundColor = UIColor.grayColor()
         cell.comicImageView.image = nil
         
         // determine the image url
         var sourceURL = ""
         if collectionView == self.comicsCollectionView {
             let currentComic = self.comicsForCharacter[indexPath.row]
+            cell.comicTitleLabel.text = currentComic.title
             if let thumb = currentComic.thumbnailURL {
                 sourceURL = "\(thumb.path)/portrait_xlarge.\(thumb.ext)"
             }
         }
         else {
             let currentSeries = self.seriesForCharacter[indexPath.row]
+            cell.comicTitleLabel.text = currentSeries.title
             if let thumb = currentSeries.thumbnailURL {
                 sourceURL = "\(thumb.path)/portrait_xlarge.\(thumb.ext)"
             }
