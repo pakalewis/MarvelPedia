@@ -30,5 +30,7 @@ class CustomTableViewCell: UITableViewCell {
         if UIDevice.currentDevice().userInterfaceIdiom == UIUserInterfaceIdiom.Pad {
             self.flowlayout.itemSize = CGSize(width: 200.0, height: 300.0)
         }
+
+        self.flowlayout.sectionInset = UIEdgeInsetsMake(0.0, 7.0, 0.0, 7.0)
     }
 }
