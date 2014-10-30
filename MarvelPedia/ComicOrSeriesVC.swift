@@ -32,6 +32,7 @@ class ComicOrSeriesVC: UIViewController, UICollectionViewDelegate, UICollectionV
         self.collectionView.registerNib(nib, forCellWithReuseIdentifier: "CHARACTER_CELL")
 
         var flowlayout = self.collectionView.collectionViewLayout as UICollectionViewFlowLayout
+        flowlayout.itemSize = CGSize(width: 110.0, height: 140.0)
         flowlayout.sectionInset = UIEdgeInsetsMake(5.0, 7.0, 0.0, 7.0)
 
         

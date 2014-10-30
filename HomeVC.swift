@@ -8,7 +8,7 @@
 
 import UIKit
 
-class HomeVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UINavigationControllerDelegate, UISearchBarDelegate {
+class HomeVC: UIViewController, UINavigationControllerDelegate, UISearchBarDelegate {
 
     
     @IBOutlet weak var collectionView: UICollectionView!
@@ -21,9 +21,15 @@ class HomeVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
     var searchBarText = ""
     var selectedScope = 0
     
+    var characterCollectionDelegate: CharacterCollectionDelegate?
+    var comicCollectionDelegate: ComicCollectionDelegate?
+    
     override func viewDidLoad() {
-        self.collectionView.delegate = self
-        self.collectionView.dataSource = self
+        self.characterCollectionDelegate = CharacterCollectionDelegate(viewController: self)
+        self.comicCollectionDelegate = ComicCollectionDelegate(viewController: self)
+        
+        self.collectionView.delegate = self.characterCollectionDelegate!
+        self.collectionView.dataSource = self.characterCollectionDelegate!
         self.navigationController?.delegate = self
         
         // register CharacterCell nib for the collection view
@@ -59,96 +65,6 @@ class HomeVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
             }
             self.activityIndicator.stopAnimating()
         })
-    }
-    
-    // MARK: COLLECTION VIEW
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.characters.count
-    }
-    
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = self.collectionView.dequeueReusableCellWithReuseIdentifier("CHARACTER_CELL", forIndexPath: indexPath) as CharacterCell
-
-        cell.imageView.image = nil
-        
-        var currentTag = cell.tag + 1
-        cell.tag = currentTag
-        
-        let currentCharacter = self.characters[indexPath.row]
-        cell.nameLabel.text = currentCharacter.name
-
-        if let thumb = currentCharacter.thumbnailURL {
-            let thumbURL = "\(thumb.path)/standard_xlarge.\(thumb.ext)"
-            
-            
-            MarvelCaching.caching.cachedImageForURLString(thumbURL, completion: { (image) -> Void in
-                if image != nil {
-                    if cell.tag == currentTag {
-                        cell.imageView.image = nil
-                        cell.imageView.image = image
-                    }
-                    return
-                }
-                
-                cell.activityIndicator.startAnimating()
-                
-                MarvelNetworking.controller.getImageAtURLString(thumbURL, completion: { (image, errorString) -> Void in
-                    cell.activityIndicator.stopAnimating()
-                    if errorString != nil {
-                        println(errorString)
-                        return
-                    }
-                    
-                    MarvelCaching.caching.setCachedImage(image!, forURLString: thumbURL)
-                    if cell.tag == currentTag {
-                        cell.imageView.image = nil
-                        UIView.transitionWithView(cell.imageView, duration: 0.2, options: UIViewAnimationOptions.TransitionCurlDown, animations: { () -> Void in
-                            cell.imageView.image = image
-                            }, completion: nil)
-                    }
-                })
-                
-            })
-        }
-        else {
-            cell.imageView.image = UIImage(named: "notfound_image200x200.jpg")
-        }
-        
-        return cell
-    }
-    
-    
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        var characterDetailVC = storyboard?.instantiateViewControllerWithIdentifier("CHARACTER_DETAIL_VC") as CharacterDetailVC
-        characterDetailVC.characterToDisplay = self.characters[indexPath.row]
-        self.navigationController?.pushViewController(characterDetailVC, animated: true)
-    }
-    
-    
-    func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
-        if self.header == nil {
-            self.header = self.collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "HEADER", forIndexPath: indexPath) as UICollectionReusableView
-            let headerFrame = self.header.frame
-            var searchBar = UISearchBar(frame: headerFrame)
-            searchBar.showsScopeBar = true
-            searchBar.scopeButtonTitles = ["Characters", "Comics"]
-            self.header.addSubview(searchBar)
-            
-            searchBar.delegate = self
-        }
-        
-        return header
-    }
-    
-    func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
-        if !self.canLoadMore {
-            return
-        }
-        
-        var indexPathToLoadMoreCharacters = self.characters.count
-        if indexPath.row + 1 == indexPathToLoadMoreCharacters {
-            loadCharactersWithLimit(40, startIndex: self.characters.count)
-        }
     }
     
     // MARK: SEARCH BAR
