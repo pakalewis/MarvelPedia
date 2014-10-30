@@ -220,7 +220,7 @@
         <!--WebVC-->
         <scene sceneID="YEu-X7-XZK">
             <objects>
-                <viewController storyboardIdentifier="WebVC" title="WebVC" id="4e9-Dj-PQC" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WebVC" title="WebVC" id="4e9-Dj-PQC" customClass="WebVC" customModule="MarvelPedia" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="eNP-0R-Io6"/>
                         <viewControllerLayoutGuide type="bottom" id="cYk-5v-eIh"/>
