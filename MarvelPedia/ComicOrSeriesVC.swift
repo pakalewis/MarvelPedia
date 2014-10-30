@@ -16,7 +16,7 @@ class ComicOrSeriesVC: UIViewController, UICollectionViewDelegate, UICollectionV
     var charactersInComicOrSeries = [Character]()
     var canLoadMore = true
     
-    @IBOutlet var imageView : UIImageView!
+    @IBOutlet var imageZoomView : ImageZoomView!
     @IBOutlet var titleLabel : UILabel!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var collectionView: UICollectionView!
@@ -51,7 +51,7 @@ class ComicOrSeriesVC: UIViewController, UICollectionViewDelegate, UICollectionV
 
         MarvelCaching.caching.cachedImageForURLString(self.fullUrl!, completion: { (image) -> Void in
             if image != nil {
-                self.imageView.image = image
+                self.imageZoomView.displayImage(image)
             }
             else {
                 self.activityIndicator.startAnimating()
@@ -63,7 +63,7 @@ class ComicOrSeriesVC: UIViewController, UICollectionViewDelegate, UICollectionV
                     }
                     
                     MarvelCaching.caching.setCachedImage(image!, forURLString: self.fullUrl!)
-                    self.imageView.image = image
+                    self.imageZoomView.displayImage(image)
                 })
             }
         })
