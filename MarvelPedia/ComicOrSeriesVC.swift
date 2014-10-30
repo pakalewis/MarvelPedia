@@ -31,6 +31,9 @@ class ComicOrSeriesVC: UIViewController, UICollectionViewDelegate, UICollectionV
         let nib = UINib(nibName: "CharacterCell", bundle: NSBundle.mainBundle())
         self.collectionView.registerNib(nib, forCellWithReuseIdentifier: "CHARACTER_CELL")
 
+        var flowlayout = self.collectionView.collectionViewLayout as UICollectionViewFlowLayout
+        flowlayout.sectionInset = UIEdgeInsetsMake(5.0, 7.0, 0.0, 7.0)
+
         
         self.loadCharactersWithLimit(10, startIndex: self.charactersInComicOrSeries.count)
 
