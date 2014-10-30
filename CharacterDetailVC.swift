@@ -229,6 +229,7 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
         // could change this to be creating different cells: ComicCell or SeriesCell
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("COMIC_CELL", forIndexPath: indexPath) as ComicCell
         cell.backgroundColor = UIColor.grayColor()
+        cell.comicImageView.image = nil
         
         // determine the image url
         var sourceURL = ""
@@ -245,7 +246,7 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
             }
         }
         
-        // either grab the image from the cache or download it
+        // Either grab the image from the cache or download it
         MarvelCaching.caching.cachedImageForURLString(sourceURL, completion: { (image) -> Void in
             if image != nil {
                 cell.comicImageView.image = image
@@ -259,7 +260,10 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
                     }
                     MarvelCaching.caching.setCachedImage(image!, forURLString: sourceURL)
                     cell.activityIndicator.stopAnimating()
-                    cell.comicImageView.image = image
+                    
+                    UIView.transitionWithView(cell.comicImageView, duration: 0.3, options: UIViewAnimationOptions.TransitionCurlDown, animations: { () -> Void in
+                        cell.comicImageView.image = image
+                        }, completion: nil)
                 })
             }
         })
