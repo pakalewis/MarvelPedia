@@ -18,7 +18,7 @@ class ComicCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
+
     }
 
 }
