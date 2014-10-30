@@ -21,7 +21,6 @@
 		2C921B241A00262E00102185 /* CustomTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2C921B231A00262E00102185 /* CustomTableViewCell.xib */; };
 		2C921B261A0026D100102185 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C921B251A0026D100102185 /* CustomTableViewCell.swift */; };
 		2CC2C60819FEE49A00DE8A11 /* PrivateConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC2C60719FEE49A00DE8A11 /* PrivateConstants.swift */; };
-		2CC2C60A19FF0B5600DE8A11 /* CollectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC2C60919FF0B5600DE8A11 /* CollectionHeader.swift */; };
 		2CC4FD771A01651000BD3F09 /* ComicOrSeriesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC4FD761A01651000BD3F09 /* ComicOrSeriesVC.swift */; };
 		2CD820EF19FEBE4700577D0A /* Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD820EE19FEBE4700577D0A /* Character.swift */; };
 		2CD820F119FEC7E600577D0A /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD820F019FEC7E600577D0A /* HomeVC.swift */; };
@@ -80,7 +79,6 @@
 		2C921B231A00262E00102185 /* CustomTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomTableViewCell.xib; sourceTree = "<group>"; };
 		2C921B251A0026D100102185 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		2CC2C60719FEE49A00DE8A11 /* PrivateConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivateConstants.swift; sourceTree = "<group>"; };
-		2CC2C60919FF0B5600DE8A11 /* CollectionHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionHeader.swift; sourceTree = "<group>"; };
 		2CC4FD761A01651000BD3F09 /* ComicOrSeriesVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicOrSeriesVC.swift; sourceTree = "<group>"; };
 		2CD820EE19FEBE4700577D0A /* Character.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Character.swift; sourceTree = "<group>"; };
 		2CD820F019FEC7E600577D0A /* HomeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HomeVC.swift; path = ../HomeVC.swift; sourceTree = "<group>"; };
@@ -230,7 +228,6 @@
 				2CE4BEB219FECDA10059A230 /* CharacterCell.xib */,
 				2CE4BEBC19FEDABA0059A230 /* TableHeader.swift */,
 				2CE4BEBA19FEDA960059A230 /* TableHeader.xib */,
-				2CC2C60919FF0B5600DE8A11 /* CollectionHeader.swift */,
 				2C921B211A00248E00102185 /* CustomCollectionView.swift */,
 				2CE4BEB619FED5490059A230 /* InfoCell.swift */,
 				2CE4BEB419FED5280059A230 /* InfoCell.xib */,
@@ -374,7 +371,6 @@
 				2C262E811A0065880037D570 /* Series.swift in Sources */,
 				2CD820F119FEC7E600577D0A /* HomeVC.swift in Sources */,
 				2C0016D31A008A3A00EEC696 /* ComicCell.swift in Sources */,
-				2CC2C60A19FF0B5600DE8A11 /* CollectionHeader.swift in Sources */,
 				2C921B261A0026D100102185 /* CustomTableViewCell.swift in Sources */,
 				2C4BFFB719FEB8E70021A080 /* MarvelPedia.xcdatamodeld in Sources */,
 				2C262E7F1A0062180037D570 /* Comic.swift in Sources */,
