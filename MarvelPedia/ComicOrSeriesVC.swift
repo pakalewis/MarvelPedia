@@ -16,7 +16,7 @@ class ComicOrSeriesVC: UIViewController, UICollectionViewDelegate, UICollectionV
     var charactersInComicOrSeries = [Character]()
     var canLoadMore = true
     
-    @IBOutlet var imageView : UIImageView!
+    @IBOutlet var imageZoomView : ImageZoomView!
     @IBOutlet var titleLabel : UILabel!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var collectionView: UICollectionView!
@@ -30,6 +30,9 @@ class ComicOrSeriesVC: UIViewController, UICollectionViewDelegate, UICollectionV
         // register CharacterCell nib for the collection view
         let nib = UINib(nibName: "CharacterCell", bundle: NSBundle.mainBundle())
         self.collectionView.registerNib(nib, forCellWithReuseIdentifier: "CHARACTER_CELL")
+
+        var flowlayout = self.collectionView.collectionViewLayout as UICollectionViewFlowLayout
+        flowlayout.sectionInset = UIEdgeInsetsMake(5.0, 7.0, 0.0, 7.0)
 
         
         self.loadCharactersWithLimit(10, startIndex: self.charactersInComicOrSeries.count)
@@ -51,17 +54,19 @@ class ComicOrSeriesVC: UIViewController, UICollectionViewDelegate, UICollectionV
 
         MarvelCaching.caching.cachedImageForURLString(self.fullUrl!, completion: { (image) -> Void in
             if image != nil {
-                self.imageView.image = image
+                self.imageZoomView.displayImage(image)
             }
             else {
+                self.activityIndicator.startAnimating()
                 MarvelNetworking.controller.getImageAtURLString(self.fullUrl!, completion: { (image, errorString) -> Void in
+                    self.activityIndicator.stopAnimating()
                     if errorString != nil {
                         println(errorString)
                         return
                     }
                     
                     MarvelCaching.caching.setCachedImage(image!, forURLString: self.fullUrl!)
-                    self.imageView.image = image
+                    self.imageZoomView.displayImage(image)
                 })
             }
         })
@@ -71,61 +76,39 @@ class ComicOrSeriesVC: UIViewController, UICollectionViewDelegate, UICollectionV
         super.didReceiveMemoryWarning()
         MarvelCaching.caching.clearMemoryCache()
     }
-
-    
     
     func loadCharactersWithLimit(_ limit: Int? = nil, startIndex: Int? = nil) {
-        self.activityIndicator.startAnimating()
-
-
         if comic != nil {
             println(self.comic!.id)
-            MarvelNetworking.controller.getCharactersWithComicID(self.comic!.id, limit: limit) { (errorString, charactersArray, itemsLeft) -> Void in
-                if charactersArray != nil {
-                    if itemsLeft? == 0 {
-                        self.canLoadMore = false
-                    }
-                    
-                    var newCharacters = Character.parseJSONIntoCharacters(data: charactersArray!)
-                    self.charactersInComicOrSeries += newCharacters
-                    println(self.charactersInComicOrSeries.count)
-                    self.collectionView.reloadData()
-                } else {
-                    println("no data")
-                    println(errorString)
-                }
-                
-                if charactersArray?.count == 0 {
-                    self.canLoadMore = false
-                }
-                
+            MarvelNetworking.controller.getCharactersWithComicID(self.comic!.id, startIndex: startIndex, limit: limit) { (errorString, charactersArray, itemsLeft) -> Void in
+                self.processCharactersResponse(errorString: errorString, charactersArray: charactersArray, itemsLeft: itemsLeft)
             }
         } else {
             println(self.series!.id)
-            MarvelNetworking.controller.getCharactersWithSeriesID(self.series!.id, limit: limit) { (errorString, charactersArray, itemsLeft) -> Void in
-                if charactersArray != nil {
-                    if itemsLeft? == 0 {
-                        self.canLoadMore = false
-                    }
-                    
-                    var newCharacters = Character.parseJSONIntoCharacters(data: charactersArray!)
-                    self.charactersInComicOrSeries += newCharacters
-                    println(self.charactersInComicOrSeries.count)
-                    self.collectionView.reloadData()
-                } else {
-                    println("no data")
-                    println(errorString)
-                }
-                
-                if charactersArray?.count == 0 {
-                    self.canLoadMore = false
-                }
-                
+            MarvelNetworking.controller.getCharactersWithSeriesID(self.series!.id, startIndex: startIndex, limit: limit) { (errorString, charactersArray, itemsLeft) -> Void in
+                self.processCharactersResponse(errorString: errorString, charactersArray: charactersArray, itemsLeft: itemsLeft)
             }
         }
     }
 
-    
+    private func processCharactersResponse(#errorString: String?, charactersArray: NSArray?, itemsLeft: Int?) {
+        if charactersArray != nil {
+            if itemsLeft? == 0 {
+                self.canLoadMore = false
+            }
+            
+            var newCharacters = Character.parseJSONIntoCharacters(data: charactersArray!)
+            self.charactersInComicOrSeries += newCharacters
+            self.collectionView.reloadData()
+        } else {
+            println("no data")
+            println(errorString)
+        }
+        
+        if charactersArray?.count == 0 {
+            self.canLoadMore = false
+        }
+    }
 
 
     // MARK: COLLECTION VIEW
@@ -147,7 +130,6 @@ class ComicOrSeriesVC: UIViewController, UICollectionViewDelegate, UICollectionV
         
         if let thumb = currentCharacter.thumbnailURL {
             let thumbURL = "\(thumb.path)/standard_xlarge.\(thumb.ext)"
-            
             
             MarvelCaching.caching.cachedImageForURLString(thumbURL, completion: { (image) -> Void in
                 if image != nil {
@@ -192,7 +174,6 @@ class ComicOrSeriesVC: UIViewController, UICollectionViewDelegate, UICollectionV
         self.navigationController?.pushViewController(characterDetailVC, animated: true)
     }
     
-    // TODO: For Series, the first 10 are downloaded over and over. Something wrong with the startIndex maybe?
     func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
         if !self.canLoadMore {
             return

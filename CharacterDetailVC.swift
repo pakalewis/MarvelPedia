@@ -41,7 +41,8 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
         
         self.tableView.estimatedRowHeight = 100.0
         self.tableView.rowHeight = UITableViewAutomaticDimension
-
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+        
         headerImageView = UIImageView(frame: CGRect(x: 0, y: headerImageYOffset, width: self.view.frame.width, height: self.view.frame.height / 2.5 + 30))
         headerImageView.contentMode = .ScaleAspectFill
         headerImageView.autoresizingMask = .FlexibleWidth
@@ -130,10 +131,14 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
+
             var retVal = 2
-            if !(self.characterToDisplay!.bio.isEmpty) {
+            
+            let trimmedBio = self.characterToDisplay?.bio.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+            if !(trimmedBio!.isEmpty) {
                 ++retVal
             }
+            
             return retVal
         } else {
             return 1
@@ -250,11 +255,9 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
     // MARK: COLLECTION VIEW WITHIN A TABLEVIEW CELL
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == self.comicsCollectionView {
-            println("num items in comics CV \(self.comicsForCharacter.count)")
             return self.comicsForCharacter.count
         }
         else {
-            println("num items in series CV \(self.seriesForCharacter.count)")
             return self.seriesForCharacter.count
         }
     }

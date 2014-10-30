@@ -22,6 +22,7 @@
 		2C921B261A0026D100102185 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C921B251A0026D100102185 /* CustomTableViewCell.swift */; };
 		2CC2C60819FEE49A00DE8A11 /* PrivateConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC2C60719FEE49A00DE8A11 /* PrivateConstants.swift */; };
 		2CC2C60A19FF0B5600DE8A11 /* CollectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC2C60919FF0B5600DE8A11 /* CollectionHeader.swift */; };
+		2CC4FD771A01651000BD3F09 /* ComicOrSeriesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC4FD761A01651000BD3F09 /* ComicOrSeriesVC.swift */; };
 		2CD820EF19FEBE4700577D0A /* Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD820EE19FEBE4700577D0A /* Character.swift */; };
 		2CD820F119FEC7E600577D0A /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD820F019FEC7E600577D0A /* HomeVC.swift */; };
 		2CD820F319FEC90300577D0A /* CharacterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD820F219FEC90300577D0A /* CharacterCell.swift */; };
@@ -42,6 +43,7 @@
 		48C0CE901A01570200B47455 /* comic5.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 48C0CE8A1A01570200B47455 /* comic5.jpg */; };
 		48C0CE911A01570200B47455 /* comic6.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 48C0CE8B1A01570200B47455 /* comic6.jpg */; };
 		48C0CE971A01A41100B47455 /* WebVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C0CE961A01A41100B47455 /* WebVC.swift */; };
+		9A792F501A02C842004F89E4 /* ImageZoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A792F4F1A02C842004F89E4 /* ImageZoomView.swift */; };
 		9A7CCD621A002D3B00FD5832 /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7CCD611A002D3B00FD5832 /* Queue.swift */; };
 		9A7CCD641A0038DC00FD5832 /* MarvelCaching.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7CCD631A0038DC00FD5832 /* MarvelCaching.swift */; };
 		9A8EDC3819FEC79C00CC3CCF /* NetworkController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8EDC3719FEC79C00CC3CCF /* NetworkController.swift */; };
@@ -82,6 +84,7 @@
 		2C921B251A0026D100102185 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		2CC2C60719FEE49A00DE8A11 /* PrivateConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivateConstants.swift; sourceTree = "<group>"; };
 		2CC2C60919FF0B5600DE8A11 /* CollectionHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionHeader.swift; sourceTree = "<group>"; };
+		2CC4FD761A01651000BD3F09 /* ComicOrSeriesVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicOrSeriesVC.swift; sourceTree = "<group>"; };
 		2CD820EE19FEBE4700577D0A /* Character.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Character.swift; sourceTree = "<group>"; };
 		2CD820F019FEC7E600577D0A /* HomeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HomeVC.swift; path = ../HomeVC.swift; sourceTree = "<group>"; };
 		2CD820F219FEC90300577D0A /* CharacterCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CharacterCell.swift; path = ../CharacterCell.swift; sourceTree = "<group>"; };
@@ -102,6 +105,7 @@
 		48C0CE8A1A01570200B47455 /* comic5.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = comic5.jpg; sourceTree = "<group>"; };
 		48C0CE8B1A01570200B47455 /* comic6.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = comic6.jpg; sourceTree = "<group>"; };
 		48C0CE961A01A41100B47455 /* WebVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebVC.swift; sourceTree = "<group>"; };
+		9A792F4F1A02C842004F89E4 /* ImageZoomView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageZoomView.swift; sourceTree = "<group>"; };
 		9A7CCD611A002D3B00FD5832 /* Queue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
 		9A7CCD631A0038DC00FD5832 /* MarvelCaching.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarvelCaching.swift; sourceTree = "<group>"; };
 		9A8EDC3719FEC79C00CC3CCF /* NetworkController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkController.swift; sourceTree = "<group>"; };
@@ -233,7 +237,6 @@
 				2CE4BEB219FECDA10059A230 /* CharacterCell.xib */,
 				2CE4BEBC19FEDABA0059A230 /* TableHeader.swift */,
 				2CE4BEBA19FEDA960059A230 /* TableHeader.xib */,
-				2CC2C60919FF0B5600DE8A11 /* CollectionHeader.swift */,
 				2C921B211A00248E00102185 /* CustomCollectionView.swift */,
 				2CE4BEB619FED5490059A230 /* InfoCell.swift */,
 				2CE4BEB419FED5280059A230 /* InfoCell.xib */,
@@ -241,6 +244,7 @@
 				2C921B231A00262E00102185 /* CustomTableViewCell.xib */,
 				2C0016D11A008A3A00EEC696 /* ComicCell.swift */,
 				2C0016D21A008A3A00EEC696 /* ComicCell.xib */,
+				9A792F4F1A02C842004F89E4 /* ImageZoomView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -378,7 +382,6 @@
 				2CD820F119FEC7E600577D0A /* HomeVC.swift in Sources */,
 				482C57CF1A02A1D700C2C921 /* ComicOrSeriesVC.swift in Sources */,
 				2C0016D31A008A3A00EEC696 /* ComicCell.swift in Sources */,
-				2CC2C60A19FF0B5600DE8A11 /* CollectionHeader.swift in Sources */,
 				2C921B261A0026D100102185 /* CustomTableViewCell.swift in Sources */,
 				2C4BFFB719FEB8E70021A080 /* MarvelPedia.xcdatamodeld in Sources */,
 				2C262E7F1A0062180037D570 /* Comic.swift in Sources */,
@@ -392,6 +395,7 @@
 				2CE4BEBD19FEDABA0059A230 /* TableHeader.swift in Sources */,
 				2CE4BEB719FED5490059A230 /* InfoCell.swift in Sources */,
 				2CE4BEB119FECABA0059A230 /* CharacterDetailVC.swift in Sources */,
+				9A792F501A02C842004F89E4 /* ImageZoomView.swift in Sources */,
 				2CD820EF19FEBE4700577D0A /* Character.swift in Sources */,
 				9A8EDC3A19FEC85300CC3CCF /* MarvelNetworking.swift in Sources */,
 				9AC519291A00BADE00717E22 /* CoreDataManager.swift in Sources */,
