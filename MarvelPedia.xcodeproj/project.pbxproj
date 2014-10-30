@@ -13,7 +13,6 @@
 		2C262E811A0065880037D570 /* Series.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C262E801A0065880037D570 /* Series.swift */; };
 		2C4BFFB419FEB8E70021A080 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4BFFB319FEB8E70021A080 /* AppDelegate.swift */; };
 		2C4BFFB719FEB8E70021A080 /* MarvelPedia.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2C4BFFB519FEB8E70021A080 /* MarvelPedia.xcdatamodeld */; };
-		2C4BFFB919FEB8E70021A080 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4BFFB819FEB8E70021A080 /* ViewController.swift */; };
 		2C4BFFBC19FEB8E70021A080 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2C4BFFBA19FEB8E70021A080 /* Main.storyboard */; };
 		2C4BFFBE19FEB8E70021A080 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C4BFFBD19FEB8E70021A080 /* Images.xcassets */; };
 		2C4BFFC119FEB8E70021A080 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2C4BFFBF19FEB8E70021A080 /* LaunchScreen.xib */; };
@@ -71,7 +70,6 @@
 		2C4BFFB219FEB8E70021A080 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2C4BFFB319FEB8E70021A080 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2C4BFFB619FEB8E70021A080 /* MarvelPedia.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MarvelPedia.xcdatamodel; sourceTree = "<group>"; };
-		2C4BFFB819FEB8E70021A080 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		2C4BFFBB19FEB8E70021A080 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2C4BFFBD19FEB8E70021A080 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		2C4BFFC019FEB8E70021A080 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -220,7 +218,6 @@
 				2CD820F019FEC7E600577D0A /* HomeVC.swift */,
 				2CE4BEB019FECABA0059A230 /* CharacterDetailVC.swift */,
 				2CC4FD761A01651000BD3F09 /* ComicOrSeriesVC.swift */,
-				2C4BFFB819FEB8E70021A080 /* ViewController.swift */,
 				48A0E1501A0038FD00343EF8 /* IntroPageVC.swift */,
 			);
 			name = ViewControllers;
@@ -370,7 +367,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2C4BFFB919FEB8E70021A080 /* ViewController.swift in Sources */,
 				2CC4FD771A01651000BD3F09 /* ComicOrSeriesVC.swift in Sources */,
 				48A0E1511A0038FD00343EF8 /* IntroPageVC.swift in Sources */,
 				9A7CCD621A002D3B00FD5832 /* Queue.swift in Sources */,
