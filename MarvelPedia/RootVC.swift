@@ -38,8 +38,6 @@ class RootVC: UIViewController, UIPageViewControllerDelegate {
         
         self.pageFlipTimer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "turnPage:", userInfo: nil, repeats: true)
         
-//        self.fetchCharacters()
-        
     }
     
     var currentPageIndex = 0
@@ -110,43 +108,6 @@ class RootVC: UIViewController, UIPageViewControllerDelegate {
         self.pageViewController!.setViewControllers(viewControllers, direction: .Forward, animated: true, completion: {done in })
         
         return .Mid
-    }
-    
-    // MARK: - Fetch Characters
-    func fetchCharacters() {
-        let urlString = "http://www.comicvine.com/api/characters/?api_key=2cd61c55f07e95a607fd15ae00f09c30099e38fd&limit=10&format=json"
-        let url = NSURL(string: urlString)
-        
-        let request = NSURLRequest(URL: url!)
-        let dataTask: Void = NSURLSession.sharedSession().dataTaskWithRequest(request, completionHandler: { (data, response, error) -> Void in
-            
-            self.parseJSONDataIntoCharacters(data)
-            
-            for character in self.characters {
-                println(character.name)
-            }
-        }).resume()
-    }
-    
-    func parseJSONDataIntoCharacters(rawData: NSData) {
-        
-        var error: NSError?
-        if let data = NSJSONSerialization.JSONObjectWithData(rawData, options: nil, error: &error) as? NSDictionary {
-            var chars = [Character]()
-            
-            if let results = data["results"] as? NSArray {
-                for char in results {
-                    if let charData = char as? NSDictionary {
-                        let newChar = Character(data: charData)
-                        chars.append(newChar)
-                    }
-                }
-            }
-            
-            self.characters = chars
-        } else {
-            println("error in parser")
-        }
     }
     
 }
