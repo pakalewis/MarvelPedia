@@ -21,13 +21,15 @@ class WebVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view = self.webView
-        
         self.navigationController?.interactivePopGestureRecognizer.enabled = false
         self.webView.allowsBackForwardNavigationGestures = true
         
-        let spidermanURL = "http://marvel.com/characters/54/spider-man"
-        let url = NSURL(string: spidermanURL)!
+        var targetURL = "http://marvel.com/"
+        if let detailURL = self.character?.detailURL {
+            targetURL = detailURL
+        }
+        
+        let url = NSURL(string: targetURL)!
         self.webView.loadRequest(NSURLRequest(URL: url))
         
     }

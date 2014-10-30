@@ -55,6 +55,10 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
         tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: headerImageView.frame.height + kDefaultHeaderImageYOffset * 2))
     }
     
+    override func viewDidAppear(animated: Bool) {
+        self.navigationController?.interactivePopGestureRecognizer.enabled = true
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         MarvelCaching.caching.clearMemoryCache()
@@ -121,10 +125,11 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
-            if self.characterToDisplay?.bio == "" {
-                return 2
+            var retVal = 2
+            if !(self.characterToDisplay!.bio.isEmpty) {
+                ++retVal
             }
-            return 3
+            return retVal
         } else {
             return 1
         }
@@ -219,6 +224,17 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
     
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let firstSectionLastRowIndex = self.tableView.numberOfRowsInSection(0) - 1
+        if indexPath.section == 0 && indexPath.row == firstSectionLastRowIndex {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let webVC = storyboard.instantiateViewControllerWithIdentifier("WebVC") as WebVC
+            
+            if let character = self.characterToDisplay? {
+                webVC.character = character
+            }
+            self.navigationController?.pushViewController(webVC, animated: true)
+        }
+        
     }
     
     
@@ -321,16 +337,6 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
         } else {
             headerImageView.frame.origin.y = headerImageYOffset - scrollOffset;
         }
-    }
-    
-    @IBAction func learnMorePressed(sender: AnyObject) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let webVC = storyboard.instantiateViewControllerWithIdentifier("WebVC") as WebVC
-
-        if let character = self.characterToDisplay? {
-            webVC.character = character
-        }
-        self.navigationController?.pushViewController(webVC, animated: true)
     }
     
 }
