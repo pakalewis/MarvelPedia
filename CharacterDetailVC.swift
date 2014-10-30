@@ -313,6 +313,14 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
         }
     }
     
-    
+    @IBAction func learnMorePressed(sender: AnyObject) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let webVC = storyboard.instantiateViewControllerWithIdentifier("WebVC") as WebVC
+
+        if let character = self.characterToDisplay? {
+            webVC.character = character
+        }
+        self.navigationController?.pushViewController(webVC, animated: true)
+    }
     
 }
