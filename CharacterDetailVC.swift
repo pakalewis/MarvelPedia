@@ -122,9 +122,9 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             if self.characterToDisplay?.bio == "" {
-                return 1 // no bio to display
+                return 2
             }
-            return 2
+            return 3
         } else {
             return 1
         }
@@ -132,12 +132,11 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         var screenHeight = UIScreen.mainScreen().bounds.height
-        if indexPath.section != 0 {
-            var customCellHeight = screenHeight / 3
-            return customCellHeight
-        } else {
-            
+        if indexPath.section == 0 {
             return UITableViewAutomaticDimension
+        } else {
+            var customCellHeight = screenHeight / 3.3
+            return customCellHeight
         }
     }
     
@@ -193,18 +192,29 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
         
         
         let cell = self.tableView.dequeueReusableCellWithIdentifier("INFO_CELL", forIndexPath: indexPath) as InfoCell
-        if indexPath.row == 0 {
-            cell.infoCellLabel.text = "\(self.characterToDisplay!.name)"
-        } else {
-            cell.infoCellLabel.text = "\(self.characterToDisplay!.bio)"
+        cell.userInteractionEnabled = false
+        println(self.tableView.numberOfRowsInSection(0))
+        if self.tableView.numberOfRowsInSection(0) == 2 {
+            if indexPath.row == 0 {
+                cell.infoCellLabel.text = "\(self.characterToDisplay!.name)"
+            } else {
+                cell.infoCellLabel.text = "See more info"
+                cell.userInteractionEnabled = true
+                cell.accessoryType = UITableViewCellAccessoryType.DetailButton
+            }
         }
-
-        
-        // TODO: check which section/row to disable user interaction and to disable the highlighting. user should only be allowed to select the cell that will present the webview with more info about the character
-        
-        
+        else {
+            if indexPath.row == 0 {
+                cell.infoCellLabel.text = "\(self.characterToDisplay!.name)"
+            } else if indexPath.row == 1 {
+                cell.infoCellLabel.text = "\(self.characterToDisplay!.bio)"
+            } else {
+                cell.infoCellLabel.text = "See more info"
+                cell.userInteractionEnabled = true
+                cell.accessoryType = UITableViewCellAccessoryType.DetailButton
+            }
+        }
         return cell
-        
     }
     
     

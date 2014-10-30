@@ -115,6 +115,20 @@ class MarvelNetworking: NetworkController {
     }
     
     /**
+    Performs a request to get characters for specified comic ID.
+    
+    :param: seriesID ID of the series.
+    :param: startIndex Optional. If provided, method returns results starting with specified index for pagination.
+    :param: limit Optional. If provided, limits the number of objects returned at once. Maximum value is 100.
+    :param: completion The completion handler to call when the request is complete. If errorString isn't nil, comicsArray contains an array of characters stored in NSDictionary
+    
+    */
+    func getCharactersWithSeriesID(seriesID: Int, startIndex: Int? = nil, limit: Int? = nil, completion: (errorString: String?, charactersArray: NSArray?, itemsLeft: Int?) -> Void) {
+        
+        getObjectsWithPath("/series/\(seriesID)/characters", startIndex: startIndex, limit: limit, completion: completion)
+    }
+    
+    /**
     Performs a request to get series for specified character.
     
     :param: seriesID ID of the series.
