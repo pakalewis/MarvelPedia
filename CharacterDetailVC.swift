@@ -45,7 +45,6 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
         headerImageView = UIImageView(frame: CGRect(x: 0, y: headerImageYOffset, width: self.view.frame.width, height: self.view.frame.height / 2.5 + 30))
         headerImageView.contentMode = .ScaleAspectFill
         headerImageView.autoresizingMask = .FlexibleWidth
-        headerImageView.clipsToBounds = true
         self.view.insertSubview(headerImageView, belowSubview: tableView)
         
         headerActivityIndicator = UIActivityIndicatorView(frame: headerImageView.frame)
