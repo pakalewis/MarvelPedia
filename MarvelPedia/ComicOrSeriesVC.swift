@@ -54,5 +54,10 @@ class ComicOrSeriesVC: UIViewController {
         })
             
     }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        MarvelCaching.caching.clearMemoryCache()
+    }
 }
 

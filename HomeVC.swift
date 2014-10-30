@@ -32,6 +32,11 @@ class HomeVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
         //self.activityIndicator.hidesWhenStopped = true
     }
     
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        MarvelCaching.caching.clearMemoryCache()
+    }
+    
     // MARK: Private Methods
     
     func loadCharactersWithLimit(_ limit: Int? = nil, startIndex: Int? = nil) {

@@ -55,6 +55,10 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
         tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: headerImageView.frame.height + kDefaultHeaderImageYOffset * 2))
     }
     
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        MarvelCaching.caching.clearMemoryCache()
+    }
     
     // TODO: "Character" header stays on screen when you scroll down
     
