@@ -54,7 +54,9 @@ class ComicOrSeriesVC: UIViewController, UICollectionViewDelegate, UICollectionV
                 self.imageView.image = image
             }
             else {
+                self.activityIndicator.startAnimating()
                 MarvelNetworking.controller.getImageAtURLString(self.fullUrl!, completion: { (image, errorString) -> Void in
+                    self.activityIndicator.stopAnimating()
                     if errorString != nil {
                         println(errorString)
                         return
@@ -73,8 +75,6 @@ class ComicOrSeriesVC: UIViewController, UICollectionViewDelegate, UICollectionV
     }
     
     func loadCharactersWithLimit(_ limit: Int? = nil, startIndex: Int? = nil) {
-        self.activityIndicator.startAnimating()
-
         if comic != nil {
             println(self.comic!.id)
             MarvelNetworking.controller.getCharactersWithComicID(self.comic!.id, startIndex: startIndex, limit: limit) { (errorString, charactersArray, itemsLeft) -> Void in
