@@ -86,6 +86,26 @@ class MarvelNetworking: NetworkController {
     }
     
     /**
+    Performs a request to get comics.
+    
+    :param: titleQuery Optional. If provided, method returns comics with titles that begin with the specified string (e.g. X-)
+    :param: startIndex Optional. If provided, method returns results starting with specified index for pagination.
+    :param: limit Optional. If provided, limits the number of objects returned at once. Maximum value is 100.
+    :param: completion The completion handler to call when the request is complete. If errorString isn't nil, comicsArray contains an array of comics stored in NSDictionary
+    
+    */
+    
+    func getComics(titleQuery q: String? = nil, startIndex: Int? = nil, limit: Int? = nil, completion: (errorString: String?, comicsArray: NSArray?, itemsLeft: Int?) -> Void) {
+        var parameters: [NSString : AnyObject]! = [NSString : AnyObject]()
+        parameters["titleStartsWith"] = q?
+        if parameters.isEmpty {
+            parameters = nil
+        }
+        
+        getObjectsWithPath("/comics", params: parameters, startIndex: startIndex, limit: limit, completion: completion)
+    }
+    
+    /**
     Performs a request to get comics for specified character.
     
     :param: charID ID of the character.
