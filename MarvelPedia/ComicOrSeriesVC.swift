@@ -26,13 +26,13 @@ class ComicOrSeriesVC: UIViewController {
             // display comic
             self.titleLabel.text = self.comic?.title
             if let thumb = self.comic?.thumbnailURL {
-                self.fullUrl = "\(thumb.path)/portrait_uncanny.\(thumb.ext)"
+                self.fullUrl = "\(thumb.path).\(thumb.ext)"
             }
         } else {
             // display series
             self.titleLabel.text = self.series?.title
             if let thumb = self.series?.thumbnailURL {
-                self.fullUrl = "\(thumb.path)/portrait_uncanny.\(thumb.ext)"
+                self.fullUrl = "\(thumb.path).\(thumb.ext)"
             }
         }
 
