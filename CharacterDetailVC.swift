@@ -99,18 +99,13 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if section == 0 {
-            return nil
-        }
-        else {
-            var sectionHeaderLabel = UILabel()
-            sectionHeaderLabel.text = self.tableViewHeaders[section]
-            sectionHeaderLabel.font = UIFont(name: "AvenirNext-Bold", size: 25.0)
-            sectionHeaderLabel.textAlignment = NSTextAlignment.Center
-            sectionHeaderLabel.textColor = UIColor.blackColor()
-            sectionHeaderLabel.backgroundColor = UIColor.lightGrayColor()
-            return sectionHeaderLabel
-        }
+        var sectionHeaderLabel = UILabel()
+        sectionHeaderLabel.text = self.tableViewHeaders[section]
+        sectionHeaderLabel.font = UIFont(name: "AvenirNext-Regular", size: 25.0)
+        sectionHeaderLabel.textAlignment = NSTextAlignment.Center
+        sectionHeaderLabel.textColor = UIColor.blackColor()
+        sectionHeaderLabel.backgroundColor = UIColor.lightGrayColor()
+        return sectionHeaderLabel
     }
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -140,8 +135,6 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
-        
         if indexPath.section == 1 { // in the comics section
             let cell = self.tableView.dequeueReusableCellWithIdentifier("CUSTOM_CELL") as CustomTableViewCell
             
@@ -195,14 +188,8 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
         }
 
         
+        // TODO: check which section/row to disable user interaction and to disable the highlighting
         
-        // modify the thumbnail url in order to download a larger version of the character's image
-        if let thumb = self.characterToDisplay!.thumbnailURL {
-            var urlForLargerImage = "\(thumb.path)/portrait_uncanny.\(thumb.ext)"
-            MarvelNetworking.controller.getImageAtURLString(urlForLargerImage, completion: { (image, errorString) -> Void in
-                // load the larger image into the header
-            })
-        }
         
         return cell
         
@@ -274,27 +261,22 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
 
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        var selectedComic : Comic
+        var selectedSeries : Series
+        var comicOrSeriesVC = storyboard?.instantiateViewControllerWithIdentifier("COMIC_OR_SERIES_VC") as ComicOrSeriesVC
+        
         if collectionView == self.comicsCollectionView {
             println("comic selected at \(indexPath.row)")
-            let comic = self.comicsForCharacter[indexPath.row] as Comic
-            println(comic.title)
-            var comicVC = storyboard?.instantiateViewControllerWithIdentifier("COMIC_VC") as ComicVC
-            comicVC.comic = comic
-            self.navigationController?.pushViewController(comicVC, animated: true)
-            
+            selectedComic = self.comicsForCharacter[indexPath.row] as Comic
+            comicOrSeriesVC.comic = selectedComic
         }
         else {
             println("series selected at \(indexPath.row)")
-            let series = self.seriesForCharacter[indexPath.row] as Series
-            println(series.title)
-            var seriesVC = storyboard?.instantiateViewControllerWithIdentifier("SERIES_VC") as SeriesVC
-            seriesVC.series = series
-            self.navigationController?.pushViewController(seriesVC, animated: true)
-            
+            selectedSeries = self.seriesForCharacter[indexPath.row] as Series
+            comicOrSeriesVC.series = selectedSeries
         }
-
         
-
+        self.navigationController?.pushViewController(comicOrSeriesVC, animated: true)
     }
     
     func scrollViewDidScroll(scrollView: UIScrollView) {

@@ -18,7 +18,6 @@ class ComicCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.comicImageView.layer.cornerRadius = 50
 
     }
 
