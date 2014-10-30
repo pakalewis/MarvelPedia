@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Rqq-i1-c4Z">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Rqq-i1-c4Z">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -110,75 +110,10 @@
             </objects>
             <point key="canvasLocation" x="1637" y="136"/>
         </scene>
-        <!--ComicVC-->
-        <scene sceneID="H4m-MM-wGA">
-            <objects>
-                <viewController restorationIdentifier="COMIC_VC" storyboardIdentifier="COMIC_VC" id="Xau-p1-SgN" customClass="ComicVC" customModule="MarvelPedia" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="h7W-ev-Lrl"/>
-                        <viewControllerLayoutGuide type="bottom" id="GMB-ER-uF7"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="I5k-bC-BYl">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Comic Title" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="20" translatesAutoresizingMaskIntoConstraints="NO" id="qz8-SK-yc1">
-                                <rect key="frame" x="0.0" y="540" width="600" height="50"/>
-                                <color key="backgroundColor" red="0.81500509509999997" green="0.81500509509999997" blue="0.81500509509999997" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="0gE-HM-gRW"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Pk4-26-y99">
-                                <rect key="frame" x="282" y="262" width="37" height="37"/>
-                            </activityIndicatorView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Data provided by Marvel. © 2014 Marvel" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IFv-sQ-DfT">
-                                <rect key="frame" x="0.0" y="590" width="600" height="10"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="10" id="bJP-vt-rQ9"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="U65-NU-rOd">
-                                <rect key="frame" x="0.0" y="20" width="600" height="520"/>
-                            </imageView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="IFv-sQ-DfT" firstAttribute="leading" secondItem="I5k-bC-BYl" secondAttribute="leading" id="9Jz-iu-o1b"/>
-                            <constraint firstAttribute="trailing" secondItem="qz8-SK-yc1" secondAttribute="trailing" id="Abq-DA-PqO"/>
-                            <constraint firstItem="GMB-ER-uF7" firstAttribute="top" secondItem="IFv-sQ-DfT" secondAttribute="bottom" id="Q2K-Od-9AW"/>
-                            <constraint firstItem="qz8-SK-yc1" firstAttribute="top" secondItem="U65-NU-rOd" secondAttribute="bottom" id="Wci-7W-bSo"/>
-                            <constraint firstAttribute="trailing" secondItem="IFv-sQ-DfT" secondAttribute="trailing" id="aX4-lH-LIz"/>
-                            <constraint firstItem="U65-NU-rOd" firstAttribute="leading" secondItem="I5k-bC-BYl" secondAttribute="leading" id="b2o-cW-ApL"/>
-                            <constraint firstItem="Pk4-26-y99" firstAttribute="centerY" secondItem="U65-NU-rOd" secondAttribute="centerY" id="bfE-6d-avF"/>
-                            <constraint firstItem="U65-NU-rOd" firstAttribute="top" secondItem="h7W-ev-Lrl" secondAttribute="bottom" id="dmj-yy-XDW"/>
-                            <constraint firstItem="qz8-SK-yc1" firstAttribute="top" secondItem="U65-NU-rOd" secondAttribute="bottom" id="fTF-lw-cIm"/>
-                            <constraint firstItem="Pk4-26-y99" firstAttribute="centerX" secondItem="U65-NU-rOd" secondAttribute="centerX" id="fi1-fl-hbM"/>
-                            <constraint firstItem="qz8-SK-yc1" firstAttribute="leading" secondItem="I5k-bC-BYl" secondAttribute="leading" id="jdV-cz-Srb"/>
-                            <constraint firstItem="IFv-sQ-DfT" firstAttribute="top" secondItem="qz8-SK-yc1" secondAttribute="bottom" id="qBg-Pg-ipC"/>
-                            <constraint firstAttribute="trailing" secondItem="U65-NU-rOd" secondAttribute="trailing" id="ugW-hl-FqG"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="activityIndicator" destination="Pk4-26-y99" id="5Rc-9G-Gdw"/>
-                        <outlet property="comicImageView" destination="U65-NU-rOd" id="Vps-BI-oNW"/>
-                        <outlet property="comicTitleLabel" destination="qz8-SK-yc1" id="c7u-lk-7x9"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="crE-LA-gIg" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2309" y="-134"/>
-        </scene>
-        <!--SeriesVC-->
+        <!--Comic Or SeriesVC-->
         <scene sceneID="frz-HG-W2c">
             <objects>
-                <viewController restorationIdentifier="SERIES_VC" storyboardIdentifier="SERIES_VC" id="eDV-Ua-fgk" customClass="SeriesVC" customModule="MarvelPedia" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController restorationIdentifier="COMIC_OR_SERIES_VC" storyboardIdentifier="COMIC_OR_SERIES_VC" id="eDV-Ua-fgk" customClass="ComicOrSeriesVC" customModule="MarvelPedia" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="jer-qm-7hK"/>
                         <viewControllerLayoutGuide type="bottom" id="XOg-v4-ZiD"/>
@@ -202,7 +137,7 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Series Title" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IRa-jh-qdy">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IRa-jh-qdy">
                                 <rect key="frame" x="0.0" y="550" width="600" height="40"/>
                                 <color key="backgroundColor" red="0.81500509510869568" green="0.81500509510869568" blue="0.81500509510869568" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -229,8 +164,8 @@
                     </view>
                     <connections>
                         <outlet property="activityIndicator" destination="7Tw-UI-38G" id="ZuD-Td-teO"/>
-                        <outlet property="seriesImageView" destination="9hY-wP-qrW" id="LEm-ej-MEl"/>
-                        <outlet property="seriesTitleLabel" destination="IRa-jh-qdy" id="EjU-tk-Ajc"/>
+                        <outlet property="imageView" destination="9hY-wP-qrW" id="wdK-fJ-TLm"/>
+                        <outlet property="titleLabel" destination="IRa-jh-qdy" id="H0A-xt-5m5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yeb-Eb-IrS" userLabel="First Responder" sceneMemberID="firstResponder"/>
