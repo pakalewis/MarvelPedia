@@ -151,7 +151,7 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
             cell.customCollectionView.delegate = self
             cell.customCollectionView.dataSource = self
             cell.customCollectionView.backgroundColor = UIColor.lightGrayColor()
-            MarvelNetworking.controller.getComicsWithCharacterID(self.characterToDisplay!.id, limit: 6, completion: { (errorString, comicsArray) -> Void in
+            MarvelNetworking.controller.getComicsWithCharacterID(self.characterToDisplay!.id, limit: 6, completion: { (errorString, comicsArray, itemsLeft) -> Void in
                 if comicsArray != nil {
                     self.comicsForCharacter = Comic.parseJSONIntoComics(data: comicsArray!)
                     cell.customCollectionView.reloadData()
@@ -174,7 +174,7 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
             cell.customCollectionView.dataSource = self
             cell.customCollectionView.backgroundColor = UIColor.lightGrayColor()
 
-            MarvelNetworking.controller.getSeriesWithCharacterID(self.characterToDisplay!.id, limit: 6, completion: { (errorString, seriesArray) -> Void in
+            MarvelNetworking.controller.getSeriesWithCharacterID(self.characterToDisplay!.id, limit: 6, completion: { (errorString, seriesArray, itemsLeft) -> Void in
                 if seriesArray != nil {
                     self.seriesForCharacter = Series.parseJSONIntoSeries(data: seriesArray!)
                     cell.customCollectionView.reloadData()

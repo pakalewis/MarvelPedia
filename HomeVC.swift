@@ -32,6 +32,30 @@ class HomeVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
         //self.activityIndicator.hidesWhenStopped = true
     }
     
+    // MARK: Private Methods
+    
+    func loadCharactersWithLimit(_ limit: Int? = nil, startIndex: Int? = nil) {
+        self.activityIndicator.startAnimating()
+        MarvelNetworking.controller.getCharacters(nameQuery: self.header.searchBar.text, limit: limit, startIndex: startIndex, completion: { (errorString, charactersArray, itemsLeft) -> Void in
+            if charactersArray != nil {
+                if itemsLeft? == 0 {
+                    self.canLoadMore = false
+                }
+                
+                var newCharacters = Character.parseJSONIntoCharacters(data: charactersArray!)
+                self.characters += newCharacters
+                self.collectionView.reloadData()
+            } else {
+                println("no data")
+                println(errorString)
+            }
+            
+            if charactersArray?.count == 0 {
+                self.canLoadMore = false
+            }
+            self.activityIndicator.stopAnimating()
+        })
+    }
     
     // MARK: COLLECTION VIEW
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -105,35 +129,17 @@ class HomeVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
         
         return header
     }
-
-    
     
     func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
-
         if !self.canLoadMore {
             return
         }
+        
         var indexPathToLoadMoreCharacters = self.characters.count
         if indexPath.row + 1 == indexPathToLoadMoreCharacters {
-            self.activityIndicator.startAnimating()
-            MarvelNetworking.controller.getCharacters(nameQuery: self.header.searchBar.text, startIndex: self.characters.count, limit: 40, completion: { (errorString, charactersArray) -> Void in
-                if errorString == nil {
-                    var newCharacters = Character.parseJSONIntoCharacters(data: charactersArray!)
-                    self.characters += newCharacters
-                    self.collectionView.reloadData()
-                } else {
-                    println(errorString)
-                }
-                
-                if charactersArray?.count == 0 {
-                    self.canLoadMore = false
-                }
-                self.activityIndicator.stopAnimating()
-            })
+            loadCharactersWithLimit(40, startIndex: self.characters.count)
         }
     }
-    
-    
     
     // MARK: SEARCH BAR
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
@@ -141,18 +147,8 @@ class HomeVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
         self.canLoadMore = true
         self.characters = [Character]()
         self.collectionView.reloadData()
-        self.activityIndicator.startAnimating()
         
-        MarvelNetworking.controller.getCharacters(nameQuery: searchBar.text, limit : 20, completion: { (errorString, charactersArray) -> Void in
-            
-            if charactersArray != nil {
-                self.characters = Character.parseJSONIntoCharacters(data: charactersArray!)
-            } else {
-                println("no data")
-            }
-            self.collectionView.reloadData()
-            self.activityIndicator.stopAnimating()
-        })
+        loadCharactersWithLimit(20)
     }
     
 }
