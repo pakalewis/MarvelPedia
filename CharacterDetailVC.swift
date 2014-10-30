@@ -12,13 +12,14 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
 
     @IBOutlet var tableView : UITableView!
     var characterToDisplay : Character?
-    let tableViewHeaders = ["", "Comics", "Series"]
+    let tableViewHeaders = ["Character", "Comics", "Series"]
     var comicsForCharacter = [Comic]()
     var seriesForCharacter = [Series]()
     
     weak var comicsCollectionView: UICollectionView?
     weak var seriesCollectionView: UICollectionView?
     var headerImageView: UIImageView!
+    var headerActivityIndicator: UIActivityIndicatorView!
     let kDefaultHeaderImageYOffset: CGFloat = -64
     var headerImageYOffset: CGFloat = -64
     var oldScrollViewY: CGFloat = 0
@@ -38,13 +39,64 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
         let newNib = UINib(nibName: "CustomTableViewCell", bundle: nil)
         self.tableView.registerNib(newNib, forCellReuseIdentifier: "CUSTOM_CELL")
         
+        self.tableView.estimatedRowHeight = 100.0
+        self.tableView.rowHeight = UITableViewAutomaticDimension
+
         headerImageView = UIImageView(frame: CGRect(x: 0, y: headerImageYOffset, width: self.view.frame.width, height: self.view.frame.height / 2.5 + 30))
         headerImageView.contentMode = .ScaleAspectFill
         headerImageView.autoresizingMask = .FlexibleWidth
-        headerImageView.clipsToBounds = true
         self.view.insertSubview(headerImageView, belowSubview: tableView)
         
+        headerActivityIndicator = UIActivityIndicatorView(frame: headerImageView.frame)
+        headerActivityIndicator.hidesWhenStopped = true
+        headerActivityIndicator.activityIndicatorViewStyle = .Gray
+        self.view.insertSubview(headerActivityIndicator, aboveSubview: headerImageView)
+        
         tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: headerImageView.frame.height + kDefaultHeaderImageYOffset * 2))
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        MarvelCaching.caching.clearMemoryCache()
+    }
+    
+    // TODO: "Character" header stays on screen when you scroll down
+    
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if let thumb = characterToDisplay?.thumbnailURL {
+            let thumbURL = "\(thumb.path).\(thumb.ext)"
+            
+            MarvelCaching.caching.cachedImageForURLString(thumbURL, completion: { (image) -> Void in
+                if image != nil {
+                    self.headerImageView.image = image
+                    return
+                }
+                
+                self.headerActivityIndicator.startAnimating()
+                MarvelNetworking.controller.getImageAtURLString(thumbURL, completion: { (image, errorString) -> Void in
+                    self.headerActivityIndicator.stopAnimating()
+                    if errorString != nil {
+                        println(errorString)
+                        return
+                    }
+                    
+                    MarvelCaching.caching.setCachedImage(image!, forURLString: thumbURL)
+                    
+                    UIView.transitionWithView(self.headerImageView, duration: 0.3, options: UIViewAnimationOptions.TransitionCurlDown, animations: { () -> Void in
+                        self.headerImageView.image = image
+                    }, completion: nil)
+                    
+                })
+                
+            })
+        }
+        else {
+            headerImageView.image = UIImage(named: "notfound_image_big.jpg")
+        }
+        
     }
     
     
@@ -54,22 +106,24 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if section == 0 {
-            return nil
-        }
-        else {
-            var sectionHeaderLabel = UILabel()
-            sectionHeaderLabel.text = self.tableViewHeaders[section]
-            sectionHeaderLabel.font = UIFont(name: "Arial", size: 22.0)
-            sectionHeaderLabel.textAlignment = NSTextAlignment.Center
-            sectionHeaderLabel.textColor = UIColor.blueColor()
-            sectionHeaderLabel.backgroundColor = UIColor.lightGrayColor()
-            return sectionHeaderLabel
-        }
+        var sectionHeaderLabel = UILabel()
+        sectionHeaderLabel.text = self.tableViewHeaders[section]
+        sectionHeaderLabel.font = UIFont(name: "AvenirNext-Regular", size: 25.0)
+        sectionHeaderLabel.textAlignment = NSTextAlignment.Center
+        sectionHeaderLabel.textColor = UIColor.blackColor()
+        sectionHeaderLabel.backgroundColor = UIColor.lightGrayColor()
+        return sectionHeaderLabel
+    }
+    
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 45.0
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
+            if self.characterToDisplay?.bio == "" {
+                return 1 // no bio to display
+            }
             return 2
         } else {
             return 1
@@ -83,13 +137,16 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
             return customCellHeight
         } else {
             
-            return 30.0
+            return UITableViewAutomaticDimension
         }
     }
     
+    
+    //TODO: Download more comics/series when the user scrolls to the end of thecollection view.
+    //TODO: Add placeholder if there are no download results. Also add activity indicators before the collectionviews populate??
+    
+    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
-        
         if indexPath.section == 1 { // in the comics section
             let cell = self.tableView.dequeueReusableCellWithIdentifier("CUSTOM_CELL") as CustomTableViewCell
             
@@ -98,7 +155,7 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
             cell.customCollectionView.delegate = self
             cell.customCollectionView.dataSource = self
             cell.customCollectionView.backgroundColor = UIColor.lightGrayColor()
-            MarvelNetworking.controller.getComicsWithCharacterID(self.characterToDisplay!.id, limit: 3, completion: { (errorString, comicsArray) -> Void in
+            MarvelNetworking.controller.getComicsWithCharacterID(self.characterToDisplay!.id, limit: 6, completion: { (errorString, comicsArray, itemsLeft) -> Void in
                 if comicsArray != nil {
                     self.comicsForCharacter = Comic.parseJSONIntoComics(data: comicsArray!)
                     cell.customCollectionView.reloadData()
@@ -121,7 +178,7 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
             cell.customCollectionView.dataSource = self
             cell.customCollectionView.backgroundColor = UIColor.lightGrayColor()
 
-            MarvelNetworking.controller.getSeriesWithCharacterID(self.characterToDisplay!.id, limit: 3, completion: { (errorString, seriesArray) -> Void in
+            MarvelNetworking.controller.getSeriesWithCharacterID(self.characterToDisplay!.id, limit: 6, completion: { (errorString, seriesArray, itemsLeft) -> Void in
                 if seriesArray != nil {
                     self.seriesForCharacter = Series.parseJSONIntoSeries(data: seriesArray!)
                     cell.customCollectionView.reloadData()
@@ -137,20 +194,14 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
         
         let cell = self.tableView.dequeueReusableCellWithIdentifier("INFO_CELL", forIndexPath: indexPath) as InfoCell
         if indexPath.row == 0 {
-            cell.textLabel.text = "Name: \(self.characterToDisplay!.name)"
+            cell.infoCellLabel.text = "\(self.characterToDisplay!.name)"
         } else {
-            cell.textLabel.text = "Bio: \(self.characterToDisplay!.bio)"
+            cell.infoCellLabel.text = "\(self.characterToDisplay!.bio)"
         }
 
         
+        // TODO: check which section/row to disable user interaction and to disable the highlighting. user should only be allowed to select the cell that will present the webview with more info about the character
         
-        // modify the thumbnail url in order to download a larger version of the character's image
-        if let thumb = self.characterToDisplay!.thumbnailURL {
-            var urlForLargerImage = "\(thumb.path)/portrait_uncanny.\(thumb.ext)"
-            MarvelNetworking.controller.getImageAtURLString(urlForLargerImage, completion: { (image, errorString) -> Void in
-                // load the larger image into the header
-            })
-        }
         
         return cell
         
@@ -182,23 +233,24 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
         // could change this to be creating different cells: ComicCell or SeriesCell
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("COMIC_CELL", forIndexPath: indexPath) as ComicCell
         cell.backgroundColor = UIColor.grayColor()
+        cell.comicImageView.image = nil
         
         // determine the image url
         var sourceURL = ""
         if collectionView == self.comicsCollectionView {
             let currentComic = self.comicsForCharacter[indexPath.row]
             if let thumb = currentComic.thumbnailURL {
-                sourceURL = "\(thumb.path)/standard_xlarge.\(thumb.ext)"
+                sourceURL = "\(thumb.path)/portrait_xlarge.\(thumb.ext)"
             }
         }
         else {
             let currentSeries = self.seriesForCharacter[indexPath.row]
             if let thumb = currentSeries.thumbnailURL {
-                sourceURL = "\(thumb.path)/standard_xlarge.\(thumb.ext)"
+                sourceURL = "\(thumb.path)/portrait_xlarge.\(thumb.ext)"
             }
         }
         
-        // either grab the image from the cache or download it
+        // Either grab the image from the cache or download it
         MarvelCaching.caching.cachedImageForURLString(sourceURL, completion: { (image) -> Void in
             if image != nil {
                 cell.comicImageView.image = image
@@ -212,7 +264,10 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
                     }
                     MarvelCaching.caching.setCachedImage(image!, forURLString: sourceURL)
                     cell.activityIndicator.stopAnimating()
-                    cell.comicImageView.image = image
+                    
+                    UIView.transitionWithView(cell.comicImageView, duration: 0.3, options: UIViewAnimationOptions.TransitionCurlDown, animations: { () -> Void in
+                        cell.comicImageView.image = image
+                        }, completion: nil)
                 })
             }
         })
@@ -220,29 +275,26 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
         return cell
     }
 
+    // TODO: when returning from ComicOrSeriesVC, the CharacterDetailVC jumps to the top. maybe should stay scrolled down to wherever it was when the user selected a Comic or Series.
+    
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        var selectedComic : Comic
+        var selectedSeries : Series
+        var comicOrSeriesVC = storyboard?.instantiateViewControllerWithIdentifier("COMIC_OR_SERIES_VC") as ComicOrSeriesVC
+        
         if collectionView == self.comicsCollectionView {
             println("comic selected at \(indexPath.row)")
-            let comic = self.comicsForCharacter[indexPath.row] as Comic
-            println(comic.title)
-            var comicVC = storyboard?.instantiateViewControllerWithIdentifier("COMIC_VC") as ComicVC
-            comicVC.comic = comic
-            self.navigationController?.pushViewController(comicVC, animated: true)
-            
+            selectedComic = self.comicsForCharacter[indexPath.row] as Comic
+            comicOrSeriesVC.comic = selectedComic
         }
         else {
             println("series selected at \(indexPath.row)")
-            let series = self.seriesForCharacter[indexPath.row] as Series
-            println(series.title)
-            var seriesVC = storyboard?.instantiateViewControllerWithIdentifier("SERIES_VC") as SeriesVC
-            seriesVC.series = series
-            self.navigationController?.pushViewController(seriesVC, animated: true)
-            
+            selectedSeries = self.seriesForCharacter[indexPath.row] as Series
+            comicOrSeriesVC.series = selectedSeries
         }
-
         
-
+        self.navigationController?.pushViewController(comicOrSeriesVC, animated: true)
     }
     
     func scrollViewDidScroll(scrollView: UIScrollView) {

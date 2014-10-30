@@ -11,7 +11,24 @@
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gMK-Cn-ZbZ" id="lg2-8w-kyA">
                 <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F9s-fp-whM">
+                        <rect key="frame" x="10" y="5" width="406" height="101"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="F9s-fp-whM" firstAttribute="leading" secondItem="lg2-8w-kyA" secondAttribute="leading" constant="10" id="0YK-Zn-xeC"/>
+                    <constraint firstItem="F9s-fp-whM" firstAttribute="top" secondItem="lg2-8w-kyA" secondAttribute="top" constant="5" id="1hH-ST-VhS"/>
+                    <constraint firstAttribute="trailing" secondItem="F9s-fp-whM" secondAttribute="trailing" constant="10" id="2U6-p3-J4e"/>
+                    <constraint firstAttribute="bottom" secondItem="F9s-fp-whM" secondAttribute="bottom" constant="5" id="jcC-I4-EAa"/>
+                </constraints>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="infoCellLabel" destination="F9s-fp-whM" id="3FA-VH-Csd"/>
+            </connections>
             <point key="canvasLocation" x="355" y="409"/>
         </tableViewCell>
     </objects>
