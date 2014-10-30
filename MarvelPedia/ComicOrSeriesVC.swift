@@ -77,25 +77,51 @@ class ComicOrSeriesVC: UIViewController, UICollectionViewDelegate, UICollectionV
     func loadCharactersWithLimit(_ limit: Int? = nil, startIndex: Int? = nil) {
         self.activityIndicator.startAnimating()
 
-        println(self.comic!.id)
-        MarvelNetworking.controller.getCharactersWithComicID(self.comic!.id, limit: limit) { (errorString, charactersArray, itemsLeft) -> Void in
-            if charactersArray != nil {
-                if itemsLeft? == 0 {
+
+        if comic != nil {
+            println(self.comic!.id)
+            MarvelNetworking.controller.getCharactersWithComicID(self.comic!.id, limit: limit) { (errorString, charactersArray, itemsLeft) -> Void in
+                if charactersArray != nil {
+                    if itemsLeft? == 0 {
+                        self.canLoadMore = false
+                    }
+                    
+                    var newCharacters = Character.parseJSONIntoCharacters(data: charactersArray!)
+                    self.charactersInComicOrSeries += newCharacters
+                    println(self.charactersInComicOrSeries.count)
+                    self.collectionView.reloadData()
+                } else {
+                    println("no data")
+                    println(errorString)
+                }
+                
+                if charactersArray?.count == 0 {
                     self.canLoadMore = false
                 }
                 
-                var newCharacters = Character.parseJSONIntoCharacters(data: charactersArray!)
-                self.charactersInComicOrSeries += newCharacters
-                self.collectionView.reloadData()
-            } else {
-                println("no data")
-                println(errorString)
             }
-            
-            if charactersArray?.count == 0 {
-                self.canLoadMore = false
+        } else {
+            println(self.series!.id)
+            MarvelNetworking.controller.getCharactersWithSeriesID(self.series!.id, limit: limit) { (errorString, charactersArray, itemsLeft) -> Void in
+                if charactersArray != nil {
+                    if itemsLeft? == 0 {
+                        self.canLoadMore = false
+                    }
+                    
+                    var newCharacters = Character.parseJSONIntoCharacters(data: charactersArray!)
+                    self.charactersInComicOrSeries += newCharacters
+                    println(self.charactersInComicOrSeries.count)
+                    self.collectionView.reloadData()
+                } else {
+                    println("no data")
+                    println(errorString)
+                }
+                
+                if charactersArray?.count == 0 {
+                    self.canLoadMore = false
+                }
+                
             }
-
         }
     }
 
@@ -166,7 +192,7 @@ class ComicOrSeriesVC: UIViewController, UICollectionViewDelegate, UICollectionV
         self.navigationController?.pushViewController(characterDetailVC, animated: true)
     }
     
-    
+    // TODO: For Series, the first 10 are downloaded over and over. Something wrong with the startIndex maybe?
     func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
         if !self.canLoadMore {
             return
