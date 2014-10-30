@@ -11,6 +11,10 @@ import UIKit
 class ComicCell: UICollectionViewCell {
 
     @IBOutlet weak var comicImageView: UIImageView!
+    
+    @IBOutlet weak var comicTitleLabel: UILabel!
+    
+    
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     
