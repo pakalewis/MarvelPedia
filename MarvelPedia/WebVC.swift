@@ -25,7 +25,8 @@ class WebVC: UIViewController, WKNavigationDelegate {
         self.navigationController?.interactivePopGestureRecognizer.enabled = false
         self.webView.allowsBackForwardNavigationGestures = true
         
-        self.indicatorView.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
+        self.indicatorView.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.WhiteLarge
+        self.indicatorView.color = UIColor.grayColor()
         self.indicatorView.hidesWhenStopped = true
         
         self.indicatorView.autoresizingMask = UIViewAutoresizing.FlexibleLeftMargin |
