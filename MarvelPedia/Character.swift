@@ -17,6 +17,7 @@ class Character {
     let modified: String
     let resourceURI: String
     let thumbnailURL: (path: String, ext: String)?
+    let detailURL: String?
     
     init(data: NSDictionary) {
         self.id = data["id"] as Int
@@ -28,6 +29,22 @@ class Character {
         if let thumbnail = data["thumbnail"] as? [String : String] {
             self.thumbnailURL = (path: thumbnail["path"]!, ext: thumbnail["extension"]!)
         }
+        
+        if let urls = data["urls"] as? NSArray {
+            if let detailDict = urls[0] as? [String : String] {
+                let type = detailDict["type"]
+                if type == "detail" {
+                    if let url = detailDict["url"] {
+                        if !url.isEmpty {
+                            self.detailURL = url
+                        }
+                    }
+                }
+            }
+        }
+        
+        println(self.detailURL)
+        
     }
     
     class func parseJSONIntoCharacters(#data: NSArray) -> [Character] {
