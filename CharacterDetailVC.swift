@@ -56,6 +56,10 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
         tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: headerImageView.frame.height + kDefaultHeaderImageYOffset * 2))
     }
     
+    
+    // TODO: "Character" header stays on screen when you scroll down
+    
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -134,6 +138,11 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
         }
     }
     
+    
+    //TODO: Download more comics/series when the user scrolls to the end of thecollection view.
+    //TODO: Add placeholder if there are no download results. Also add activity indicators before the collectionviews populate??
+    
+    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if indexPath.section == 1 { // in the comics section
             let cell = self.tableView.dequeueReusableCellWithIdentifier("CUSTOM_CELL") as CustomTableViewCell
@@ -143,7 +152,7 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
             cell.customCollectionView.delegate = self
             cell.customCollectionView.dataSource = self
             cell.customCollectionView.backgroundColor = UIColor.lightGrayColor()
-            MarvelNetworking.controller.getComicsWithCharacterID(self.characterToDisplay!.id, limit: 3, completion: { (errorString, comicsArray) -> Void in
+            MarvelNetworking.controller.getComicsWithCharacterID(self.characterToDisplay!.id, limit: 6, completion: { (errorString, comicsArray) -> Void in
                 if comicsArray != nil {
                     self.comicsForCharacter = Comic.parseJSONIntoComics(data: comicsArray!)
                     cell.customCollectionView.reloadData()
@@ -166,7 +175,7 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
             cell.customCollectionView.dataSource = self
             cell.customCollectionView.backgroundColor = UIColor.lightGrayColor()
 
-            MarvelNetworking.controller.getSeriesWithCharacterID(self.characterToDisplay!.id, limit: 3, completion: { (errorString, seriesArray) -> Void in
+            MarvelNetworking.controller.getSeriesWithCharacterID(self.characterToDisplay!.id, limit: 6, completion: { (errorString, seriesArray) -> Void in
                 if seriesArray != nil {
                     self.seriesForCharacter = Series.parseJSONIntoSeries(data: seriesArray!)
                     cell.customCollectionView.reloadData()
@@ -188,7 +197,7 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
         }
 
         
-        // TODO: check which section/row to disable user interaction and to disable the highlighting
+        // TODO: check which section/row to disable user interaction and to disable the highlighting. user should only be allowed to select the cell that will present the webview with more info about the character
         
         
         return cell
@@ -259,6 +268,8 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
         return cell
     }
 
+    // TODO: when returning from ComicOrSeriesVC, the CharacterDetailVC jumps to the top. maybe should stay scrolled down to wherever it was when the user selected a Comic or Series.
+    
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         var selectedComic : Comic
