@@ -16,9 +16,10 @@ class HomeVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     var characters = [Character]()
-    var header : CollectionHeader!
+    var header : UICollectionReusableView!
     var canLoadMore = true
-
+    var searchBarText = ""
+    var selectedScope = 0
     
     override func viewDidLoad() {
         self.collectionView.delegate = self
@@ -28,8 +29,6 @@ class HomeVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
         // register CharacterCell nib for the collection view
         let nib = UINib(nibName: "CharacterCell", bundle: NSBundle.mainBundle())
         self.collectionView.registerNib(nib, forCellWithReuseIdentifier: "CHARACTER_CELL")
-        
-        //self.activityIndicator.hidesWhenStopped = true
     }
     
     override func didReceiveMemoryWarning() {
@@ -41,7 +40,7 @@ class HomeVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
     
     func loadCharactersWithLimit(_ limit: Int? = nil, startIndex: Int? = nil) {
         self.activityIndicator.startAnimating()
-        MarvelNetworking.controller.getCharacters(nameQuery: self.header.searchBar.text, limit: limit, startIndex: startIndex, completion: { (errorString, charactersArray, itemsLeft) -> Void in
+        MarvelNetworking.controller.getCharacters(nameQuery: self.searchBarText, limit: limit, startIndex: startIndex, completion: { (errorString, charactersArray, itemsLeft) -> Void in
             if charactersArray != nil {
                 if itemsLeft? == 0 {
                     self.canLoadMore = false
@@ -128,8 +127,14 @@ class HomeVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
     
     func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
         if self.header == nil {
-            self.header = self.collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "HEADER", forIndexPath: indexPath) as? CollectionHeader
-            self.header?.searchBar.delegate = self
+            self.header = self.collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "HEADER", forIndexPath: indexPath) as UICollectionReusableView
+            let headerFrame = self.header.frame
+            var searchBar = UISearchBar(frame: headerFrame)
+            searchBar.showsScopeBar = true
+            searchBar.scopeButtonTitles = ["Characters", "Comics"]
+            self.header.addSubview(searchBar)
+            
+            searchBar.delegate = self
         }
         
         return header
@@ -152,6 +157,9 @@ class HomeVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
         self.canLoadMore = true
         self.characters = [Character]()
         self.collectionView.reloadData()
+        
+        // save the searchBar text as a local variable
+        self.searchBarText = searchBar.text
         
         loadCharactersWithLimit(20)
     }
