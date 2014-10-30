@@ -28,7 +28,7 @@ class WebVC: UIViewController, WKNavigationDelegate {
         self.indicatorView.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
         self.indicatorView.hidesWhenStopped = true
         
-        let transform = CGAffineTransformMakeScale(4.0, 4.0);
+        let transform = CGAffineTransformMakeScale(3.0, 3.0);
         self.indicatorView.transform = transform;
         
         self.indicatorView.autoresizingMask = UIViewAutoresizing.FlexibleLeftMargin |

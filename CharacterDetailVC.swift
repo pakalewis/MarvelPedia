@@ -56,6 +56,7 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
     }
     
     override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
         self.navigationController?.interactivePopGestureRecognizer.enabled = true
     }
     
@@ -69,6 +70,10 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
+        if let selectedRowIndexPath = self.tableView.indexPathForSelectedRow() {
+            self.tableView.deselectRowAtIndexPath(selectedRowIndexPath, animated: true)
+        }
         
         if let thumb = characterToDisplay?.thumbnailURL {
             let thumbURL = "\(thumb.path).\(thumb.ext)"
@@ -203,9 +208,9 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
             if indexPath.row == 0 {
                 cell.infoCellLabel.text = "\(self.characterToDisplay!.name)"
             } else {
-                cell.infoCellLabel.text = "See more info"
+                cell.infoCellLabel.text = "See more at marvel.com"
                 cell.userInteractionEnabled = true
-                cell.accessoryType = UITableViewCellAccessoryType.DetailButton
+                cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
             }
         }
         else {
@@ -214,9 +219,9 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
             } else if indexPath.row == 1 {
                 cell.infoCellLabel.text = "\(self.characterToDisplay!.bio)"
             } else {
-                cell.infoCellLabel.text = "See more info"
+                cell.infoCellLabel.text = "See more at marvel.com"
                 cell.userInteractionEnabled = true
-                cell.accessoryType = UITableViewCellAccessoryType.DetailButton
+                cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
             }
         }
         return cell
