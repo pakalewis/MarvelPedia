@@ -80,7 +80,6 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
         MarvelCaching.caching.clearMemoryCache()
     }
     
-    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -120,8 +119,6 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
         }
         
     }
-    
-    
     
     // Helper Methods
     func loadComicsWithLimit(_ limit: Int? = nil, startIndex: Int? = nil) {
@@ -238,11 +235,6 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
         return 0
     }
     
-    
-    //TODO: Download more comics/series when the user scrolls to the end of thecollection view.
-    //TODO: Add placeholder if there are no download results. Also add activity indicators before the collectionviews populate??
-    
-    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         if indexPath.section != 0 {
@@ -313,11 +305,6 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
         
     }
     
-    
-    
-    
-    
-    
     // MARK: COLLECTION VIEW WITHIN A TABLEVIEW CELL
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == self.comicsCollectionView {
@@ -343,9 +330,15 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
             cell.comicTitleLabel.textColor = UIColor(white: 1, alpha: 0.8)
             cell.comicImageView.image = nil
             
+            var currentTag = cell.tag + 1
+            cell.tag = currentTag
+            
             // Either grab the image from the cache or download it
             MarvelCaching.caching.cachedImageForURLString(sourceURL, completion: { (image) -> Void in
-                // TODO: Grab an appropriate cell
+                // Grab an appropriate cell
+                if cell.tag != currentTag {
+                    return
+                }
                 
                 if image != nil {
                     cell.comicImageView.image = image
@@ -359,7 +352,11 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
                         }
                         MarvelCaching.caching.setCachedImage(image!, forURLString: sourceURL)
                         
-                        // TODO: Grab an appropriate cell
+                        if cell.tag != currentTag {
+                            return
+                        }
+                        
+                        // Grab an appropriate cell
                         cell.activityIndicator.stopAnimating()
                         
                         UIView.transitionWithView(cell.comicImageView, duration: 0.3, options: UIViewAnimationOptions.TransitionCurlDown, animations: { () -> Void in
@@ -382,9 +379,15 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
             cell.comicTitleLabel.textColor = UIColor(white: 1, alpha: 0.8)
             cell.comicImageView.image = nil
             
+            var currentTag = cell.tag + 1
+            cell.tag = currentTag
+            
             // Either grab the image from the cache or download it
             MarvelCaching.caching.cachedImageForURLString(sourceURL, completion: { (image) -> Void in
-                // TODO: Grab an appropriate cell
+                // Grab an appropriate cell
+                if cell.tag != currentTag {
+                    return
+                }
                 
                 if image != nil {
                     cell.comicImageView.image = image
@@ -398,7 +401,11 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
                         }
                         MarvelCaching.caching.setCachedImage(image!, forURLString: sourceURL)
                         
-                        // TODO: Grab an appropriate cell
+                        // Grab an appropriate cell
+                        if cell.tag != currentTag {
+                            return
+                        }
+                        
                         cell.activityIndicator.stopAnimating()
                         
                         UIView.transitionWithView(cell.comicImageView, duration: 0.3, options: UIViewAnimationOptions.TransitionCurlDown, animations: { () -> Void in
@@ -434,13 +441,7 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
         }
     }
     
-    
-    
-
-    
-    
     // TODO: when returning from ComicOrSeriesVC, the CharacterDetailVC jumps to the top. maybe should stay scrolled down to wherever it was when the user selected a Comic or Series.
-    
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         var selectedComic : Comic
