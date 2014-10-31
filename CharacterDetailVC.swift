@@ -59,6 +59,12 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
         self.view.insertSubview(headerActivityIndicator, aboveSubview: headerImageView)
         
         tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: headerImageView.frame.height + kDefaultHeaderImageYOffset * 2))
+        
+        var footerView = UIView(frame: CGRectMake(0, 0, self.view.frame.width, 20))
+        footerView.autoresizingMask = .FlexibleWidth | .FlexibleHeight
+        footerView.backgroundColor = UIColor.colorFromRGB(0xECF2F2)
+        self.view.backgroundColor = UIColor.colorFromRGB(0xECF2F2)
+        tableView.tableFooterView = footerView
     }
     
     override func viewDidAppear(animated: Bool) {
