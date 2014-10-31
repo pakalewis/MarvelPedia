@@ -1,5 +1,5 @@
 //
-//  ComicCollectionDelegate.swift
+//  CharacterDataSource.swift
 //  MarvelPedia
 //
 //  Created by Casey R White on 10/30/14.
@@ -8,7 +8,8 @@
 
 import UIKit
 
-class ComicCollectionDelegate: NSObject, UICollectionViewDataSource, UICollectionViewDelegate {
+class CollectionDelegateCharacter: NSObject, UICollectionViewDataSource, UICollectionViewDelegate {
+    
     weak var viewController: HomeVC! = nil
     
     init(viewController: UIViewController) {
@@ -75,4 +76,5 @@ class ComicCollectionDelegate: NSObject, UICollectionViewDataSource, UICollectio
         
         return cell
     }
+    
 }
