@@ -17,15 +17,19 @@ class HomeVC: UIViewController, UINavigationControllerDelegate, UISearchBarDeleg
     private var searchBar: UISearchBar!
     
     var characters = [Character]()
+    var comics = [Comic]()
     
     private var header: UICollectionReusableView!
-    private var canLoadMore = true
     
     private var lastSearchTextCharacter = ""
     private var lastSearchTextComic = ""
+    private var canLoadMoreCharacters = true
+    private var canLoadMoreComics = true
     
     private var collectionDelegateCharacter: CollectionDelegateCharacter!
     private var collectionDelegateComic: CollectionDelegateComic!
+    
+    // MARK: Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,8 +41,8 @@ class HomeVC: UIViewController, UINavigationControllerDelegate, UISearchBarDeleg
         self.navigationController?.delegate = self
         
         // register CharacterCell nib for the collection view
-        let nib = UINib(nibName: "CharacterCell", bundle: NSBundle.mainBundle())
-        self.collectionView.registerNib(nib, forCellWithReuseIdentifier: "CHARACTER_CELL")
+        self.collectionView.registerNib(UINib(nibName: "CharacterCell", bundle: NSBundle.mainBundle()), forCellWithReuseIdentifier: "CHARACTER_CELL")
+        self.collectionView.registerNib(UINib(nibName: "ComicCell", bundle: NSBundle.mainBundle()), forCellWithReuseIdentifier: "COMIC_CELL")
     }
     
     override func didReceiveMemoryWarning() {
@@ -52,11 +56,12 @@ class HomeVC: UIViewController, UINavigationControllerDelegate, UISearchBarDeleg
             self.header = self.collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "HEADER", forIndexPath: NSIndexPath(forItem: 0, inSection: 0)) as UICollectionReusableView
             let headerFrame = self.header.frame
             searchBar = UISearchBar(frame: headerFrame)
+            searchBar.autoresizingMask = .FlexibleWidth
             searchBar.showsScopeBar = true
             searchBar.scopeButtonTitles = ["Characters", "Comics"]
-            self.header.addSubview(searchBar)
-            
             searchBar.delegate = self
+            searchBar.placeholder = "Character name starts with..."
+            self.header.addSubview(searchBar)
         }
         
         return self.header
@@ -69,7 +74,7 @@ class HomeVC: UIViewController, UINavigationControllerDelegate, UISearchBarDeleg
         MarvelNetworking.controller.getCharacters(nameQuery: searchBar.text, limit: limit, startIndex: startIndex, completion: { (errorString, charactersArray, itemsLeft) -> Void in
             if charactersArray != nil {
                 if itemsLeft? == 0 {
-                    self.canLoadMore = false
+                    self.canLoadMoreCharacters = false
                 }
                 
                 var newCharacters = Character.parseJSONIntoCharacters(data: charactersArray!)
@@ -81,7 +86,30 @@ class HomeVC: UIViewController, UINavigationControllerDelegate, UISearchBarDeleg
             }
             
             if charactersArray?.count == 0 {
-                self.canLoadMore = false
+                self.canLoadMoreCharacters = false
+            }
+            self.activityIndicator.stopAnimating()
+        })
+    }
+    
+    func loadComicsWithLimit(_ limit: Int? = nil, startIndex: Int? = nil) {
+        self.activityIndicator.startAnimating()
+        MarvelNetworking.controller.getComics(titleQuery: searchBar.text, limit: limit, startIndex: startIndex, completion: { (errorString, comicsArray, itemsLeft) -> Void in
+            if comicsArray != nil {
+                if itemsLeft? == 0 {
+                    self.canLoadMoreCharacters = false
+                }
+                
+                var newComics = Comic.parseJSONIntoComics(data: comicsArray!)
+                self.comics += newComics
+                self.collectionView.reloadData()
+            } else {
+                println("no data")
+                println(errorString)
+            }
+            
+            if comicsArray?.count == 0 {
+                self.canLoadMoreComics = false
             }
             self.activityIndicator.stopAnimating()
         })
@@ -90,19 +118,35 @@ class HomeVC: UIViewController, UINavigationControllerDelegate, UISearchBarDeleg
     // MARK: UICollectionViewDelegate Methods
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let characterDetailVC = storyboard.instantiateViewControllerWithIdentifier("CHARACTER_DETAIL_VC") as CharacterDetailVC
-        characterDetailVC.characterToDisplay = self.characters[indexPath.row]
-        self.navigationController?.pushViewController(characterDetailVC, animated: true)
+        if searchBar.selectedScopeButtonIndex == 0 {
+            let characterDetailVC = storyboard.instantiateViewControllerWithIdentifier("CHARACTER_DETAIL_VC") as CharacterDetailVC
+            characterDetailVC.characterToDisplay = self.characters[indexPath.row]
+            self.navigationController?.pushViewController(characterDetailVC, animated: true)
+        } else {
+            let comicVC = storyboard.instantiateViewControllerWithIdentifier("COMIC_OR_SERIES_VC") as ComicOrSeriesVC
+            comicVC.comic = self.comics[indexPath.row]
+            self.navigationController?.pushViewController(comicVC, animated: true)
+        }
     }
     
     func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
-        if !self.canLoadMore {
-            return
+        if (searchBar.selectedScopeButtonIndex == 0) {
+            if !self.canLoadMoreCharacters {
+                return
+            }
+            
+            if indexPath.row + 1 == self.characters.count {
+                loadCharactersWithLimit(40, startIndex: self.characters.count)
+            }
         }
-        
-        var indexPathToLoadMoreCharacters = self.characters.count
-        if indexPath.row + 1 == indexPathToLoadMoreCharacters {
-            self.loadCharactersWithLimit(40, startIndex: self.characters.count)
+        else {
+            if !self.canLoadMoreComics {
+                return
+            }
+            
+            if indexPath.row + 1 == self.comics.count {
+                loadComicsWithLimit(40, startIndex: self.comics.count)
+            }
         }
     }
 
@@ -110,25 +154,46 @@ class HomeVC: UIViewController, UINavigationControllerDelegate, UISearchBarDeleg
     // MARK: SEARCH BAR
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
         println("searching for \(searchBar.text)")
-        self.canLoadMore = true
-        self.characters = [Character]()
-        self.collectionView.reloadData()
         
-        loadCharactersWithLimit(20)
+        if searchBar.selectedScopeButtonIndex == 0 {
+            self.canLoadMoreCharacters = true
+            self.characters = [Character]()
+            self.collectionView.reloadData()
+            loadCharactersWithLimit(20)
+        } else {
+            self.canLoadMoreComics = true
+            self.comics = [Comic]()
+            self.collectionView.reloadData()
+            loadComicsWithLimit(20)
+        }
     }
     
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
         if searchBar.selectedScopeButtonIndex == 0 {
             lastSearchTextCharacter = searchText
-        }
-        else {
+        } else {
             lastSearchTextComic = searchText
         }
     }
     
     func searchBar(searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
-        searchBar.text = searchBar.selectedScopeButtonIndex == 0 ? lastSearchTextCharacter : lastSearchTextComic
-        collectionView.dataSource = searchBar.selectedScopeButtonIndex == 0 ? collectionDelegateCharacter : collectionDelegateComic
+        if searchBar.selectedScopeButtonIndex == 1 {
+            let flowlayout = collectionView.collectionViewLayout as UICollectionViewFlowLayout
+            if UIDevice.currentDevice().userInterfaceIdiom == UIUserInterfaceIdiom.Pad {
+                flowlayout.itemSize = CGSize(width: 200.0, height: 380.0)
+            } else {
+                flowlayout.itemSize = CGSize(width: 100.0, height: 190.0)
+            }
+        } else {
+            let flowlayout = collectionView.collectionViewLayout as UICollectionViewFlowLayout
+            flowlayout.itemSize = CGSize(width: 110.0, height: 140.0)
+        }
+        
+        let charactersSearch = searchBar.selectedScopeButtonIndex == 0
+
+        searchBar.text = charactersSearch ? lastSearchTextCharacter : lastSearchTextComic
+        searchBar.placeholder = charactersSearch ? "Character name starts with..." : "Comic title starts with..."
+        collectionView.dataSource = charactersSearch ? collectionDelegateCharacter : collectionDelegateComic
         collectionView.reloadData()
     }
     
