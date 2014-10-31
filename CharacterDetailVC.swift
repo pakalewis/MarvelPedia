@@ -24,9 +24,10 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
     var headerImageYOffset: CGFloat = -64
     var oldScrollViewY: CGFloat = 0
     
-    var mustLoadComics = true
-    var mustLoadResies = true
-    
+    var mustReloadComicsSection = true
+    var mustReloadSeriesSection = true
+    var canLoadMoreComics = true
+    var canLoadMoreSeries = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,14 +71,23 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
         MarvelCaching.caching.clearMemoryCache()
     }
     
-    // TODO: "Character" header stays on screen when you scroll down
-    
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
         if let selectedRowIndexPath = self.tableView.indexPathForSelectedRow() {
             self.tableView.deselectRowAtIndexPath(selectedRowIndexPath, animated: true)
+        }
+        
+        if self.mustReloadComicsSection {
+            println("initial comics loading")
+            self.loadComicsWithLimit(5, startIndex: 0)
+            mustReloadComicsSection = false
+        }
+        if self.mustReloadSeriesSection {
+            println("initial series loading")
+            self.loadSeriesWithLimit(5, startIndex: 0)
+            mustReloadSeriesSection = false
         }
         
         if let thumb = characterToDisplay?.thumbnailURL {
@@ -112,6 +122,58 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
         }
         
     }
+    
+    
+    // Helper Methods
+    func loadComicsWithLimit(_ limit: Int? = nil, startIndex: Int? = nil) {
+        MarvelNetworking.controller.getComicsWithCharacterID(self.characterToDisplay!.id, startIndex: self.comicsForCharacter.count, limit: limit) { (errorString, comicsArray, itemsLeft) -> Void in
+            if comicsArray != nil {
+                if itemsLeft? == 0 {
+                    self.canLoadMoreComics = false
+                }
+                
+                var newComics = Comic.parseJSONIntoComics(data: comicsArray!)
+                self.comicsForCharacter += newComics
+                //self.tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: UITableViewRowAnimation.None)
+                self.tableView.reloadData()
+                self.comicsCollectionView?.reloadData()
+            } else {
+                println("no data")
+                println(errorString)
+            }
+            
+            if comicsArray?.count == 0 {
+                self.canLoadMoreComics = false
+            }
+        }
+    }
+    
+    
+    func loadSeriesWithLimit(_ limit: Int? = nil, startIndex: Int? = nil) {
+        MarvelNetworking.controller.getSeriesWithCharacterID(self.characterToDisplay!.id, startIndex: self.seriesForCharacter.count, limit: limit) { (errorString, seriesArray, itemsLeft) -> Void in
+            if seriesArray != nil {
+                if itemsLeft? == 0 {
+                    self.canLoadMoreComics = false
+                }
+                
+                var newSeries = Series.parseJSONIntoSeries(data: seriesArray!)
+                self.seriesForCharacter += newSeries
+                //self.tableView.reloadSections(NSIndexSet(index: 2), withRowAnimation: UITableViewRowAnimation.None)
+                self.tableView.reloadData()
+                self.seriesCollectionView?.reloadData()
+            } else {
+                println("no data")
+                println(errorString)
+            }
+            
+            if seriesArray?.count == 0 {
+                self.canLoadMoreComics = false
+            }
+        }
+    }
+    
+    
+    
     
     
     // MARK: MAIN TABLEVIEW
@@ -191,19 +253,6 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
             cell.customCollectionView.delegate = self
             cell.customCollectionView.dataSource = self
             
-            if mustLoadComics {
-                MarvelNetworking.controller.getComicsWithCharacterID(self.characterToDisplay!.id, limit: 6, completion: { (errorString, comicsArray, itemsLeft) -> Void in
-                    if comicsArray != nil {
-                        self.mustLoadComics = false
-                        self.comicsForCharacter = Comic.parseJSONIntoComics(data: comicsArray!)
-                        self.tableView.reloadSections(NSIndexSet(index: indexPath.section), withRowAnimation: UITableViewRowAnimation.Automatic)
-                        cell.customCollectionView.reloadData()
-                        
-                    } else {
-                        println("no data")
-                    }
-                })
-            }
             
             return cell
         }
@@ -217,19 +266,6 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
             cell.customCollectionView.delegate = self
             cell.customCollectionView.dataSource = self
 
-            if mustLoadResies {
-                MarvelNetworking.controller.getSeriesWithCharacterID(self.characterToDisplay!.id, limit: 6, completion: { (errorString, seriesArray, itemsLeft) -> Void in
-                    if seriesArray != nil {
-                        self.mustLoadResies = false
-                        self.seriesForCharacter = Series.parseJSONIntoSeries(data: seriesArray!)
-                        self.tableView.reloadSections(NSIndexSet(index: indexPath.section), withRowAnimation: UITableViewRowAnimation.Automatic)
-                        cell.customCollectionView.reloadData()
-                        
-                    } else {
-                        println("no data")
-                    }
-                })
-            }
             
             return cell
         }
@@ -268,6 +304,7 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
         }
         return cell
     }
+    
     
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -348,6 +385,33 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
         return cell
     }
 
+    
+    func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
+        if collectionView == self.comicsCollectionView {
+            if !self.canLoadMoreComics {
+                return
+            }
+            if indexPath.row + 1 == self.comicsForCharacter.count {
+                println("loading more comics")
+                self.loadComicsWithLimit(5, startIndex: self.comicsForCharacter.count)
+            }
+        }
+        if collectionView == self.seriesCollectionView {
+            if !self.canLoadMoreSeries {
+                return
+            }
+            if indexPath.row + 1 == self.seriesForCharacter.count {
+                println("loading more series")
+                self.loadSeriesWithLimit(5, startIndex: self.seriesForCharacter.count)
+            }
+        }
+    }
+    
+    
+    
+
+    
+    
     // TODO: when returning from ComicOrSeriesVC, the CharacterDetailVC jumps to the top. maybe should stay scrolled down to wherever it was when the user selected a Comic or Series.
     
     
