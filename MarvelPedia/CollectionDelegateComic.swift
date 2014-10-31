@@ -22,29 +22,29 @@ class CollectionDelegateComic: NSObject, UICollectionViewDataSource, UICollectio
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.viewController!.characters.count
+        return self.viewController!.comics.count
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = self.viewController!.collectionView.dequeueReusableCellWithReuseIdentifier("CHARACTER_CELL", forIndexPath: indexPath) as CharacterCell
+        let cell = self.viewController!.collectionView.dequeueReusableCellWithReuseIdentifier("COMIC_CELL", forIndexPath: indexPath) as ComicCell
         
-        cell.imageView.image = nil
+        cell.comicImageView.image = nil
         
         var currentTag = cell.tag + 1
         cell.tag = currentTag
         
-        let currentCharacter = self.viewController!.characters[indexPath.row]
-        cell.nameLabel.text = currentCharacter.name
+        let currentComic = self.viewController!.comics[indexPath.row]
+        cell.comicTitleLabel.text = currentComic.title
         
-        if let thumb = currentCharacter.thumbnailURL {
+        if let thumb = currentComic.thumbnailURL {
             let thumbURL = "\(thumb.path)/standard_xlarge.\(thumb.ext)"
             
             
             MarvelCaching.caching.cachedImageForURLString(thumbURL, completion: { (image) -> Void in
                 if image != nil {
                     if cell.tag == currentTag {
-                        cell.imageView.image = nil
-                        cell.imageView.image = image
+                        cell.comicImageView.image = nil
+                        cell.comicImageView.image = image
                     }
                     return
                 }
@@ -60,9 +60,9 @@ class CollectionDelegateComic: NSObject, UICollectionViewDataSource, UICollectio
                     
                     MarvelCaching.caching.setCachedImage(image!, forURLString: thumbURL)
                     if cell.tag == currentTag {
-                        cell.imageView.image = nil
-                        UIView.transitionWithView(cell.imageView, duration: 0.2, options: UIViewAnimationOptions.TransitionCurlDown, animations: { () -> Void in
-                            cell.imageView.image = image
+                        cell.comicImageView.image = nil
+                        UIView.transitionWithView(cell.comicImageView, duration: 0.2, options: UIViewAnimationOptions.TransitionCurlDown, animations: { () -> Void in
+                            cell.comicImageView.image = image
                             }, completion: nil)
                     }
                 })
@@ -70,7 +70,7 @@ class CollectionDelegateComic: NSObject, UICollectionViewDataSource, UICollectio
             })
         }
         else {
-            cell.imageView.image = UIImage(named: "notfound_image200x200.jpg")
+            cell.comicImageView.image = UIImage(named: "notfound_image200x200.jpg")
         }
         
         return cell
