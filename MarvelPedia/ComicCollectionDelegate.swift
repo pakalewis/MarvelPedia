@@ -9,13 +9,18 @@
 import UIKit
 
 class ComicCollectionDelegate: NSObject, UICollectionViewDataSource, UICollectionViewDelegate {
-    
-    weak var viewController: HomeVC? = nil
+    weak var viewController: HomeVC! = nil
     
     init(viewController: UIViewController) {
         self.viewController = viewController as? HomeVC
     }
     // MARK: COLLECTION VIEW
+    
+    func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+        
+        return viewController.headerView()
+    }
+    
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.viewController!.characters.count
     }
@@ -70,40 +75,4 @@ class ComicCollectionDelegate: NSObject, UICollectionViewDataSource, UICollectio
         
         return cell
     }
-    
-    
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let characterDetailVC = storyboard.instantiateViewControllerWithIdentifier("CHARACTER_DETAIL_VC") as CharacterDetailVC
-        characterDetailVC.characterToDisplay = self.viewController!.characters[indexPath.row]
-        self.viewController!.navigationController?.pushViewController(characterDetailVC, animated: true)
-    }
-    
-    
-    func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
-        if self.viewController!.header == nil {
-            self.viewController!.header = self.viewController!.collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "HEADER", forIndexPath: indexPath) as UICollectionReusableView
-            let headerFrame = self.viewController!.header.frame
-            var searchBar = UISearchBar(frame: headerFrame)
-            searchBar.showsScopeBar = true
-            searchBar.scopeButtonTitles = ["Characters", "Comics"]
-            self.viewController!.header.addSubview(searchBar)
-            
-            searchBar.delegate = self.viewController!
-        }
-        
-        return self.viewController!.header
-    }
-    
-    func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
-        if !self.viewController!.canLoadMore {
-            return
-        }
-        
-        var indexPathToLoadMoreCharacters = self.viewController!.characters.count
-        if indexPath.row + 1 == indexPathToLoadMoreCharacters {
-            self.viewController!.loadCharactersWithLimit(40, startIndex: self.viewController!.characters.count)
-        }
-    }
-    
 }
