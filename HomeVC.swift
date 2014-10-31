@@ -24,16 +24,16 @@ class HomeVC: UIViewController, UINavigationControllerDelegate, UISearchBarDeleg
     private var lastSearchTextCharacter = ""
     private var lastSearchTextComic = ""
     
-    private var characterCollectionDelegate: CharacterCollectionDelegate!
-    private var comicCollectionDelegate: ComicCollectionDelegate!
+    private var collectionDelegateCharacter: CollectionDelegateCharacter!
+    private var collectionDelegateComic: CollectionDelegateComic!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.characterCollectionDelegate = CharacterCollectionDelegate(viewController: self)
-        self.comicCollectionDelegate = ComicCollectionDelegate(viewController: self)
+        self.collectionDelegateCharacter = CollectionDelegateCharacter(viewController: self)
+        self.collectionDelegateComic = CollectionDelegateComic(viewController: self)
         
         self.collectionView.delegate = self
-        self.collectionView.dataSource = self.characterCollectionDelegate
+        self.collectionView.dataSource = self.collectionDelegateCharacter
         self.navigationController?.delegate = self
         
         // register CharacterCell nib for the collection view
@@ -128,7 +128,7 @@ class HomeVC: UIViewController, UINavigationControllerDelegate, UISearchBarDeleg
     
     func searchBar(searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
         searchBar.text = searchBar.selectedScopeButtonIndex == 0 ? lastSearchTextCharacter : lastSearchTextComic
-        collectionView.dataSource = searchBar.selectedScopeButtonIndex == 0 ? characterCollectionDelegate : comicCollectionDelegate
+        collectionView.dataSource = searchBar.selectedScopeButtonIndex == 0 ? collectionDelegateCharacter : collectionDelegateComic
         collectionView.reloadData()
     }
     
