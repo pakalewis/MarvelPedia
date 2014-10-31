@@ -43,7 +43,7 @@ class Character {
             }
         }
         
-        println(self.detailURL)
+        //println(self.detailURL)
         
     }
     

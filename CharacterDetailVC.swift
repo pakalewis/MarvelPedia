@@ -210,7 +210,7 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
         
         let cell = self.tableView.dequeueReusableCellWithIdentifier("INFO_CELL", forIndexPath: indexPath) as InfoCell
         cell.userInteractionEnabled = false
-        println(self.tableView.numberOfRowsInSection(0))
+        //println(self.tableView.numberOfRowsInSection(0))
         if self.tableView.numberOfRowsInSection(0) == 2 {
             if indexPath.row == 0 {
                 cell.infoCellLabel.text = "\(self.characterToDisplay!.name)"
@@ -321,12 +321,12 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
         var comicOrSeriesVC = storyboard?.instantiateViewControllerWithIdentifier("COMIC_OR_SERIES_VC") as ComicOrSeriesVC
         
         if collectionView == self.comicsCollectionView {
-            println("comic selected at \(indexPath.row)")
+            //println("comic selected at \(indexPath.row)")
             selectedComic = self.comicsForCharacter[indexPath.row] as Comic
             comicOrSeriesVC.comic = selectedComic
         }
         else {
-            println("series selected at \(indexPath.row)")
+            //println("series selected at \(indexPath.row)")
             selectedSeries = self.seriesForCharacter[indexPath.row] as Series
             comicOrSeriesVC.series = selectedSeries
         }
