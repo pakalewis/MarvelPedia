@@ -24,13 +24,13 @@ class CustomTableViewCell: UITableViewCell {
         
         self.flowlayout = self.customCollectionView.collectionViewLayout as UICollectionViewFlowLayout
 
-        self.flowlayout.itemSize = CGSize(width: 100.0, height: 190.0)
+        self.flowlayout.itemSize = CGSize(width: 100, height: 150 + 40)
 
         // check if device is iPad
         if UIDevice.currentDevice().userInterfaceIdiom == UIUserInterfaceIdiom.Pad {
-            self.flowlayout.itemSize = CGSize(width: 200.0, height: 380.0)
+            self.flowlayout.itemSize = CGSize(width: 150, height: 225 + 40)
         }
 
-        self.flowlayout.sectionInset = UIEdgeInsetsMake(0.0, 7.0, 0.0, 7.0)
+        self.flowlayout.sectionInset = UIEdgeInsetsMake(8, 8, 8, 8)
     }
 }

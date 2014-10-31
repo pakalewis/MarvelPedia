@@ -24,6 +24,9 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
     var headerImageYOffset: CGFloat = -64
     var oldScrollViewY: CGFloat = 0
     
+    var mustLoadComics = true
+    var mustLoadResies = true
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +34,7 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
         self.tableView.dataSource = self
         self.tableView.delegate = self
         
+        self.title = characterToDisplay?.name
 
         // register the nibs for the two types of tableview cells
         let nib = UINib(nibName: "InfoCell", bundle: NSBundle.mainBundle())
@@ -116,17 +120,21 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        var view = UIView()
+        view.backgroundColor = UIColor.colorFromRGB(0xD1C8B2)
         var sectionHeaderLabel = UILabel()
+        sectionHeaderLabel.autoresizingMask = .FlexibleWidth | .FlexibleHeight
         sectionHeaderLabel.text = self.tableViewHeaders[section]
-        sectionHeaderLabel.font = UIFont(name: "AvenirNext-Regular", size: 25.0)
-        sectionHeaderLabel.textAlignment = NSTextAlignment.Center
+        sectionHeaderLabel.font = UIFont(name: "HelveticaNeue-Light", size: 16.0)
+        //sectionHeaderLabel.textAlignment = NSTextAlignment.Center
         sectionHeaderLabel.textColor = UIColor.blackColor()
-        sectionHeaderLabel.backgroundColor = UIColor.lightGrayColor()
-        return sectionHeaderLabel
+        sectionHeaderLabel.frame.origin.x = 6
+        view.addSubview(sectionHeaderLabel)
+        return view
     }
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 45.0
+        return 30.0
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -146,15 +154,26 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        var screenHeight = UIScreen.mainScreen().bounds.height
-        if indexPath.section == 0 {
+        
+        var showComicOrSeriesSection = false
+        
+        switch indexPath.section {
+        case 0:
             return UITableViewAutomaticDimension
-        } else {
-            if UIDevice.currentDevice().userInterfaceIdiom == UIUserInterfaceIdiom.Pad {
-                return 380
-            }
-            return 190
+        case 1:
+            showComicOrSeriesSection = comicsForCharacter.count > 0
+        default:
+            showComicOrSeriesSection = seriesForCharacter.count > 0
         }
+        
+        if showComicOrSeriesSection {
+            if UIDevice.currentDevice().userInterfaceIdiom == UIUserInterfaceIdiom.Pad {
+                return 225 + 40 + 16
+            }
+            return 150 + 40 + 16
+        }
+        
+        return 0
     }
     
     
@@ -164,45 +183,53 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if indexPath.section == 1 { // in the comics section
-            let cell = self.tableView.dequeueReusableCellWithIdentifier("CUSTOM_CELL") as CustomTableViewCell
+            let cell = self.tableView.dequeueReusableCellWithIdentifier("CUSTOM_CELL", forIndexPath: indexPath) as CustomTableViewCell
+            
             
             self.comicsCollectionView = cell.customCollectionView
             
             cell.customCollectionView.delegate = self
             cell.customCollectionView.dataSource = self
-            cell.customCollectionView.backgroundColor = UIColor.lightGrayColor()
-            MarvelNetworking.controller.getComicsWithCharacterID(self.characterToDisplay!.id, limit: 6, completion: { (errorString, comicsArray, itemsLeft) -> Void in
-                if comicsArray != nil {
-                    self.comicsForCharacter = Comic.parseJSONIntoComics(data: comicsArray!)
-                    cell.customCollectionView.reloadData()
-                    
-                } else {
-                    println("no data")
-                }
-            })
+            
+            if mustLoadComics {
+                MarvelNetworking.controller.getComicsWithCharacterID(self.characterToDisplay!.id, limit: 6, completion: { (errorString, comicsArray, itemsLeft) -> Void in
+                    if comicsArray != nil {
+                        self.mustLoadComics = false
+                        self.comicsForCharacter = Comic.parseJSONIntoComics(data: comicsArray!)
+                        self.tableView.reloadSections(NSIndexSet(index: indexPath.section), withRowAnimation: UITableViewRowAnimation.Automatic)
+                        cell.customCollectionView.reloadData()
+                        
+                    } else {
+                        println("no data")
+                    }
+                })
+            }
             
             return cell
         }
         
         
         if indexPath.section == 2 { // in the series section
-            let cell = self.tableView.dequeueReusableCellWithIdentifier("CUSTOM_CELL") as CustomTableViewCell
+            let cell = self.tableView.dequeueReusableCellWithIdentifier("CUSTOM_CELL", forIndexPath: indexPath) as CustomTableViewCell
             
             self.seriesCollectionView = cell.customCollectionView
             
             cell.customCollectionView.delegate = self
             cell.customCollectionView.dataSource = self
-            cell.customCollectionView.backgroundColor = UIColor.lightGrayColor()
 
-            MarvelNetworking.controller.getSeriesWithCharacterID(self.characterToDisplay!.id, limit: 6, completion: { (errorString, seriesArray, itemsLeft) -> Void in
-                if seriesArray != nil {
-                    self.seriesForCharacter = Series.parseJSONIntoSeries(data: seriesArray!)
-                    cell.customCollectionView.reloadData()
-                    
-                } else {
-                    println("no data")
-                }
-            })
+            if mustLoadResies {
+                MarvelNetworking.controller.getSeriesWithCharacterID(self.characterToDisplay!.id, limit: 6, completion: { (errorString, seriesArray, itemsLeft) -> Void in
+                    if seriesArray != nil {
+                        self.mustLoadResies = false
+                        self.seriesForCharacter = Series.parseJSONIntoSeries(data: seriesArray!)
+                        self.tableView.reloadSections(NSIndexSet(index: indexPath.section), withRowAnimation: UITableViewRowAnimation.Automatic)
+                        cell.customCollectionView.reloadData()
+                        
+                    } else {
+                        println("no data")
+                    }
+                })
+            }
             
             return cell
         }
@@ -216,6 +243,7 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
                 cell.infoCellLabel.text = "\(self.characterToDisplay!.name)"
             } else {
                 cell.infoCellLabel.text = "See more at marvel.com"
+                cell.contentView.backgroundColor = UIColor.whiteColor()
                 cell.userInteractionEnabled = true
                 cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
             }
@@ -227,9 +255,16 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
                 cell.infoCellLabel.text = "\(self.characterToDisplay!.bio)"
             } else {
                 cell.infoCellLabel.text = "See more at marvel.com"
+                cell.contentView.backgroundColor = UIColor.whiteColor()
                 cell.userInteractionEnabled = true
                 cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
             }
+        }
+        
+        if indexPath.row == 0 {
+            cell.infoCellLabel.font = UIFont(name: "HelveticaNeue", size: 24)
+        } else {
+            cell.infoCellLabel.font = UIFont(name: "HelveticaNeue-Light", size: 16)
         }
         return cell
     }
@@ -268,6 +303,7 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
         
         // could change this to be creating different cells: ComicCell or SeriesCell
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("COMIC_CELL", forIndexPath: indexPath) as ComicCell
+        cell.comicTitleLabel.textColor = UIColor(white: 1, alpha: 0.8)
         cell.comicImageView.image = nil
         
         // determine the image url

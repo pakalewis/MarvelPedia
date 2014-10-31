@@ -27,6 +27,8 @@ class ComicOrSeriesVC: UIViewController, UICollectionViewDelegate, UICollectionV
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
         
+        self.title = comic != nil ? comic?.title : series?.title
+        
         // register CharacterCell nib for the collection view
         let nib = UINib(nibName: "CharacterCell", bundle: NSBundle.mainBundle())
         self.collectionView.registerNib(nib, forCellWithReuseIdentifier: "CHARACTER_CELL")

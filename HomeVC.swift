@@ -61,6 +61,8 @@ class HomeVC: UIViewController, UINavigationControllerDelegate, UISearchBarDeleg
             searchBar.scopeButtonTitles = ["Characters", "Comics"]
             searchBar.delegate = self
             searchBar.placeholder = "Character name starts with..."
+            searchBar.barTintColor = UIColor.colorFromRGB(0xABD1CF)
+            searchBar.tintColor = UIColor.colorFromRGB(0x2d3736)
             self.header.addSubview(searchBar)
         }
         
@@ -180,9 +182,9 @@ class HomeVC: UIViewController, UINavigationControllerDelegate, UISearchBarDeleg
         if searchBar.selectedScopeButtonIndex == 1 {
             let flowlayout = collectionView.collectionViewLayout as UICollectionViewFlowLayout
             if UIDevice.currentDevice().userInterfaceIdiom == UIUserInterfaceIdiom.Pad {
-                flowlayout.itemSize = CGSize(width: 200.0, height: 380.0)
+                flowlayout.itemSize = CGSize(width: 150, height: 225 + 40)
             } else {
-                flowlayout.itemSize = CGSize(width: 100.0, height: 190.0)
+                flowlayout.itemSize = CGSize(width: 100, height: 150 + 40)
             }
         } else {
             let flowlayout = collectionView.collectionViewLayout as UICollectionViewFlowLayout
