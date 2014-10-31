@@ -64,6 +64,15 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         self.navigationController?.interactivePopGestureRecognizer.enabled = true
+        
+        if self.mustReloadComicsSection {
+            println("initial comics loading")
+            self.loadComicsWithLimit(5, startIndex: 0)
+        }
+        if self.mustReloadSeriesSection {
+            println("initial series loading")
+            self.loadSeriesWithLimit(5, startIndex: 0)
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -77,17 +86,6 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
         
         if let selectedRowIndexPath = self.tableView.indexPathForSelectedRow() {
             self.tableView.deselectRowAtIndexPath(selectedRowIndexPath, animated: true)
-        }
-        
-        if self.mustReloadComicsSection {
-            println("initial comics loading")
-            self.loadComicsWithLimit(5, startIndex: 0)
-            mustReloadComicsSection = false
-        }
-        if self.mustReloadSeriesSection {
-            println("initial series loading")
-            self.loadSeriesWithLimit(5, startIndex: 0)
-            mustReloadSeriesSection = false
         }
         
         if let thumb = characterToDisplay?.thumbnailURL {
@@ -124,6 +122,7 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
     }
     
     
+    
     // Helper Methods
     func loadComicsWithLimit(_ limit: Int? = nil, startIndex: Int? = nil) {
         MarvelNetworking.controller.getComicsWithCharacterID(self.characterToDisplay!.id, startIndex: self.comicsForCharacter.count, limit: limit) { (errorString, comicsArray, itemsLeft) -> Void in
@@ -134,8 +133,10 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
                 
                 var newComics = Comic.parseJSONIntoComics(data: comicsArray!)
                 self.comicsForCharacter += newComics
-                //self.tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: UITableViewRowAnimation.None)
-                self.tableView.reloadData()
+                if self.mustReloadComicsSection {
+                    self.mustReloadComicsSection = false
+                    self.tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: UITableViewRowAnimation.Automatic)
+                }
                 self.comicsCollectionView?.reloadData()
             } else {
                 println("no data")
@@ -153,13 +154,15 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
         MarvelNetworking.controller.getSeriesWithCharacterID(self.characterToDisplay!.id, startIndex: self.seriesForCharacter.count, limit: limit) { (errorString, seriesArray, itemsLeft) -> Void in
             if seriesArray != nil {
                 if itemsLeft? == 0 {
-                    self.canLoadMoreComics = false
+                    self.canLoadMoreSeries = false
                 }
                 
                 var newSeries = Series.parseJSONIntoSeries(data: seriesArray!)
                 self.seriesForCharacter += newSeries
-                //self.tableView.reloadSections(NSIndexSet(index: 2), withRowAnimation: UITableViewRowAnimation.None)
-                self.tableView.reloadData()
+                if self.mustReloadSeriesSection {
+                    self.mustReloadSeriesSection = false
+                    self.tableView.reloadSections(NSIndexSet(index: 2), withRowAnimation: UITableViewRowAnimation.Automatic)
+                }
                 self.seriesCollectionView?.reloadData()
             } else {
                 println("no data")
@@ -167,13 +170,10 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
             }
             
             if seriesArray?.count == 0 {
-                self.canLoadMoreComics = false
+                self.canLoadMoreSeries = false
             }
         }
     }
-    
-    
-    
     
     
     // MARK: MAIN TABLEVIEW
@@ -244,28 +244,21 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
     
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if indexPath.section == 1 { // in the comics section
-            let cell = self.tableView.dequeueReusableCellWithIdentifier("CUSTOM_CELL", forIndexPath: indexPath) as CustomTableViewCell
+        
+        if indexPath.section != 0 {
             
-            
-            self.comicsCollectionView = cell.customCollectionView
+            var cell: CustomTableViewCell! = nil
+            if indexPath.section == 1 { // in the comics section
+                cell = self.tableView.dequeueReusableCellWithIdentifier("CUSTOM_CELL", forIndexPath: indexPath) as CustomTableViewCell
+                self.comicsCollectionView = cell.customCollectionView
+            } else if indexPath.section == 2 { // in the series section
+                cell = self.tableView.dequeueReusableCellWithIdentifier("CUSTOM_CELL", forIndexPath: indexPath) as CustomTableViewCell
+                self.seriesCollectionView = cell.customCollectionView
+            }
             
             cell.customCollectionView.delegate = self
             cell.customCollectionView.dataSource = self
-            
-            
-            return cell
-        }
-        
-        
-        if indexPath.section == 2 { // in the series section
-            let cell = self.tableView.dequeueReusableCellWithIdentifier("CUSTOM_CELL", forIndexPath: indexPath) as CustomTableViewCell
-            
-            self.seriesCollectionView = cell.customCollectionView
-            
-            cell.customCollectionView.delegate = self
-            cell.customCollectionView.dataSource = self
-
+            cell.customCollectionView.reloadData()
             
             return cell
         }
@@ -273,7 +266,6 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
         
         let cell = self.tableView.dequeueReusableCellWithIdentifier("INFO_CELL", forIndexPath: indexPath) as InfoCell
         cell.userInteractionEnabled = false
-        //println(self.tableView.numberOfRowsInSection(0))
         if self.tableView.numberOfRowsInSection(0) == 2 {
             if indexPath.row == 0 {
                 cell.infoCellLabel.text = "\(self.characterToDisplay!.name)"
@@ -338,51 +330,86 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
-        // could change this to be creating different cells: ComicCell or SeriesCell
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("COMIC_CELL", forIndexPath: indexPath) as ComicCell
-        cell.comicTitleLabel.textColor = UIColor(white: 1, alpha: 0.8)
-        cell.comicImageView.image = nil
-        
         // determine the image url
         var sourceURL = ""
         if collectionView == self.comicsCollectionView {
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier("COMIC_CELL", forIndexPath: indexPath) as ComicCell
             let currentComic = self.comicsForCharacter[indexPath.row]
             cell.comicTitleLabel.text = currentComic.title
             if let thumb = currentComic.thumbnailURL {
                 sourceURL = "\(thumb.path)/portrait_xlarge.\(thumb.ext)"
             }
+            
+            cell.comicTitleLabel.textColor = UIColor(white: 1, alpha: 0.8)
+            cell.comicImageView.image = nil
+            
+            // Either grab the image from the cache or download it
+            MarvelCaching.caching.cachedImageForURLString(sourceURL, completion: { (image) -> Void in
+                // TODO: Grab an appropriate cell
+                
+                if image != nil {
+                    cell.comicImageView.image = image
+                }
+                else {
+                    cell.activityIndicator.startAnimating()
+                    MarvelNetworking.controller.getImageAtURLString(sourceURL, completion: { (image, errorString) -> Void in
+                        if errorString != nil {
+                            println(errorString)
+                            return
+                        }
+                        MarvelCaching.caching.setCachedImage(image!, forURLString: sourceURL)
+                        
+                        // TODO: Grab an appropriate cell
+                        cell.activityIndicator.stopAnimating()
+                        
+                        UIView.transitionWithView(cell.comicImageView, duration: 0.3, options: UIViewAnimationOptions.TransitionCurlDown, animations: { () -> Void in
+                            cell.comicImageView.image = image
+                            }, completion: nil)
+                    })
+                }
+            })
+            
+            return cell
         }
         else {
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier("SERIES_CELL", forIndexPath: indexPath) as SeriesCell
             let currentSeries = self.seriesForCharacter[indexPath.row]
             cell.comicTitleLabel.text = currentSeries.title
             if let thumb = currentSeries.thumbnailURL {
                 sourceURL = "\(thumb.path)/portrait_xlarge.\(thumb.ext)"
             }
+            
+            cell.comicTitleLabel.textColor = UIColor(white: 1, alpha: 0.8)
+            cell.comicImageView.image = nil
+            
+            // Either grab the image from the cache or download it
+            MarvelCaching.caching.cachedImageForURLString(sourceURL, completion: { (image) -> Void in
+                // TODO: Grab an appropriate cell
+                
+                if image != nil {
+                    cell.comicImageView.image = image
+                }
+                else {
+                    cell.activityIndicator.startAnimating()
+                    MarvelNetworking.controller.getImageAtURLString(sourceURL, completion: { (image, errorString) -> Void in
+                        if errorString != nil {
+                            println(errorString)
+                            return
+                        }
+                        MarvelCaching.caching.setCachedImage(image!, forURLString: sourceURL)
+                        
+                        // TODO: Grab an appropriate cell
+                        cell.activityIndicator.stopAnimating()
+                        
+                        UIView.transitionWithView(cell.comicImageView, duration: 0.3, options: UIViewAnimationOptions.TransitionCurlDown, animations: { () -> Void in
+                            cell.comicImageView.image = image
+                            }, completion: nil)
+                    })
+                }
+            })
+            
+            return cell
         }
-        
-        // Either grab the image from the cache or download it
-        MarvelCaching.caching.cachedImageForURLString(sourceURL, completion: { (image) -> Void in
-            if image != nil {
-                cell.comicImageView.image = image
-            }
-            else {
-                cell.activityIndicator.startAnimating()
-                MarvelNetworking.controller.getImageAtURLString(sourceURL, completion: { (image, errorString) -> Void in
-                    if errorString != nil {
-                        println(errorString)
-                        return
-                    }
-                    MarvelCaching.caching.setCachedImage(image!, forURLString: sourceURL)
-                    cell.activityIndicator.stopAnimating()
-                    
-                    UIView.transitionWithView(cell.comicImageView, duration: 0.3, options: UIViewAnimationOptions.TransitionCurlDown, animations: { () -> Void in
-                        cell.comicImageView.image = image
-                        }, completion: nil)
-                })
-            }
-        })
-        
-        return cell
     }
 
     
@@ -421,12 +448,10 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
         var comicOrSeriesVC = storyboard?.instantiateViewControllerWithIdentifier("COMIC_OR_SERIES_VC") as ComicOrSeriesVC
         
         if collectionView == self.comicsCollectionView {
-            //println("comic selected at \(indexPath.row)")
             selectedComic = self.comicsForCharacter[indexPath.row] as Comic
             comicOrSeriesVC.comic = selectedComic
         }
         else {
-            //println("series selected at \(indexPath.row)")
             selectedSeries = self.seriesForCharacter[indexPath.row] as Series
             comicOrSeriesVC.series = selectedSeries
         }

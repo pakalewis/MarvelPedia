@@ -19,8 +19,8 @@ class CustomTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        let nib = UINib(nibName: "ComicCell", bundle: NSBundle.mainBundle())
-        self.customCollectionView.registerNib(nib, forCellWithReuseIdentifier: "COMIC_CELL")
+        self.customCollectionView.registerNib(UINib(nibName: "ComicCell", bundle: NSBundle.mainBundle()), forCellWithReuseIdentifier: "COMIC_CELL")
+        self.customCollectionView.registerNib(UINib(nibName: "SeriesCell", bundle: NSBundle.mainBundle()), forCellWithReuseIdentifier: "SERIES_CELL")
         
         self.flowlayout = self.customCollectionView.collectionViewLayout as UICollectionViewFlowLayout
 
