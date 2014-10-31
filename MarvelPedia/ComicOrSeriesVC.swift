@@ -21,11 +21,17 @@ class ComicOrSeriesVC: UIViewController, UICollectionViewDelegate, UICollectionV
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var collectionView: UICollectionView!
     
+
+    @IBOutlet weak var titleBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var collectionViewBottomConstraint: NSLayoutConstraint!
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
+        
+        self.collectionView.hidden = true
         
         self.title = comic != nil ? comic?.title : series?.title
         
@@ -110,6 +116,16 @@ class ComicOrSeriesVC: UIViewController, UICollectionViewDelegate, UICollectionV
         
         if charactersArray?.count == 0 {
             self.canLoadMore = false
+        }
+        
+        if self.charactersInComicOrSeries.count > 0 {
+            self.collectionView.hidden = false
+            self.titleBottomConstraint.constant = 156
+            self.collectionViewBottomConstraint.constant = 0
+            
+            UIView.animateWithDuration(0.5, animations: { () -> Void in
+                self.view.layoutIfNeeded()
+            })
         }
     }
 
