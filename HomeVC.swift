@@ -72,7 +72,6 @@ class HomeVC: UIViewController, UINavigationControllerDelegate, UISearchBarDeleg
     // MARK: Private Methods
     
     func loadCharactersWithLimit(_ limit: Int? = nil, startIndex: Int? = nil) {
-        self.activityIndicator.startAnimating()
         MarvelNetworking.controller.getCharacters(nameQuery: searchBar.text, limit: limit, startIndex: startIndex, completion: { (errorString, charactersArray, itemsLeft) -> Void in
             if charactersArray != nil {
                 if itemsLeft? == 0 {
@@ -95,7 +94,6 @@ class HomeVC: UIViewController, UINavigationControllerDelegate, UISearchBarDeleg
     }
     
     func loadComicsWithLimit(_ limit: Int? = nil, startIndex: Int? = nil) {
-        self.activityIndicator.startAnimating()
         MarvelNetworking.controller.getComics(titleQuery: searchBar.text, limit: limit, startIndex: startIndex, completion: { (errorString, comicsArray, itemsLeft) -> Void in
             if comicsArray != nil {
                 if itemsLeft? == 0 {
@@ -156,6 +154,9 @@ class HomeVC: UIViewController, UINavigationControllerDelegate, UISearchBarDeleg
     // MARK: SEARCH BAR
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
         println("searching for \(searchBar.text)")
+
+        // Only start activity indicator when search bar button clicked
+        self.activityIndicator.startAnimating()
         
         if searchBar.selectedScopeButtonIndex == 0 {
             self.canLoadMoreCharacters = true
