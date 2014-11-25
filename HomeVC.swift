@@ -89,6 +89,7 @@ class HomeVC: UIViewController, UINavigationControllerDelegate, UISearchBarDeleg
             if charactersArray?.count == 0 {
                 self.canLoadMoreCharacters = false
             }
+            self.navigationItem.rightBarButtonItem = nil
             self.activityIndicator.stopAnimating()
         })
     }
@@ -111,6 +112,7 @@ class HomeVC: UIViewController, UINavigationControllerDelegate, UISearchBarDeleg
             if comicsArray?.count == 0 {
                 self.canLoadMoreComics = false
             }
+            self.navigationItem.rightBarButtonItem = nil
             self.activityIndicator.stopAnimating()
         })
     }
@@ -158,6 +160,12 @@ class HomeVC: UIViewController, UINavigationControllerDelegate, UISearchBarDeleg
         // Only start activity indicator when search bar button clicked
         self.activityIndicator.startAnimating()
         
+        
+        // add Cancel button to the nav bar while searching
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.Plain, target: self, action: "cancelButtonPressed:")
+        self.navigationItem.rightBarButtonItem = cancelButton
+        
+        
         if searchBar.selectedScopeButtonIndex == 0 {
             self.canLoadMoreCharacters = true
             self.characters = [Character]()
@@ -199,6 +207,16 @@ class HomeVC: UIViewController, UINavigationControllerDelegate, UISearchBarDeleg
         collectionView.dataSource = charactersSearch ? collectionDelegateCharacter : collectionDelegateComic
         collectionView.reloadData()
     }
+    
+    
+    
+    
+    func cancelButtonPressed(sender : AnyObject?) {
+
+    // Cancel the network call
+    
+    }
+    
     
     
 }
