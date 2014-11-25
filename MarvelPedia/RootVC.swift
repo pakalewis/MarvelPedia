@@ -56,6 +56,29 @@ class RootVC: UIViewController, UIPageViewControllerDelegate {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let homeVC = storyboard.instantiateViewControllerWithIdentifier("HomeVC") as HomeVC
             let navController = UINavigationController(rootViewController: homeVC)
+            
+            // Make view with the Marvel.com label
+            var window = (UIApplication.sharedApplication().delegate as AppDelegate).window
+            
+            
+            var screenFrame = UIScreen.mainScreen().bounds
+            var marvelLink = UIView(frame: CGRect(x: 0, y: screenFrame.size.height - 16, width: screenFrame.size.width, height: 16))
+            marvelLink.autoresizingMask = UIViewAutoresizing.FlexibleTopMargin | .FlexibleWidth
+
+            var labelFrame = CGRectMake(0, 0, marvelLink.frame.size.width, marvelLink.frame.size.height)
+            var label = UILabel(frame: labelFrame)
+            var button = UIButton(frame: labelFrame)
+            button.autoresizingMask = UIViewAutoresizing.FlexibleTopMargin | .FlexibleWidth
+            button.setTitleColor(UIColor.blackColor(), forState: .Normal)
+            button.titleLabel?.font = UIFont.systemFontOfSize(10.0)
+            button.setTitle("Data provided by MARVEL. © 2014 MARVEL", forState: .Normal)
+            button.backgroundColor = UIColor.whiteColor()
+            button.addTarget(self, action: "goToMarvel:", forControlEvents: UIControlEvents.TouchUpInside)
+
+            
+            marvelLink.addSubview(button)
+            window?.addSubview(marvelLink);
+            
             let viewControllers: NSArray = [navController]
             self.pageViewController!.setViewControllers(viewControllers, direction: .Forward, animated: true, completion: {done in
                 self.pageViewController!.dataSource = nil
@@ -63,6 +86,16 @@ class RootVC: UIViewController, UIPageViewControllerDelegate {
             })
         }
     }
+    
+    func goToMarvel(sender: UIButton!) {
+        println("go to marvel pressed")
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let webVC = storyboard.instantiateViewControllerWithIdentifier("WebVC") as WebVC
+        self.navigationController?.pushViewController(webVC, animated: true)
+        
+        // TODO: FIX THIS. THERE IS NO NAV CONTROLLER FOR ROOTVC
+    }
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

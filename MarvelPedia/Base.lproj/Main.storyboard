@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Rqq-i1-c4Z">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Rqq-i1-c4Z">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -37,26 +37,13 @@
                                 <color key="backgroundColor" white="0.69000000000000006" alpha="0.29999999999999999" colorSpace="calibratedWhite"/>
                                 <color key="color" red="0.094117647060000004" green="0.086274509799999996" blue="0.08235294118" alpha="1" colorSpace="calibratedRGB"/>
                             </activityIndicatorView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Data provided by Marvel. © 2014 Marvel" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xdW-q8-0Ag">
-                                <rect key="frame" x="0.0" y="584" width="600" height="16"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="16" id="R9a-1v-iYN"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.92650109530000002" green="0.95021790269999995" blue="0.94972121720000002" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="5yr-D5-riV" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="36n-CO-CK3"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="5yr-D5-riV" secondAttribute="bottom" id="3s0-f0-ssv"/>
-                            <constraint firstItem="xdW-q8-0Ag" firstAttribute="top" secondItem="cnf-ly-JUV" secondAttribute="bottom" id="Cff-0q-7WN"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="xdW-q8-0Ag" secondAttribute="bottom" id="D3w-Fy-RW2"/>
                             <constraint firstItem="5yr-D5-riV" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="brZ-6I-ueE"/>
-                            <constraint firstItem="xdW-q8-0Ag" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="iO1-yn-fDe"/>
-                            <constraint firstAttribute="trailing" secondItem="xdW-q8-0Ag" secondAttribute="trailing" id="izo-le-oij"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="cnf-ly-JUV" secondAttribute="bottom" constant="16" id="dtH-pa-cRM"/>
                             <constraint firstItem="cnf-ly-JUV" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="niI-sg-KgE"/>
                             <constraint firstAttribute="trailing" secondItem="5yr-D5-riV" secondAttribute="trailing" id="qIZ-wp-UHF"/>
                             <constraint firstItem="cnf-ly-JUV" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="qT4-mz-USQ"/>
@@ -90,25 +77,12 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </tableView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Data provided by Marvel. © 2014 Marvel" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hZc-9i-juO">
-                                <rect key="frame" x="0.0" y="584" width="600" height="16"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="16" id="vgc-aS-Cir"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.92549019607843142" green="0.94901960784313721" blue="0.94901960784313721" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="hZc-9i-juO" firstAttribute="leading" secondItem="p9W-UH-Kyu" secondAttribute="leading" id="9NF-sh-3AU"/>
-                            <constraint firstAttribute="trailing" secondItem="hZc-9i-juO" secondAttribute="trailing" id="AV0-wT-abt"/>
-                            <constraint firstItem="ncz-My-S02" firstAttribute="top" secondItem="hZc-9i-juO" secondAttribute="bottom" id="Crz-qr-eF2"/>
+                            <constraint firstItem="ncz-My-S02" firstAttribute="top" secondItem="qee-I6-Lbj" secondAttribute="bottom" constant="16" id="6gu-A5-IaW"/>
                             <constraint firstItem="qee-I6-Lbj" firstAttribute="top" secondItem="p9W-UH-Kyu" secondAttribute="top" id="EfI-Kw-sBH"/>
                             <constraint firstItem="qee-I6-Lbj" firstAttribute="leading" secondItem="p9W-UH-Kyu" secondAttribute="leading" id="FOT-5T-7ms"/>
-                            <constraint firstItem="hZc-9i-juO" firstAttribute="top" secondItem="qee-I6-Lbj" secondAttribute="bottom" id="Q2I-V8-b2a"/>
                             <constraint firstAttribute="trailing" secondItem="qee-I6-Lbj" secondAttribute="trailing" id="oT8-zX-aue"/>
                         </constraints>
                     </view>
@@ -133,7 +107,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Data provided by Marvel. © 2014 Marvel" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7qW-3q-2wk">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Data provided by MARVEL. © 2014 MARVEL" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7qW-3q-2wk">
                                 <rect key="frame" x="0.0" y="584" width="600" height="16"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -261,7 +235,7 @@
                                 <rect key="frame" x="0.0" y="20" width="600" height="564"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Data provided by Marvel. © 2014 MARVEL" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x3r-Cc-bHv">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Data provided by MARVEL. © 2014 MARVEL" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x3r-Cc-bHv">
                                 <rect key="frame" x="0.0" y="584" width="600" height="16"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="16" id="2qf-zx-5pX"/>
