@@ -88,14 +88,17 @@ class RootVC: UIViewController, UIPageViewControllerDelegate {
     }
     
     func goToMarvel(sender: UIButton!) {
-        println("go to marvel pressed")
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let webVC = storyboard.instantiateViewControllerWithIdentifier("WebVC") as WebVC
-        self.navigationController?.pushViewController(webVC, animated: true)
+        var alertController = UIAlertController(title: "http://marvel.com", message: "Open in Safari?", preferredStyle: .Alert)
+        alertController.addAction(UIAlertAction(title: "No", style: .Cancel, handler: nil))
+        let OKAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) { (action) -> Void in
+        }
+        alertController.addAction(UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default) { (action) -> Void in
+            UIApplication.sharedApplication().openURL(NSURL(string: "http://marvel.com")!)
+            return
+        })
         
-        // TODO: FIX THIS. THERE IS NO NAV CONTROLLER FOR ROOTVC
+        self.presentViewController(alertController, animated: true, completion: nil)
     }
-    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
