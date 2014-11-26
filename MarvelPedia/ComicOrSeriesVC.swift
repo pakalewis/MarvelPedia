@@ -23,7 +23,6 @@ class ComicOrSeriesVC: UIViewController, UICollectionViewDelegate, UICollectionV
     
 
     @IBOutlet weak var titleBottomConstraint: NSLayoutConstraint!
-    @IBOutlet weak var collectionViewBottomConstraint: NSLayoutConstraint!
 
     
     override func viewDidLoad() {
@@ -120,8 +119,7 @@ class ComicOrSeriesVC: UIViewController, UICollectionViewDelegate, UICollectionV
         
         if self.charactersInComicOrSeries.count > 0 {
             self.collectionView.hidden = false
-            self.titleBottomConstraint.constant = 156
-            self.collectionViewBottomConstraint.constant = 0
+            self.titleBottomConstraint.constant = 172
             
             UIView.animateWithDuration(0.5, animations: { () -> Void in
                 self.view.layoutIfNeeded()
