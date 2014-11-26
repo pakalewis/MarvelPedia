@@ -28,6 +28,9 @@ class HomeVC: UIViewController, UINavigationControllerDelegate, UISearchBarDeleg
     
     private var collectionDelegateCharacter: CollectionDelegateCharacter!
     private var collectionDelegateComic: CollectionDelegateComic!
+
+    private var charactersDataTask: NSURLSessionDataTask?
+    private var comicsDataTask: NSURLSessionDataTask?
     
     // MARK: Life Cycle
     
@@ -72,7 +75,7 @@ class HomeVC: UIViewController, UINavigationControllerDelegate, UISearchBarDeleg
     // MARK: Private Methods
     
     func loadCharactersWithLimit(_ limit: Int? = nil, startIndex: Int? = nil) {
-        MarvelNetworking.controller.getCharacters(nameQuery: searchBar.text, limit: limit, startIndex: startIndex, completion: { (errorString, charactersArray, itemsLeft) -> Void in
+        charactersDataTask = MarvelNetworking.controller.getCharacters(nameQuery: searchBar.text, limit: limit, startIndex: startIndex, completion: { (errorString, charactersArray, itemsLeft) -> Void in
             if charactersArray != nil {
                 if itemsLeft? == 0 {
                     self.canLoadMoreCharacters = false
@@ -95,7 +98,7 @@ class HomeVC: UIViewController, UINavigationControllerDelegate, UISearchBarDeleg
     }
     
     func loadComicsWithLimit(_ limit: Int? = nil, startIndex: Int? = nil) {
-        MarvelNetworking.controller.getComics(titleQuery: searchBar.text, limit: limit, startIndex: startIndex, completion: { (errorString, comicsArray, itemsLeft) -> Void in
+        comicsDataTask = MarvelNetworking.controller.getComics(titleQuery: searchBar.text, limit: limit, startIndex: startIndex, completion: { (errorString, comicsArray, itemsLeft) -> Void in
             if comicsArray != nil {
                 if itemsLeft? == 0 {
                     self.canLoadMoreCharacters = false
@@ -160,7 +163,6 @@ class HomeVC: UIViewController, UINavigationControllerDelegate, UISearchBarDeleg
         // Only start activity indicator when search bar button clicked
         self.activityIndicator.startAnimating()
         
-        
         // add Cancel button to the nav bar while searching
         let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.Plain, target: self, action: "cancelButtonPressed:")
         self.navigationItem.rightBarButtonItem = cancelButton
@@ -170,11 +172,21 @@ class HomeVC: UIViewController, UINavigationControllerDelegate, UISearchBarDeleg
             self.canLoadMoreCharacters = true
             self.characters = [Character]()
             self.collectionView.reloadData()
+            
+            if let charactesDataTask = charactersDataTask {
+                charactersDataTask?.cancel()
+            }
+            
             loadCharactersWithLimit(20)
         } else {
             self.canLoadMoreComics = true
             self.comics = [Comic]()
             self.collectionView.reloadData()
+            
+            if let comicsDataTask = comicsDataTask {
+                comicsDataTask.cancel()
+            }
+            
             loadComicsWithLimit(20)
         }
     }
@@ -208,15 +220,16 @@ class HomeVC: UIViewController, UINavigationControllerDelegate, UISearchBarDeleg
         collectionView.reloadData()
     }
     
-    
-    
-    
     func cancelButtonPressed(sender : AnyObject?) {
-
-    // Cancel the network call
-    
+        if searchBar.selectedScopeButtonIndex == 0 {
+            if let charactesDataTask = charactersDataTask {
+                charactersDataTask?.cancel()
+            }
+        } else {
+            if let comicsDataTask = comicsDataTask {
+                comicsDataTask.cancel()
+            }
+        }
     }
-    
-    
     
 }
