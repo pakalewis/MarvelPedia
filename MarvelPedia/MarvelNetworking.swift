@@ -75,14 +75,14 @@ class MarvelNetworking: NetworkController {
     
     */
     
-    func getCharacters(nameQuery q: String? = nil, startIndex: Int? = nil, limit: Int? = nil, completion: (errorString: String?, charactersArray: NSArray?, itemsLeft: Int?) -> Void) {
+    func getCharacters(nameQuery q: String? = nil, startIndex: Int? = nil, limit: Int? = nil, completion: (errorString: String?, charactersArray: NSArray?, itemsLeft: Int?) -> Void) -> NSURLSessionDataTask? {
         var parameters: [NSString : AnyObject]! = [NSString : AnyObject]()
         parameters["nameStartsWith"] = q?
         if parameters.isEmpty {
             parameters = nil
         }
         
-        getObjectsWithPath("/characters", params: parameters, startIndex: startIndex, limit: limit, completion: completion)
+        return getObjectsWithPath("/characters", params: parameters, startIndex: startIndex, limit: limit, completion: completion)
     }
     
     /**
@@ -95,14 +95,14 @@ class MarvelNetworking: NetworkController {
     
     */
     
-    func getComics(titleQuery q: String? = nil, startIndex: Int? = nil, limit: Int? = nil, completion: (errorString: String?, comicsArray: NSArray?, itemsLeft: Int?) -> Void) {
+    func getComics(titleQuery q: String? = nil, startIndex: Int? = nil, limit: Int? = nil, completion: (errorString: String?, comicsArray: NSArray?, itemsLeft: Int?) -> Void) -> NSURLSessionDataTask? {
         var parameters: [NSString : AnyObject]! = [NSString : AnyObject]()
         parameters["titleStartsWith"] = q?
         if parameters.isEmpty {
             parameters = nil
         }
         
-        getObjectsWithPath("/comics", params: parameters, startIndex: startIndex, limit: limit, completion: completion)
+        return getObjectsWithPath("/comics", params: parameters, startIndex: startIndex, limit: limit, completion: completion)
     }
     
     /**
@@ -191,7 +191,7 @@ class MarvelNetworking: NetworkController {
     }
     
     // MARK: Private Methods
-    private func getObjectsWithPath(URLPath: String, params: [NSString : AnyObject]? = nil, startIndex: Int? = nil, limit: Int? = nil, completion: (errorString: String?, charactersArray: NSArray?, itemsLeft: Int?) -> Void) {
+    private func getObjectsWithPath(URLPath: String, params: [NSString : AnyObject]? = nil, startIndex: Int? = nil, limit: Int? = nil, completion: (errorString: String?, charactersArray: NSArray?, itemsLeft: Int?) -> Void) -> NSURLSessionDataTask? {
         var parameters: [NSString : AnyObject]! = [NSString : AnyObject]()
         if let extParams = params {
             for (key, value) in extParams {
@@ -208,7 +208,7 @@ class MarvelNetworking: NetworkController {
             parameters = nil
         }
         
-        performRequestWithURLPath(URLPath, parameters: parameters, completion: {(data, errorString) -> Void in
+        return performRequestWithURLPath(URLPath, parameters: parameters, completion: {(data, errorString) -> Void in
             self.processJSONData(data, errorString: errorString, completion: { (responseArray, errorString, itemsLeft) -> Void in
                 completion(errorString: nil, charactersArray: responseArray, itemsLeft: itemsLeft)
             })
@@ -262,11 +262,11 @@ class MarvelNetworking: NetworkController {
     
     // MARK: Overrides
     
-    override func performRequestWithURLString(URLString: String, method: String = "GET", parameters: [NSString: AnyObject]? = nil, acceptJSONResponse: Bool = false, sendBodyAsJSON: Bool = false, completion: (data: NSData!, errorString: String!) -> Void) {
+    override func performRequestWithURLString(URLString: String, method: String = "GET", parameters: [NSString: AnyObject]? = nil, acceptJSONResponse: Bool = false, sendBodyAsJSON: Bool = false, completion: (data: NSData!, errorString: String!) -> Void) -> NSURLSessionDataTask? {
         var finalParams = parameters == nil ? [NSString : AnyObject]() : parameters
         finalParams!.append(predefinedParams)
         
-        super.performRequestWithURLString(URLString, method: method, parameters: finalParams, acceptJSONResponse: true, sendBodyAsJSON: sendBodyAsJSON, completion: completion)
+        return super.performRequestWithURLString(URLString, method: method, parameters: finalParams, acceptJSONResponse: true, sendBodyAsJSON: sendBodyAsJSON, completion: completion)
     }
     
     
