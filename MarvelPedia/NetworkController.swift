@@ -154,16 +154,17 @@ class NetworkController {
         }).resume()
     }
     
-    func performRequestWithURLPath(URLPath: String, method: String = "GET", parameters: [NSString: AnyObject]? = nil, acceptJSONResponse: Bool = false, sendBodyAsJSON: Bool = false, completion: (data: NSData!, errorString: String!) -> Void) {
+    func performRequestWithURLPath(URLPath: String, method: String = "GET", parameters: [NSString: AnyObject]? = nil, acceptJSONResponse: Bool = false, sendBodyAsJSON: Bool = false, completion: (data: NSData!, errorString: String!) -> Void) -> NSURLSessionDataTask? {
         if let baseURL = baseURL {
-            performRequestWithURLString(baseURL.stringByAppendingPathComponent(URLPath), method: method, parameters: parameters, acceptJSONResponse: acceptJSONResponse, sendBodyAsJSON: sendBodyAsJSON, completion: completion)
+            return performRequestWithURLString(baseURL.stringByAppendingPathComponent(URLPath), method: method, parameters: parameters, acceptJSONResponse: acceptJSONResponse, sendBodyAsJSON: sendBodyAsJSON, completion: completion)
         }
         else {
             completion(data: nil, errorString: "Base URL not set")
+            return nil
         }
     }
     
-    func performRequestWithURLString(URLString: String, method: String = "GET", parameters: [NSString: AnyObject]? = nil, acceptJSONResponse: Bool = false, sendBodyAsJSON: Bool = false, completion: (data: NSData!, errorString: String!) -> Void) {
+    func performRequestWithURLString(URLString: String, method: String = "GET", parameters: [NSString: AnyObject]? = nil, acceptJSONResponse: Bool = false, sendBodyAsJSON: Bool = false, completion: (data: NSData!, errorString: String!) -> Void) -> NSURLSessionDataTask? {
         let URL = NSURL(string: URLString)!
         let request = NSMutableURLRequest(URL: URL, cachePolicy: .UseProtocolCachePolicy, timeoutInterval: kNetworkControllerDefaultTimeout)
         request.HTTPMethod = method
@@ -181,7 +182,7 @@ class NetworkController {
                     bodyData = NSJSONSerialization.dataWithJSONObject(parameters!, options: nil, error: &error)
                     if error != nil {
                         completion(data: nil, errorString: "Error building JSON: \(error?.localizedDescription)")
-                        return
+                        return nil
                     }
                 }
                 else {
@@ -192,7 +193,7 @@ class NetworkController {
                 
                 if bodyData == nil {
                     completion(data: nil, errorString: "Couldn't create bodyData")
-                    return
+                    return nil
                 }
                 
                 request.setBodyData(bodyData, isJSONData: sendBodyAsJSON)
@@ -208,7 +209,7 @@ class NetworkController {
             
         }
         
-        session.dataTaskWithRequest(request, completionHandler: { (data: NSData!, response: NSURLResponse!, error: NSError!) -> Void in
+        var retVal = session.dataTaskWithRequest(request, completionHandler: { (data: NSData!, response: NSURLResponse!, error: NSError!) -> Void in
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 if let errorString = self.processResponse(response, error: error) {
                     completion(data: data, errorString: errorString)
@@ -222,6 +223,9 @@ class NetworkController {
                 
                 completion(data: data, errorString: nil)
             })
-        }).resume()
+        })
+        
+        retVal.resume()
+        return retVal
     }
 }
