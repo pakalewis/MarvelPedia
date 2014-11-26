@@ -17,6 +17,9 @@ DerivedData
 *.ipa
 *.xcuserstate
 MarvelPedia/PrivateConstants.swift
+MarvelPedia/Pairs.swift
+
+
 
 # CocoaPods
 #

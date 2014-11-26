@@ -30,6 +30,7 @@
 		2CE4BEB719FED5490059A230 /* InfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE4BEB619FED5490059A230 /* InfoCell.swift */; };
 		2CE4BEBB19FEDA960059A230 /* TableHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2CE4BEBA19FEDA960059A230 /* TableHeader.xib */; };
 		2CE4BEBD19FEDABA0059A230 /* TableHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE4BEBC19FEDABA0059A230 /* TableHeader.swift */; };
+		2CF7763E1A268DC800C640ED /* Pairs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF7763D1A268DC800C640ED /* Pairs.swift */; };
 		482C57CF1A02A1D700C2C921 /* ComicOrSeriesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482C57CE1A02A1D700C2C921 /* ComicOrSeriesVC.swift */; };
 		4852A96A1A02F7BD00101A30 /* CollectionDelegateCharacter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4852A9691A02F7BD00101A30 /* CollectionDelegateCharacter.swift */; };
 		4852A96C1A02FE4D00101A30 /* CollectionDelegateComic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4852A96B1A02FE4D00101A30 /* CollectionDelegateComic.swift */; };
@@ -95,6 +96,7 @@
 		2CE4BEB619FED5490059A230 /* InfoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InfoCell.swift; path = ../InfoCell.swift; sourceTree = "<group>"; };
 		2CE4BEBA19FEDA960059A230 /* TableHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TableHeader.xib; path = ../TableHeader.xib; sourceTree = "<group>"; };
 		2CE4BEBC19FEDABA0059A230 /* TableHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TableHeader.swift; path = ../TableHeader.swift; sourceTree = "<group>"; };
+		2CF7763D1A268DC800C640ED /* Pairs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pairs.swift; sourceTree = "<group>"; };
 		482C57CE1A02A1D700C2C921 /* ComicOrSeriesVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicOrSeriesVC.swift; sourceTree = "<group>"; };
 		4852A9691A02F7BD00101A30 /* CollectionDelegateCharacter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionDelegateCharacter.swift; sourceTree = "<group>"; };
 		4852A96B1A02FE4D00101A30 /* CollectionDelegateComic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionDelegateComic.swift; sourceTree = "<group>"; };
@@ -268,6 +270,7 @@
 				9AC519281A00BADE00717E22 /* CoreDataManager.swift */,
 				4852A9691A02F7BD00101A30 /* CollectionDelegateCharacter.swift */,
 				4852A96B1A02FE4D00101A30 /* CollectionDelegateComic.swift */,
+				2CF7763D1A268DC800C640ED /* Pairs.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -389,6 +392,7 @@
 				48C0CE971A01A41100B47455 /* WebVC.swift in Sources */,
 				9A792F521A02FFBA004F89E4 /* Extensions.swift in Sources */,
 				48A0E1511A0038FD00343EF8 /* IntroPageVC.swift in Sources */,
+				2CF7763E1A268DC800C640ED /* Pairs.swift in Sources */,
 				9A7CCD621A002D3B00FD5832 /* Queue.swift in Sources */,
 				2CC2C60819FEE49A00DE8A11 /* PrivateConstants.swift in Sources */,
 				2C262E811A0065880037D570 /* Series.swift in Sources */,
