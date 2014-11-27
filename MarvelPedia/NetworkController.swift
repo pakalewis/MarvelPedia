@@ -6,9 +6,7 @@
 //  Copyright (c) 2014 CodeFellows. All rights reserved.
 //
 
-import Foundation
-
-import Foundation
+import UIKit
 
 var kNetworkControllerDefaultTimeout: NSTimeInterval = 10
 
@@ -99,6 +97,14 @@ class NetworkController {
         let HTTPResponse = response as NSHTTPURLResponse
         var errorString: String?
         switch HTTPResponse.statusCode {
+        case 429:
+            let alert = UIAlertController(title: "Error", message: "Too many requests. Try again later", preferredStyle: .Alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .Default, handler:nil))
+            if let window = UIApplication.sharedApplication().delegate?.window {
+                window?.rootViewController?.presentViewController(alert, animated: true, completion: nil)
+            }
+            
+            Pairs.singleton.switchPairs()
         case 200...299:
             break
         case 400...499:

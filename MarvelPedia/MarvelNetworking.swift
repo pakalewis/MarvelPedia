@@ -178,7 +178,7 @@ class MarvelNetworking: NetworkController {
     */
     
     func getImageAtURLString(URLString: String, completion: (image: UIImage?, errorString: String?) -> Void) {
-        self.performRequestWithURLString(URLString, completion: { (data, errorString) -> Void in
+        super.performRequestWithURLString(URLString, completion: { (data, errorString) -> Void in
             if errorString != nil {
                 completion(image: nil, errorString: errorString)
                 return
