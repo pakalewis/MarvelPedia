@@ -49,18 +49,25 @@ class MarvelNetworking: NetworkController {
     }
     
     // MARK: Private Properties
-    private var predefinedParams: [NSString : AnyObject] {
+    private var predefinedParams: [NSString : AnyObject]? {
         get {
-            var retVal = [NSString : AnyObject]()
-            let formatter = NSDateFormatter()
-            formatter.dateFormat = "yyyyMMddHHmmss"
-            let timeStampString = formatter.stringFromDate(NSDate())
-            let hashString = (timeStampString + kMarvelPediaPrivateKey + kMarvelPediaPublicKey).md5()
+            if let keysDictionary = Pairs.singleton.getKeyPair() {
+                var retVal = [NSString : AnyObject]()
+                let formatter = NSDateFormatter()
+                formatter.dateFormat = "yyyyMMddHHmmss"
+                let timeStampString = formatter.stringFromDate(NSDate())
+                let privateKey = keysDictionary["privateKey"] as String
+                let publicKey = keysDictionary["publicKey"] as String
+                let hashString = (timeStampString + privateKey + publicKey).md5()
+                
+                retVal["apikey"] = publicKey
+                retVal["hash"] = hashString
+                retVal["ts"] = timeStampString
+                    
+                return retVal
+            }
             
-            retVal["apikey"] = kMarvelPediaPublicKey
-            retVal["hash"] = hashString
-            retVal["ts"] = timeStampString
-            return retVal
+            return nil
         }
     }
     
@@ -264,9 +271,13 @@ class MarvelNetworking: NetworkController {
     
     override func performRequestWithURLString(URLString: String, method: String = "GET", parameters: [NSString: AnyObject]? = nil, acceptJSONResponse: Bool = false, sendBodyAsJSON: Bool = false, completion: (data: NSData!, errorString: String!) -> Void) -> NSURLSessionDataTask? {
         var finalParams = parameters == nil ? [NSString : AnyObject]() : parameters
-        finalParams!.append(predefinedParams)
+        if (predefinedParams != nil) {
+            finalParams!.append(predefinedParams!)
+            return super.performRequestWithURLString(URLString, method: method, parameters: finalParams, acceptJSONResponse: true, sendBodyAsJSON: sendBodyAsJSON, completion: completion)
+        }
         
-        return super.performRequestWithURLString(URLString, method: method, parameters: finalParams, acceptJSONResponse: true, sendBodyAsJSON: sendBodyAsJSON, completion: completion)
+        completion(data: nil, errorString: "Rate exceeded for keys")
+        return nil
     }
     
     
