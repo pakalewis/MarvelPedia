@@ -87,12 +87,10 @@ class ComicOrSeriesVC: UIViewController, UICollectionViewDelegate, UICollectionV
     
     func loadCharactersWithLimit(_ limit: Int? = nil, startIndex: Int? = nil) {
         if comic != nil {
-            println(self.comic!.id)
             MarvelNetworking.controller.getCharactersWithComicID(self.comic!.id, startIndex: startIndex, limit: limit) { (errorString, charactersArray, itemsLeft) -> Void in
                 self.processCharactersResponse(errorString: errorString, charactersArray: charactersArray, itemsLeft: itemsLeft)
             }
         } else {
-            println(self.series!.id)
             MarvelNetworking.controller.getCharactersWithSeriesID(self.series!.id, startIndex: startIndex, limit: limit) { (errorString, charactersArray, itemsLeft) -> Void in
                 self.processCharactersResponse(errorString: errorString, charactersArray: charactersArray, itemsLeft: itemsLeft)
             }
@@ -109,7 +107,7 @@ class ComicOrSeriesVC: UIViewController, UICollectionViewDelegate, UICollectionV
             self.charactersInComicOrSeries += newCharacters
             self.collectionView.reloadData()
         } else {
-            println("no data")
+//            println("no data")
             println(errorString)
         }
         
@@ -143,7 +141,6 @@ class ComicOrSeriesVC: UIViewController, UICollectionViewDelegate, UICollectionV
         
         let currentCharacter = self.charactersInComicOrSeries[indexPath.row]
         cell.nameLabel.text = currentCharacter.name
-        println(currentCharacter.name)
         
         if let thumb = currentCharacter.thumbnailURL {
             let thumbURL = "\(thumb.path)/standard_xlarge.\(thumb.ext)"

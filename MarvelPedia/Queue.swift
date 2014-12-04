@@ -57,10 +57,10 @@ class Queue<T> {
     }
     
     func traverse() {
-        println("Traversing queue")
+//        println("Traversing queue")
         var item = head
         while item != nil {
-            println(item?.item)
+//            println(item?.item)
             item = item?.next
         }
     }

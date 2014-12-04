@@ -85,7 +85,7 @@ class HomeVC: UIViewController, UINavigationControllerDelegate, UISearchBarDeleg
                 self.characters += newCharacters
                 self.collectionView.reloadData()
             } else {
-                println("no data")
+//                println("no data")
                 println(errorString)
             }
             
@@ -108,7 +108,7 @@ class HomeVC: UIViewController, UINavigationControllerDelegate, UISearchBarDeleg
                 self.comics += newComics
                 self.collectionView.reloadData()
             } else {
-                println("no data")
+//                println("no data")
                 println(errorString)
             }
             
@@ -158,7 +158,6 @@ class HomeVC: UIViewController, UINavigationControllerDelegate, UISearchBarDeleg
     
     // MARK: SEARCH BAR
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
-        println("searching for \(searchBar.text)")
 
         // Only start activity indicator when search bar button clicked
         self.activityIndicator.startAnimating()

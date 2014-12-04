@@ -229,8 +229,6 @@ class MarvelNetworking: NetworkController {
             var error: NSError?
             if let responseDic = NSJSONSerialization.JSONObjectWithData(data!, options: nil, error: &error) as? NSDictionary {
                 if errorString != nil {
-                    println("Error from Marvel:")
-                    println(responseDic)
                     completion(responseArray: nil, errorString: newErrorString, itemsLeft: nil)
                     return
                 }

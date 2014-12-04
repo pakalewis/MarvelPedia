@@ -72,11 +72,11 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
         self.navigationController?.interactivePopGestureRecognizer.enabled = true
         
         if self.mustReloadComicsSection {
-            println("initial comics loading")
+//            println("initial comics loading")
             self.loadComicsWithLimit(5, startIndex: 0)
         }
         if self.mustReloadSeriesSection {
-            println("initial series loading")
+//            println("initial series loading")
             self.loadSeriesWithLimit(5, startIndex: 0)
         }
     }
@@ -142,7 +142,7 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
                 }
                 self.comicsCollectionView?.reloadData()
             } else {
-                println("no data")
+//                println("no data")
                 println(errorString)
             }
             
@@ -168,7 +168,7 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
                 }
                 self.seriesCollectionView?.reloadData()
             } else {
-                println("no data")
+//                println("no data")
                 println(errorString)
             }
             
@@ -432,7 +432,7 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
                 return
             }
             if indexPath.row + 1 == self.comicsForCharacter.count {
-                println("loading more comics")
+//                println("loading more comics")
                 self.loadComicsWithLimit(5, startIndex: self.comicsForCharacter.count)
             }
         }
@@ -441,7 +441,7 @@ class CharacterDetailVC: UIViewController, UITableViewDataSource, UITableViewDel
                 return
             }
             if indexPath.row + 1 == self.seriesForCharacter.count {
-                println("loading more series")
+//                println("loading more series")
                 self.loadSeriesWithLimit(5, startIndex: self.seriesForCharacter.count)
             }
         }
