@@ -25,6 +25,8 @@
 		2C4BFFBE19FEB8E70021A080 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C4BFFBD19FEB8E70021A080 /* Images.xcassets */; };
 		2C4BFFC119FEB8E70021A080 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2C4BFFBF19FEB8E70021A080 /* LaunchScreen.xib */; };
 		2C4BFFCD19FEB8E80021A080 /* MarvelPediaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4BFFCC19FEB8E80021A080 /* MarvelPediaTests.swift */; };
+		2C707D521A37CDB800D655A6 /* marvel-logo-m.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C707D511A37CDB800D655A6 /* marvel-logo-m.png */; };
+		2C707D541A37D1E800D655A6 /* splash-screen.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C707D531A37D1E800D655A6 /* splash-screen.png */; };
 		2C921B221A00248E00102185 /* CustomCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C921B211A00248E00102185 /* CustomCollectionView.swift */; };
 		2C921B241A00262E00102185 /* CustomTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2C921B231A00262E00102185 /* CustomTableViewCell.xib */; };
 		2C921B261A0026D100102185 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C921B251A0026D100102185 /* CustomTableViewCell.swift */; };
@@ -91,6 +93,8 @@
 		2C4BFFC619FEB8E80021A080 /* MarvelPediaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MarvelPediaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C4BFFCB19FEB8E80021A080 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2C4BFFCC19FEB8E80021A080 /* MarvelPediaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarvelPediaTests.swift; sourceTree = "<group>"; };
+		2C707D511A37CDB800D655A6 /* marvel-logo-m.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "marvel-logo-m.png"; sourceTree = "<group>"; };
+		2C707D531A37D1E800D655A6 /* splash-screen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "splash-screen.png"; sourceTree = "<group>"; };
 		2C921B211A00248E00102185 /* CustomCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomCollectionView.swift; sourceTree = "<group>"; };
 		2C921B231A00262E00102185 /* CustomTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomTableViewCell.xib; sourceTree = "<group>"; };
 		2C921B251A0026D100102185 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
@@ -182,6 +186,8 @@
 		2C4BFFB119FEB8E70021A080 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				2C707D531A37D1E800D655A6 /* splash-screen.png */,
+				2C707D511A37CDB800D655A6 /* marvel-logo-m.png */,
 				9A977E381A01A83600E2DED2 /* notfound_image_big.jpg */,
 				9A977E361A01893200E2DED2 /* notfound_image200x200.jpg */,
 				48C0CE861A01570200B47455 /* comic1.jpg */,
@@ -364,8 +370,10 @@
 				48C0CE8F1A01570200B47455 /* comic4.jpg in Resources */,
 				2C1E2B271A368BDA00327B95 /* CharacterCell.xib in Resources */,
 				48C0CE8E1A01570200B47455 /* comic3.jpg in Resources */,
+				2C707D541A37D1E800D655A6 /* splash-screen.png in Resources */,
 				2C1E2B2D1A368BDA00327B95 /* TableHeader.xib in Resources */,
 				2C1E2B2B1A368BDA00327B95 /* InfoCell.xib in Resources */,
+				2C707D521A37CDB800D655A6 /* marvel-logo-m.png in Resources */,
 				48C0CE8D1A01570200B47455 /* comic2.jpg in Resources */,
 				2C4BFFC119FEB8E70021A080 /* LaunchScreen.xib in Resources */,
 				2C4BFFBE19FEB8E70021A080 /* Images.xcassets in Resources */,
