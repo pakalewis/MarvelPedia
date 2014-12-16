@@ -9,7 +9,7 @@ The app allows users to explore the Marvel universe by searching for their favor
 
 Features:
 - Written in Swift
-- Data accessed via the Marvel API (developer.marvel.com)
+- Data accessed via the Marvel API (http://developer.marvel.com)
 - Image caching
 - CoreData
 - UIPageViewController
