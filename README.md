@@ -23,7 +23,7 @@ ________________________________________________________________________________
 MarvelPedia was built in one week by three aspring iOS developers. This project was part of the Fall 2014 iOS Development Accelerator through Code Fellows (www.codefellows.org).
 
 Developers:
-Parker Lewis
-Alex Gordiyenko
-Casey White
+- Parker Lewis
+- Alex Gordiyenko
+- Casey White
 
