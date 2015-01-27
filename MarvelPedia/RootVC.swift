@@ -10,7 +10,7 @@ import UIKit
 
 class RootVC: UIViewController, UIPageViewControllerDelegate {
     
-    var pageViewController: UIPageViewController?
+    var pageViewController: UIPageViewController!
     var pageFlipTimer: NSTimer?
     
     var characters = [Character]()
@@ -20,6 +20,13 @@ class RootVC: UIViewController, UIPageViewControllerDelegate {
         // Do any additional setup after loading the view, typically from a nib.
         // Configure the page view controller and add it as a child view controller.
         self.pageViewController = UIPageViewController(transitionStyle: .PageCurl, navigationOrientation: .Horizontal, options: nil)
+        
+        // Prohibit pages flipping by user
+        for recognizer in self.pageViewController.gestureRecognizers {
+            if let recognizer = recognizer as? UIGestureRecognizer {
+                recognizer.enabled = false
+            }
+        }
         self.pageViewController!.delegate = self
         
         let startingViewController: IntroPageVC = self.modelController.viewControllerAtIndex(0, storyboard: self.storyboard!)!
