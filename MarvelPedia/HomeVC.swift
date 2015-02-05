@@ -85,7 +85,6 @@ class HomeVC: UIViewController, UINavigationControllerDelegate, UISearchBarDeleg
                 self.characters += newCharacters
                 self.collectionView.reloadData()
             } else {
-//                println("no data")
                 println(errorString)
             }
             
@@ -108,7 +107,6 @@ class HomeVC: UIViewController, UINavigationControllerDelegate, UISearchBarDeleg
                 self.comics += newComics
                 self.collectionView.reloadData()
             } else {
-//                println("no data")
                 println(errorString)
             }
             

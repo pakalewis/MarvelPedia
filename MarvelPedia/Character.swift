@@ -42,9 +42,6 @@ class Character {
                 }
             }
         }
-        
-        //println(self.detailURL)
-        
     }
     
     class func parseJSONIntoCharacters(#data: NSArray) -> [Character] {

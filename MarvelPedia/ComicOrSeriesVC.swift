@@ -107,7 +107,6 @@ class ComicOrSeriesVC: UIViewController, UICollectionViewDelegate, UICollectionV
             self.charactersInComicOrSeries += newCharacters
             self.collectionView.reloadData()
         } else {
-//            println("no data")
             println(errorString)
         }
         
